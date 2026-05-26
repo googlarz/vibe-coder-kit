@@ -10,14 +10,26 @@ You're building something real with AI assistance. vibe-skills makes that safer:
 
 ## Install
 
+**Step 1 — Install globally** (once, anywhere):
+
 ```bash
-git clone https://github.com/googlarz/vibe-skills
-cd vibe-skills
-bash install.sh
+git clone https://github.com/googlarz/vibe-skills ~/.vibe-skills
+bash ~/.vibe-skills/install.sh --global
 ```
 
+This installs the hooks and skills into `~/.claude/`. They fire in every Claude Code session from this point on.
+
+**Step 2 — Set up each project** (once per project, from the project root):
+
+```bash
+cd ~/your-project
+bash ~/.vibe-skills/install.sh --project
+```
+
+This adds `CLAUDE.md` and `.vibe/` to your project. You'll be asked whether to commit or gitignore `.vibe/` — see below.
+
 The installer:
-- Adds hooks to your Claude Code settings
+- Registers hooks in `~/.claude/settings.json`
 - Links skills so you can invoke them with `/vibe-*`
 - Writes `CLAUDE.md` behavioral baseline to your project
 - Initializes `.vibe/` project memory (Claude fills this as you work)
@@ -45,6 +57,7 @@ The installer:
 | `/vibe-launch` | Pre-launch checklist — 6 checks before telling real users about your app: secrets, deployment, core flow, monitoring, user contact, rollback. |
 | `/vibe-health` | Weekly project health dashboard — debt level, momentum, safety signals, and honest assessment of whether you need a real developer yet. |
 | `/vibe-handoff` | Generates a developer handoff document — either an emergency escalation (something broke) or a planned onboarding doc (bringing in a developer). |
+| `/vibe-explain` | Plain-English summary of what changed this session — what's new, what to test manually, what might break. Run before closing the tab. |
 
 ---
 
@@ -62,7 +75,12 @@ vibe-skills creates a `.vibe/` directory in your project. Claude writes to it au
 
 At the start of every session, Claude reads these files silently. It knows your project — the history, the debt, the environment — without you having to re-explain everything.
 
-`.vibe/` is added to `.gitignore` automatically. It's project context, not source code.
+**Should you commit `.vibe/`?** Your call — the installer asks:
+
+- **Commit it** if you want project memory to travel with the code (good for backup or sharing with a future developer)
+- **Gitignore it** if you want it private and out of your commit history (fine for solo work)
+
+Either way works. You can always change your mind later.
 
 ---
 

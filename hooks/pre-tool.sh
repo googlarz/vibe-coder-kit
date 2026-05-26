@@ -4,8 +4,12 @@
 
 INPUT=$(cat)
 
-# Extract command from JSON
-COMMAND=$(echo "$INPUT" | python3 -c "
+# Extract command from JSON — try jq, then python3, then grep fallback
+COMMAND=""
+if command -v jq >/dev/null 2>&1; then
+    COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // .command // ""' 2>/dev/null)
+elif command -v python3 >/dev/null 2>&1; then
+    COMMAND=$(echo "$INPUT" | python3 -c "
 import sys, json
 try:
     d = json.load(sys.stdin)
@@ -14,6 +18,11 @@ try:
 except:
     print('')
 " 2>/dev/null)
+else
+    # Basic fallback: pull the command value out of the raw JSON string
+    COMMAND=$(echo "$INPUT" | grep -o '"command"[[:space:]]*:[[:space:]]*"[^"]*"' | head -1 \
+        | sed 's/.*"command"[[:space:]]*:[[:space:]]*"//;s/"[[:space:]]*$//')
+fi
 
 [ -z "$COMMAND" ] && exit 0
 
@@ -22,7 +31,7 @@ except:
 DESTRUCTIVE=false
 REASON=""
 
-if echo "$COMMAND" | grep -qiE "DROP\s+TABLE|DROP\s+DATABASE|DELETE\s+FROM\s+[a-z]|TRUNCATE\s+TABLE"; then
+if echo "$COMMAND" | grep -qiE "DROP\s+TABLE|DROP\s+DATABASE|DELETE\s+FROM\s+|TRUNCATE\s+TABLE"; then
     DESTRUCTIVE=true
     REASON="SQL destructive operation"
 fi
@@ -77,16 +86,10 @@ fi
 if echo "$COMMAND" | grep -qE "^(npm install|npm i|yarn add|pnpm add|bun add|pip install|pip3 install)\s+"; then
     PACKAGE=$(echo "$COMMAND" | sed -E 's/^(npm install|npm i|yarn add|pnpm add|bun add|pip install|pip3 install)\s+//' | awk '{print $1}' | tr -d '"'"'" )
 
-    # Known typosquatting targets
-    SUSPICIOUS_NAMES="lodahs|expres\b|requst|mongoos\b|axois|recat\b|recat-dom|nod[e]js\b|colour\b|coloer"
-    if echo "$PACKAGE" | grep -qiE "$SUSPICIOUS_NAMES"; then
-        cat <<EOF
-{
-  "decision": "block",
-  "reason": "⚠️ Package name '$PACKAGE' looks like it might be a typo of a popular package.\n\nTypo-squatting is common — malicious packages with similar names to popular ones.\n\nDid you mean a different package? Please confirm the exact name."
-}
-EOF
-        exit 1
+    # Log the install to vibe-brain for session summary
+    VIBE_DIR="$(pwd)/.vibe"
+    if [ -d "$VIBE_DIR" ]; then
+        echo "- $(date '+%Y-%m-%d') installed package: $PACKAGE" >> "$VIBE_DIR/sessions-installs.log" 2>/dev/null
     fi
 
     # Flag dev-only packages being installed without --save-dev

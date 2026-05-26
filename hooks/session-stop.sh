@@ -25,11 +25,6 @@ if [ -n "$VIBE_SAFE_PATH" ]; then
     OUTPUT="$OUTPUT\nvibe-safe scan: $SAFE_RESULT"
 fi
 
-# Check if .vibe exists — remind Claude to update it
-if [ -d "$VIBE_DIR" ]; then
-    OUTPUT="$OUTPUT\n\n[REMINDER: Update .vibe/sessions.md with what changed this session, and .vibe/debt.md if any shortcuts were taken.]"
-fi
-
 # Check for unstaged changes
 UNSTAGED=$(git diff --name-only 2>/dev/null)
 if [ -n "$UNSTAGED" ]; then

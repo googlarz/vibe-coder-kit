@@ -1,6 +1,9 @@
 #!/bin/bash
 # vibe-skills installer
-# Installs behavioral baseline, hooks, and skills for solo vibecoders
+# Usage:
+#   bash install.sh              — global install only (hooks + skills)
+#   bash install.sh --project    — set up current directory as a vibe-skills project
+#   bash install.sh /path/to/project — set up a specific project directory
 
 set -e
 
@@ -20,6 +23,33 @@ echo "  vibe-skills installer"
 echo "  ─────────────────────"
 echo ""
 
+# ── Determine project directory ───────────────────────────────────────────────
+PROJECT_DIR=""
+
+if [ "$1" = "--project" ]; then
+    PROJECT_DIR="$(pwd)"
+elif [ -n "$1" ] && [ "$1" != "--global" ]; then
+    PROJECT_DIR="$(cd "$1" && pwd)"
+fi
+
+# Warn if running from inside the vibe-skills repo itself
+if [ "$(pwd)" = "$VIBE_SKILLS_DIR" ] && [ -z "$PROJECT_DIR" ] && [ "$1" != "--global" ]; then
+    echo -e "  ${YELLOW}!${NC} You're running install.sh from inside the vibe-skills directory."
+    echo ""
+    echo "  To set up a project, run from your project directory:"
+    echo "  cd /path/to/your-project && bash $VIBE_SKILLS_DIR/install.sh --project"
+    echo ""
+    echo "  To install globally only (hooks + skills, no project setup):"
+    echo "  bash $VIBE_SKILLS_DIR/install.sh --global"
+    echo ""
+    read -p "  Install globally only (no project setup)? [Y/n] " -n 1 -r
+    echo ""
+    if [[ $REPLY =~ ^[Nn]$ ]]; then
+        echo "  Cancelled."
+        exit 0
+    fi
+fi
+
 # ── 1. Create install directory ────────────────────────────────────────────────
 mkdir -p "$INSTALL_DIR/hooks"
 mkdir -p "$INSTALL_DIR/skills"
@@ -36,15 +66,12 @@ cp -r "$VIBE_SKILLS_DIR/skills/"* "$INSTALL_DIR/skills/"
 echo -e "  ${GREEN}✓${NC} Skills installed to $INSTALL_DIR/skills/"
 
 # ── 4. Register skills with Claude Code ───────────────────────────────────────
-# Skills need to be in ~/.claude/skills/ for Claude Code to discover them
 CLAUDE_SKILLS_DIR="$CLAUDE_DIR/skills"
 mkdir -p "$CLAUDE_SKILLS_DIR"
 for skill_dir in "$INSTALL_DIR/skills"/*/; do
     skill_name=$(basename "$skill_dir")
     target="$CLAUDE_SKILLS_DIR/$skill_name"
-    if [ -L "$target" ]; then
-        rm "$target"
-    fi
+    if [ -L "$target" ]; then rm "$target"; fi
     ln -sf "$skill_dir" "$target"
 done
 echo -e "  ${GREEN}✓${NC} Skills linked in $CLAUDE_SKILLS_DIR"
@@ -56,7 +83,6 @@ if [ ! -f "$SETTINGS_FILE" ]; then
     echo '{}' > "$SETTINGS_FILE"
 fi
 
-# Use Python to merge hooks into settings.json
 python3 - <<PYTHON
 import json, sys, os
 
@@ -120,50 +146,61 @@ PYTHON
 
 echo -e "  ${GREEN}✓${NC} Hooks registered in $SETTINGS_FILE"
 
-# ── 6. Copy CLAUDE.md (offer to append to existing) ───────────────────────────
-echo ""
-echo "CLAUDE.md behavioral baseline:"
+# ── 6. Project setup (only if project dir was specified) ──────────────────────
+if [ -n "$PROJECT_DIR" ]; then
+    echo ""
+    echo "Setting up project: $PROJECT_DIR"
 
-if [ -f "CLAUDE.md" ]; then
-    echo -e "  ${YELLOW}!${NC} CLAUDE.md already exists in this directory."
-    echo "     The vibe-skills baseline is at: $VIBE_SKILLS_DIR/CLAUDE.md"
-    echo "     Add it to your project CLAUDE.md to enable behavioral contracts."
-    echo ""
-    read -p "  Append vibe-skills behavioral baseline to your CLAUDE.md? [y/N] " -n 1 -r
-    echo ""
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        echo "" >> CLAUDE.md
-        echo "---" >> CLAUDE.md
-        cat "$VIBE_SKILLS_DIR/CLAUDE.md" >> CLAUDE.md
-        echo -e "  ${GREEN}✓${NC} Appended to CLAUDE.md"
-    else
-        echo "  Skipped. Copy manually from: $VIBE_SKILLS_DIR/CLAUDE.md"
-    fi
-else
-    cp "$VIBE_SKILLS_DIR/CLAUDE.md" "CLAUDE.md"
-    echo -e "  ${GREEN}✓${NC} CLAUDE.md written to current directory"
-fi
-
-# ── 7. Initialize .vibe/ in current project ────────────────────────────────────
-echo ""
-if [ ! -d ".vibe" ]; then
-    read -p "Initialize vibe-brain (.vibe/) in current directory? [Y/n] " -n 1 -r
-    echo ""
-    if [[ ! $REPLY =~ ^[Nn]$ ]]; then
-        cp -r "$VIBE_SKILLS_DIR/templates/.vibe" ".vibe"
-        echo -e "  ${GREEN}✓${NC} .vibe/ created — Claude will fill it in as you work"
-        # Add .vibe to .gitignore (contains project state, not secrets, but should be per-project)
-        if [ -f ".gitignore" ]; then
-            if ! grep -q "^\.vibe/$" .gitignore 2>/dev/null; then
-                echo "" >> .gitignore
-                echo "# vibe-skills project memory" >> .gitignore
-                echo ".vibe/" >> .gitignore
-                echo -e "  ${GREEN}✓${NC} Added .vibe/ to .gitignore"
-            fi
+    # CLAUDE.md
+    CLAUDE_TARGET="$PROJECT_DIR/CLAUDE.md"
+    if [ -f "$CLAUDE_TARGET" ]; then
+        echo -e "  ${YELLOW}!${NC} CLAUDE.md already exists."
+        read -p "  Append vibe-skills behavioral baseline? [y/N] " -n 1 -r
+        echo ""
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            echo "" >> "$CLAUDE_TARGET"
+            echo "---" >> "$CLAUDE_TARGET"
+            cat "$VIBE_SKILLS_DIR/CLAUDE.md" >> "$CLAUDE_TARGET"
+            echo -e "  ${GREEN}✓${NC} Appended to CLAUDE.md"
         fi
+    else
+        cp "$VIBE_SKILLS_DIR/CLAUDE.md" "$CLAUDE_TARGET"
+        echo -e "  ${GREEN}✓${NC} CLAUDE.md written"
     fi
-else
-    echo -e "  ${YELLOW}!${NC} .vibe/ already exists — skipping"
+
+    # .vibe/ directory
+    VIBE_TARGET="$PROJECT_DIR/.vibe"
+    if [ ! -d "$VIBE_TARGET" ]; then
+        cp -r "$VIBE_SKILLS_DIR/templates/.vibe" "$VIBE_TARGET"
+        echo -e "  ${GREEN}✓${NC} .vibe/ created — Claude fills this as you work"
+
+        # Ask about gitignore
+        echo ""
+        echo "  Should .vibe/ be committed to git?"
+        echo "  • Commit it: your project memory travels with the code (good for teams or backup)"
+        echo "  • Gitignore it: keeps it private and out of your commit history (fine for solo)"
+        echo ""
+        read -p "  Add .vibe/ to .gitignore? [y/N] " -n 1 -r
+        echo ""
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            GITIGNORE="$PROJECT_DIR/.gitignore"
+            if [ -f "$GITIGNORE" ]; then
+                if ! grep -q "^\.vibe" "$GITIGNORE" 2>/dev/null; then
+                    echo "" >> "$GITIGNORE"
+                    echo "# vibe-skills project memory" >> "$GITIGNORE"
+                    echo ".vibe/" >> "$GITIGNORE"
+                    echo -e "  ${GREEN}✓${NC} Added .vibe/ to .gitignore"
+                fi
+            else
+                echo ".vibe/" > "$GITIGNORE"
+                echo -e "  ${GREEN}✓${NC} Created .gitignore with .vibe/"
+            fi
+        else
+            echo "  .vibe/ will be tracked by git — consider committing it for backup"
+        fi
+    else
+        echo -e "  ${YELLOW}!${NC} .vibe/ already exists — skipping"
+    fi
 fi
 
 # ── Done ───────────────────────────────────────────────────────────────────────
@@ -171,13 +208,25 @@ echo ""
 echo "  ─────────────────────────────────────────────"
 echo -e "  ${GREEN}vibe-skills installed.${NC}"
 echo ""
-echo "  What's active:"
-echo "  • CLAUDE.md — behavioral baseline (edit to customize)"
-echo "  • Hooks — auto-fire on session start, before bash, on stop"
-echo "  • Skills — invoke with /vibe-scope, /vibe-check, /vibe-oops,"
-echo "             /vibe-launch, /vibe-health, /vibe-handoff"
-echo "  • .vibe/ — project memory (Claude fills this as you work)"
+if [ -n "$PROJECT_DIR" ]; then
+    echo "  Project ready: $PROJECT_DIR"
+    echo ""
+fi
+echo "  Active everywhere (global hooks):"
+echo "  • Destructive command intercept"
+echo "  • Deployment environment detection"
+echo "  • vibe-safe scan on stop"
 echo ""
-echo "  Start your next Claude Code session in this project."
-echo "  vibe-scope will run automatically."
+echo "  Active in this project (add to others with --project):"
+echo "  • CLAUDE.md behavioral baseline"
+echo "  • .vibe/ project memory"
 echo ""
+echo "  Skills: /vibe-scope  /vibe-check  /vibe-oops"
+echo "          /vibe-launch /vibe-health /vibe-handoff /vibe-explain"
+echo ""
+if [ -z "$PROJECT_DIR" ]; then
+    echo "  To set up a project:"
+    echo "  cd /your/project && bash $INSTALL_DIR/../vibe-skills/install.sh --project"
+    echo "  (or: bash $VIBE_SKILLS_DIR/install.sh --project /your/project)"
+    echo ""
+fi
