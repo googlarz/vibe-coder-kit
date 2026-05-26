@@ -1,0 +1,37 @@
+{
+  "_comment": "Add these hooks to your ~/.claude/settings.json or project .claude/settings.json",
+  "_install_note": "Run install.sh to add these automatically. Or merge manually into your hooks section.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/vibe-skills/hooks/session-start.sh"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/vibe-skills/hooks/pre-tool.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/vibe-skills/hooks/session-stop.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

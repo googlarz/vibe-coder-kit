@@ -1,0 +1,139 @@
+---
+name: vibe-scope
+description: Define session scope before coding — what we're doing, what we're NOT touching, and confirm a save point exists.
+---
+
+## Overview
+
+`vibe-scope` is a pre-session ritual for vibecoders. Before any code changes, run this to lock in what today's session covers — and what it doesn't. This prevents the most common vibecoder failure: asking Claude to "fix one thing" and ending up with half your app rewritten two hours later.
+
+Run this at the start of every work session. It takes two minutes and saves hours.
+
+---
+
+## Process
+
+Ask the user these 5 questions in order. One at a time. Wait for each answer before moving on. Do not skip questions. Do not add more questions.
+
+### Question 1 — What are we doing today?
+
+> "What are we building or fixing today? One sentence."
+
+If the answer is vague (e.g., "make it better", "fix some stuff", "the app"), don't move on. See **When scope is vague** below.
+
+### Question 2 — What are we NOT touching today?
+
+> "What parts of the app should stay exactly as they are? (Payments, login, the homepage, the database — anything you don't want changed today.)"
+
+If they say "nothing" or "I don't know", prompt them:
+> "Think about the parts that are already working. Let's leave those alone."
+
+Write down their answer even if it's short. "Leave the checkout flow alone" is a valid scope boundary.
+
+### Question 3 — Live or test version?
+
+> "Are we working on the live version (what real users see right now) or a test/preview version?"
+
+If live + the work today is risky (involves payments, login, database changes, anything user-facing), add a warning to the session contract: **⚠️ Working on live — be careful and move in small steps.**
+
+### Question 4 — Do we have a save point?
+
+> "When did you last save your work? (In coding terms: do you have a recent commit — basically a snapshot of your app before we start?)"
+
+- If yes: note it and move on.
+- If no, or if they don't know: explain it simply —
+  > "Before we change anything, let's take a snapshot of your app so we can go back if something breaks. I'll do that now — it takes 10 seconds."
+  
+  Then ask: "Should I save a snapshot now?"
+  
+  If yes, run: `git add -A && git commit -m "checkpoint $(date +'%Y-%m-%d')"` and confirm it worked.
+  
+  If they say no or seem confused, note "No save point — user declined" in the contract and add a warning.
+
+### Question 5 — What does "done" look like?
+
+> "How will you know we succeeded today? What should work that doesn't work now?"
+
+This is the success criteria. It should be something observable — "the button should turn green", "I can log in with Google", "the form sends an email". Not "it should feel better."
+
+If they can't describe what done looks like, push back:
+> "Let's figure that out before we start — otherwise we won't know when to stop."
+
+---
+
+## When scope is vague
+
+If the answer to Question 1 is fuzzy, stop and ask a follow-up before continuing:
+
+> "Can you show me exactly where in the app? Or tell me what's broken or missing?"
+
+Common vague answers and how to handle them:
+
+| They say | Ask |
+|---|---|
+| "Make it better" | "Better how? What frustrates you about it right now?" |
+| "Fix some stuff" | "What's broken? What happens when you try to use it?" |
+| "Improve the design" | "Which screen? What specifically looks wrong?" |
+| "Add features" | "Which feature, and what should it do?" |
+
+Do not proceed until you have a specific, one-sentence scope. If after two clarifying questions you still can't pin it down, say:
+> "Let's take a step back. What's the one thing you want to be able to do after today that you can't do right now?"
+
+---
+
+## What to write to `.vibe/sessions.md`
+
+After collecting all 5 answers, create `.vibe/sessions.md` if it doesn't exist (create the `.vibe/` directory too). Append the following block:
+
+```
+---
+Session: [date]
+
+TODAY WE ARE:
+[Answer from Question 1 — specific and concrete]
+
+WE ARE NOT TOUCHING:
+[Answer from Question 2 — list of off-limits areas]
+
+VERSION:
+[Live / Test] [add ⚠️ WARNING: Live + risky work if applicable]
+
+SAVE POINT:
+[Yes — committed at [time/date] / No — user declined / Created now at [time]]
+
+DONE WHEN:
+[Answer from Question 5 — observable success criteria]
+---
+```
+
+Tell the user what you wrote. Show them the contract in plain English. Ask: "Does this look right?"
+
+If they change anything, update the file.
+
+---
+
+## Internal instructions for Claude (not for the user)
+
+During the session, refer back to this contract. Before making any change:
+
+1. Check: is this change inside the scope we agreed to?
+2. Check: does this touch anything in the "NOT touching" list?
+3. If either answer is no — stop and say so.
+
+When stopping, say it plainly:
+> "This would touch [the login system / the database / the homepage] which we agreed to leave alone today. Want to add this to a future session instead?"
+
+Do not proceed outside scope unless the user explicitly says to update the contract. If they want to expand scope mid-session, update `.vibe/sessions.md` with a note: `SCOPE CHANGE at [time]: [what changed]`.
+
+---
+
+## Verification checklist
+
+Before ending the skill run, confirm:
+
+- [ ] All 5 questions answered
+- [ ] Scope is specific (not vague)
+- [ ] Save point confirmed or created
+- [ ] `.vibe/sessions.md` written and shown to user
+- [ ] User confirmed the contract looks right
+- [ ] If live + risky: warning is visible in the contract
