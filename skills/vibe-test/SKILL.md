@@ -21,7 +21,9 @@ Structured verification before you push. Most vibe-coded bugs aren't in the happ
 
 Run:
 ```bash
-git diff --stat HEAD 2>/dev/null || git status
+# First command shows uncommitted changes; second shows what the last commit changed.
+git status --short 2>/dev/null
+git diff --name-only HEAD~1 HEAD 2>/dev/null
 ```
 
 List the files changed this session. For each file, identify what user-facing behavior it affects. Map code changes to user actions — not "modified auth.js" but "users logging in."
@@ -37,6 +39,8 @@ Wait for them to try it and report back before moving on. If they can't test rig
 > "This is the most important step — trying it for real. Can you open the app now?"
 
 If they genuinely can't test (it's broken, they're on mobile, etc.), note it as untested and flag it in the verdict.
+
+If the happy path failed: don't continue to failure scenarios yet. Treat this as a bug — run `/vibe-oops` to diagnose and fix it first, then come back to finish testing.
 
 ### Step 3 — Failure path tests
 
@@ -66,10 +70,14 @@ First, check `.vibe/bugs.md` if it exists. Any previously fixed bugs in the area
 Then check adjacent files:
 
 ```bash
-git diff --name-only HEAD~1 2>/dev/null
+git diff --name-only HEAD~1 HEAD 2>/dev/null
 ```
 
 List adjacent features and ask the user to spot-check them — one action each. This doesn't need to be exhaustive, just the most likely collateral damage.
+
+#### **Step 3b — Check for regressions.**
+
+Before moving to the verdict, confirm that anything working before this session still works. Pick the one adjacent feature most likely to have been disturbed and ask the user to check it.
 
 ### Step 5 — Verdict
 
@@ -99,7 +107,7 @@ Don't write the test unless asked. Just name it.
 ## Verification checklist
 
 - [ ] Happy path was tested with actual steps, not assumed
-- [ ] At least 3 failure scenarios were checked
+- [ ] At least 3 failure scenarios checked — prioritize the ones most likely to fail given what was built, not the easiest ones
 - [ ] Regression check covered the most adjacent feature
 - [ ] Any "not sure" outcomes are named in the report, not glossed over
 - [ ] Verdict is exactly three sentences — what worked, what to check, what to do next

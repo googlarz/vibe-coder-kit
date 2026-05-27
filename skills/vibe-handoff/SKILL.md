@@ -106,7 +106,7 @@ Note explicitly what you inferred from code versus what came from `.vibe/` files
 Honestly assess the areas a developer should review. Don't soften this. Common areas:
 - **Auth** — is it custom? Is session handling solid?
 - **Data model** — are there obvious normalization problems or missing indexes?
-- **Security** — has vibe-check been run? Are there known findings?
+- **Security** — has a security scan been run? (vibe-check — a 66-pattern security scan tool in this project's workflow.) Are there known findings?
 - **Payments** — is Stripe integration complete and correct?
 - **Performance** — are there database queries in loops, missing caching, large unoptimized assets?
 - **Deployment** — is the deploy process documented and repeatable?
@@ -227,7 +227,7 @@ If sessions file doesn't exist: "No session log available."]
 
 - [ ] **Auth** — [describe what's there and what the concern is]
 - [ ] **Data model** — [describe schema and any obvious issues]
-- [ ] **Security** — [note if vibe-check was run; list known findings]
+- [ ] **Security** — [note if a security scan was run (vibe-check — a 66-pattern security scan tool in this project's workflow); list known findings]
 - [ ] **Payments** — [describe Stripe setup and any gaps]
 - [ ] **Performance** — [describe any known slow paths]
 - [ ] **Deployment** — [describe how deploys work; note if it's manual/fragile]

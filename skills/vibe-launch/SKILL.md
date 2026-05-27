@@ -3,6 +3,8 @@ name: vibe-launch
 description: Pre-launch checklist — 6 checks before telling real users about your app. Secrets, deployment, core flow, monitoring, user contact, rollback.
 ---
 
+# vibe-launch
+
 ## Overview
 
 `vibe-launch` is the pre-production checklist for solo vibecoders. Run it before sharing your app with real users for the first time — or before any significant public moment: Product Hunt, a social post, sending a link to a client.
@@ -24,6 +26,8 @@ This frames everything that follows. A link to a friend is different from a Prod
 ---
 
 ## The 6 Checks
+
+> Work through each check one at a time. Ask the user to confirm before moving to the next. This is a conversation, not a form — don't present all six checks at once.
 
 Run these in order. Present each as a section. Wait for the user's input where needed. Do not skip any check.
 
@@ -61,9 +65,9 @@ Incognito is important: your normal browser has cached versions and active sessi
 
 Then ask:
 
-2. "Is this using your production environment variables — not your local `.env`?" If they're on Vercel, the env vars need to be set in the Vercel dashboard, not just in the local `.env` file. A common failure: the app deploys but can't connect to anything because the keys are missing.
+- "Is this using your production environment variables — not your local `.env`?" If they're on Vercel, the env vars need to be set in the Vercel dashboard, not just in the local `.env` file. A common failure: the app deploys but can't connect to anything because the keys are missing.
 
-3. If the app uses a database: "Is it pointing at the production database, not a local or test one?"
+- If the app uses a database: "Is it pointing at the production database, not a local or test one?"
 
 **Result:**
 - ✅ **Live** — URL confirmed working in private browser, production env confirmed
@@ -107,7 +111,7 @@ This check is awareness, not a blocker. Most solo vibecoders find out their app 
 
 Explain the options in plain English:
 - **Vercel** has basic deployment status and some uptime visibility in the dashboard — not full alerting, but better than nothing
-- **Sentry** (free tier) catches runtime errors and sends you an email when something breaks
+- **Sentry** (free tier) catches runtime errors and sends you an email when something breaks — for full setup steps, run `/vibe-monitor`
 - **UptimeRobot** (free) pings your URL every 5 minutes and emails you if it goes down
 
 If they have none of these, this isn't a blocker — but UptimeRobot takes 2 minutes to set up and is free. Offer to walk them through it:
@@ -158,7 +162,7 @@ And cover the three common scenarios:
 
 1. **Git checkpoint:** Run `git log --oneline -5` — do the last few commits look like clean checkpoints? If not, make one now: `git add -A && git commit -m "checkpoint before launch"`
 
-2. **Database:** If the app has a database, ask: "Do you have a backup? Have you ever tested restoring from it?" Most vibecoders haven't — that's fine, just note it.
+2. **Database:** If the app has a database, ask: "Do you have a backup?" For Supabase: Dashboard → Settings → Database → Backups. For Railway/Render: check the dashboard for backup options. For local Postgres: `pg_dump $DATABASE_URL > backup-$(date +%Y%m%d).sql`.
 
 3. **Vercel rollback:** If they're on Vercel, they can roll back instantly — go to the Vercel dashboard, find the previous deployment, click "Redeploy." Takes 60 seconds. Make sure they know this exists.
 
@@ -216,3 +220,15 @@ Run all 6 checks. A Product Hunt post can send thousands of people to your app i
 
 **"The app doesn't have a database / doesn't have users"**
 Skip the database parts of Check 6 and the communication parts of Check 5. Note it explicitly so the user knows you're not forgetting it.
+
+---
+
+## Verification checklist
+
+- [ ] Check 1 passed: no secrets in code, .env is in .gitignore, git history clean
+- [ ] Check 2 passed: deployment confirmed working on real device
+- [ ] Check 3 passed: core user flow tested end-to-end
+- [ ] Check 4 passed: uptime monitor created and alert email set
+- [ ] Check 5 passed: contact/support method exists for users
+- [ ] Check 6 passed: rollback path confirmed (know how to undo the deploy)
+- [ ] Each check presented conversationally — user responded before moving to next

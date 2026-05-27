@@ -71,6 +71,14 @@ Then add to `.env`:
 SENTRY_DSN=https://...
 ```
 
+**Important:** `.env` only sets the variable locally. For production, you also need to add `SENTRY_DSN` to your deployment platform:
+- Vercel: Project Settings → Environment Variables
+- Railway: Project → Variables
+- Render: Environment → Environment Variables
+- Fly.io: `fly secrets set SENTRY_DSN=https://...`
+
+If you skip this, Sentry will work locally but miss all production errors.
+
 The DSN (the URL that connects your app to Sentry) comes from: Sentry dashboard → your project → Settings → Client Keys (DSN).
 
 ---
@@ -94,6 +102,34 @@ Then add to `.env`:
 ```
 SENTRY_DSN=https://...
 ```
+
+**Important:** `.env` only sets the variable locally. For production, add `SENTRY_DSN` to your deployment platform (Vercel: Project Settings → Environment Variables; Railway: Project → Variables; Render: Environment → Environment Variables; Fly.io: `fly secrets set SENTRY_DSN=https://...`).
+
+---
+
+### React/Vite/Frontend-only apps
+
+For apps without a custom server (React, Vite, plain HTML hosted on Netlify or Vercel):
+
+```bash
+npm install @sentry/react
+```
+
+Then in your main entry file (usually `src/main.jsx` or `src/index.js`):
+
+```javascript
+import * as Sentry from "@sentry/react";
+Sentry.init({ dsn: import.meta.env.VITE_SENTRY_DSN });
+```
+
+Note: use `VITE_SENTRY_DSN` (not `SENTRY_DSN`) — Vite only exposes variables prefixed with `VITE_` to the browser.
+
+Add to `.env`:
+```
+VITE_SENTRY_DSN=https://...
+```
+
+And add `VITE_SENTRY_DSN` to your deployment platform environment variables (same platforms as above).
 
 ---
 

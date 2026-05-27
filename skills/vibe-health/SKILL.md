@@ -40,7 +40,7 @@ Count items tagged or described as:
 - **Medium** — shortcuts that will need fixing eventually
 - **Low** — minor annoyances, cosmetic issues
 
-If `.vibe/debt.md` doesn't exist, score as Green (no logged debt).
+If `.vibe/debt.md` doesn't exist, score as Yellow — no debt log means unobserved debt, not clean debt. Most projects have shortcuts; they just haven't been written down. Prompt the user: "Is there anything in this project you'd be nervous to change? That's your debt."
 
 **Scoring:**
 - 🟢 Green — No high-risk items. Debt is manageable.
@@ -86,6 +86,7 @@ Note the count. Scaffolded frameworks (Next.js, Rails, Django) start with 50–1
 ```bash
 find . -maxdepth 4 \( -name "*.js" -o -name "*.ts" -o -name "*.py" \) | grep -v node_modules | grep -v .git | xargs -I{} basename {} | grep -iE "(_old|_new|_copy|_bak|_backup|[0-9]\.js$|[0-9]\.ts$|[0-9]\.py$)" | sort
 ```
+If this command produces unexpected output or appears to hang, skip it — the other signals in this dimension are sufficient.
 Look for files with suffixes like `_old`, `_new`, `_copy`, `_backup`, or names ending in a number (e.g., `checkout2.js`, `auth_new.ts`). These often mean the same logic is duplicated in multiple places — a source of bugs. Do NOT flag `.js` and `.ts` variants of the same name (e.g., `checkout.js` and `checkout.ts`) — these are expected in TypeScript projects.
 
 **TODO/FIXME count:**
@@ -259,4 +260,4 @@ Anything built since then isn't saved. Run: git add -A && git commit -m "checkpo
 - Write like a doctor giving a checkup, not like a security scanner printing warnings.
 - "Healthy with caveats" is better than "WARNING: ISSUES DETECTED."
 - Always end with a specific, actionable "need a real developer?" answer. Don't hedge. Don't say "it depends." Give a real answer based on what you found.
-- If `.vibe/debt.md` and `.vibe/sessions.md` don't exist, say so and note that the health check is limited to what can be scanned automatically. Recommend running a few sessions with the vibe-skills baseline so the logs are available next time.
+- If `.vibe/debt.md` and `.vibe/sessions.md` don't exist, say so and note that the health check is limited to what can be scanned automatically. Recommend running a few sessions with the vibe-skills baseline so the logs are available next time. If momentum is stalled, start with `/vibe-scope` to reset focus. If debt is high, run `/vibe-clean`. If the project feels structurally confused, consider `/vibe-think` to re-examine scope.

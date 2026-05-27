@@ -73,13 +73,22 @@ Once confirmed:
 
 1. Write to `.vibe/sessions.md`:
    - If today's `## YYYY-MM-DD` entry already exists (e.g. vibe-scope ran earlier): append the scope block under that entry — do NOT add another `## YYYY-MM-DD` header.
+   - If a **Scope:** or `TODAY WE ARE:` block already exists under today's entry, overwrite it rather than appending a second one — the user may have run /vibe-scope earlier.
    - If no entry for today exists: prepend a new one at the top.
 
 ```
 ## [YYYY-MM-DD] — [one-line scope summary]
-**Scope:** [paste WHAT WE'RE BUILDING]
-**Out of scope:** [paste WHAT WE'RE NOT BUILDING]
-**Risk:** [paste BIGGEST RISK]
+
+TODAY WE ARE:
+[paste WHAT WE'RE BUILDING]
+
+WE ARE NOT TOUCHING:
+[paste WHAT WE'RE NOT BUILDING]
+
+BIGGEST RISK:
+[paste BIGGEST RISK]
+
+---
 ```
 
 2. If `.vibe/` doesn't exist yet, create it and the sessions.md file.
@@ -106,3 +115,4 @@ After running vibe-think:
 - [ ] The biggest risk describes user impact, not technical complexity
 - [ ] The user confirmed the scope before it was saved
 - [ ] `.vibe/sessions.md` has a new entry at the top
+- [ ] .vibe/ directory exists and was created if missing

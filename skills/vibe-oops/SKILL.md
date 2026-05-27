@@ -33,6 +33,8 @@ Examples of what this looks like:
 - "This means a file your app needs doesn't exist. It was either deleted or never created."
 - "This means the code has a typo that breaks the syntax — like a missing bracket or a misplaced comma."
 
+If there's no error message — the app just silently did the wrong thing (button appears to work but nothing happened, form submitted but data didn't save): describe what should have happened vs what actually happened, then check the browser console (F12 → Console tab) and the server logs for silent errors. Most "silent" failures have an error somewhere — it just isn't visible to the user.
+
 ### Identify the type of problem
 
 Pick one:
@@ -56,7 +58,9 @@ Say this clearly to the user before moving on:
 
 ## Step 2: Present Exactly Three Options
 
-Always three. Always in this order. Always with honest confidence.
+Present all three options, but for production emergencies (users are affected right now), lead with: "The fastest path is Option 2 — undo to the last safe state. Here's how. I'll also show you Options 1 and 3 after the rollback is running."
+
+Always in this order. Always with honest confidence.
 
 ---
 
@@ -123,7 +127,7 @@ Tell the user when to choose this:
 - You've tried two different fixes and both failed
 - You're genuinely unsure what's wrong
 
-**Run `/vibe-handoff` immediately in EMERGENCY mode.** Do not write an inline summary here — `/vibe-handoff` produces a complete, structured document a developer can act on right away. It covers the stack, the error, what was tried, and where to get help.
+**Run `/vibe-handoff` and tell it "this is an emergency — I need the document in 5 minutes."** Do not write an inline summary here — `/vibe-handoff` produces a complete, structured document a developer can act on right away. It covers the stack, the error, what was tried, and where to get help.
 
 Say:
 > "This is beyond what I can reliably fix. Let me generate a handoff document you can share with a developer — it'll take two minutes and give them everything they need."

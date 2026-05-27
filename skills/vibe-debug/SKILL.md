@@ -127,7 +127,13 @@ After the fix:
 
 The same bug often lives in more than one place.
 
-If you found that user IDs weren't being passed correctly to a database query, quickly check if other queries have the same problem. If a variable was named wrong, check if it's named wrong in other similar functions.
+Search the codebase for the same pattern you just fixed:
+
+```bash
+grep -r "[the pattern that was wrong]" . --include="*.js" --include="*.ts" --include="*.py" --exclude-dir=node_modules -n
+```
+
+If you fixed a missing null check — search for similar null access patterns. If you fixed an unhandled promise rejection — search for other async functions without try/catch. Name any siblings you find but don't fix them in this session — write them to `.vibe/debt.md`.
 
 This takes two minutes and prevents the same class of bug from showing up again in a week.
 

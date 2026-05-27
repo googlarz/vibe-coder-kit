@@ -26,7 +26,11 @@ Test these manually in the login form:
 - Type this in the email field: `' OR '1'='1` — this is a SQL injection attempt (a trick to bypass login by confusing the database). The app should reject it, not break or log you in
 - Paste 500 characters into the email field → should handle it without freezing or erroring out
 
-I'll check the login form now and report what I find for each input.
+Open the login form and test these inputs manually. Tell me what happens for each one:
+- Empty email + empty password
+- Real email + wrong password
+- `' OR '1'='1` in the email field
+- 500 characters pasted into the email field
 
 ---
 
@@ -43,7 +47,7 @@ Test this:
 Then check the code for the session duration setting:
 
 ```bash
-grep -r "maxAge\|expires\|session.*duration\|ttl\|TOKEN_EXPIRY" src/ --include="*.js" --include="*.ts" --include="*.env*" 2>/dev/null | grep -v "node_modules"
+grep -r "maxAge\|expires\|session.*duration\|ttl\|TOKEN_EXPIRY" . --include="*.js" --include="*.ts" --include="*.py" --include="*.rb" --include="*.env*" --exclude-dir=node_modules --exclude-dir=.git 2>/dev/null
 ```
 
 A reasonable duration depends on what the app does. A banking tool: 1 hour. A personal blog tool: 30 days. If there's no expiry set at all, that's a gap — a stolen session never dies.
@@ -57,14 +61,14 @@ This is the most common silent failure. A page that should need login loads fine
 Find all the routes in the codebase:
 
 ```bash
-grep -rn "router\.\|app\.get\|app\.post\|getServerSideProps\|loader\|createBrowserRouter\|Route path" src/ --include="*.js" --include="*.ts" --include="*.tsx" | grep -v "node_modules" | grep -v "//.*router"
+grep -rn "router\.\|app\.get\|app\.post\|getServerSideProps\|loader\|createBrowserRouter\|Route path" . --include="*.js" --include="*.ts" --include="*.tsx" --include="*.py" --include="*.rb" --exclude-dir=node_modules --exclude-dir=.git | grep -v "//.*router"
 ```
 
 For each route that holds anything private (dashboard, settings, profile, admin, any user data): open an incognito window (a fresh browser session with no cookies — no login), paste the URL directly, and see what loads.
 
 If the page loads without being redirected to login, the protection is missing.
 
-I'll work through the routes I find and flag any that load unprotected.
+For each route that holds anything private, open an incognito window, paste the URL directly, and tell me what loads — whether it shows the page or redirects you to login.
 
 ---
 
@@ -74,10 +78,12 @@ This is an authorization bug (not authentication — you're logged in, just as t
 
 If the app has URLs like `/profile/123` or `/orders/456`, try changing the number to another user's ID while logged in as someone else. Can you see their data?
 
+If the app uses UUIDs instead of numbers (e.g., `/profile/a3f8e21b-...`), try replacing the UUID with a UUID from a different user — you can find other UUIDs by checking the database or inspecting network requests while logged in as a different account.
+
 In the code, look for database queries that fetch by ID:
 
 ```bash
-grep -rn "findById\|WHERE id\|params\.id\|req\.params\." src/ --include="*.js" --include="*.ts" | grep -v "node_modules"
+grep -rn "findById\|WHERE id\|params\.id\|req\.params\." . --include="*.js" --include="*.ts" --include="*.py" --include="*.rb" --exclude-dir=node_modules --exclude-dir=.git
 ```
 
 A safe query checks both: `WHERE id = ? AND user_id = current_user`. A query that only checks `WHERE id = ?` will hand over anyone's data to anyone who guesses the number.
@@ -97,7 +103,7 @@ If the app has a "forgot password" flow, test it end to end:
 If there's a "remember me" checkbox: check that the persistent token is stored in an HttpOnly cookie (a type of cookie the browser protects from JavaScript — harder for attackers to steal). If it's stored in `localStorage` instead, flag it.
 
 ```bash
-grep -rn "localStorage.*token\|localStorage.*auth\|localStorage.*session" src/ --include="*.js" --include="*.ts" --include="*.tsx" | grep -v "node_modules"
+grep -rn "localStorage.*token\|localStorage.*auth\|localStorage.*session" . --include="*.js" --include="*.ts" --include="*.tsx" --include="*.py" --include="*.rb" --exclude-dir=node_modules --exclude-dir=.git
 ```
 
 ---
@@ -107,13 +113,13 @@ grep -rn "localStorage.*token\|localStorage.*auth\|localStorage.*session" src/ -
 Passwords must never be stored as plain text. They should be scrambled using a one-way algorithm (called hashing) so that even if your database is stolen, the attacker can't reverse it to get the real password. The safe algorithms are: `bcrypt`, `argon2`, `scrypt`, or `pbkdf2`.
 
 ```bash
-grep -rn "bcrypt\|argon2\|scrypt\|pbkdf2\|hashSync\|hash(" src/ --include="*.js" --include="*.ts" | grep -v "node_modules"
+grep -rn "bcrypt\|argon2\|scrypt\|pbkdf2\|hashSync\|hash(" . --include="*.js" --include="*.ts" --include="*.py" --include="*.rb" --exclude-dir=node_modules --exclude-dir=.git
 ```
 
 If you don't see any of those, check what's actually happening with passwords:
 
 ```bash
-grep -rn "password" src/ --include="*.js" --include="*.ts" -l | grep -v "node_modules"
+grep -r "password" . --include="*.js" --include="*.ts" --include="*.py" --include="*.rb" --exclude-dir=node_modules --exclude-dir=.git -l
 ```
 
 Open the files that handle user creation and login. If passwords are stored directly, or hashed with `md5` or `sha1` (old algorithms that can be cracked), that's a critical problem.
@@ -121,7 +127,7 @@ Open the files that handle user creation and login. If passwords are stored dire
 Also check that passwords aren't being logged by accident:
 
 ```bash
-grep -rn "console\.log.*password\|logger.*password" src/ --include="*.js" --include="*.ts" | grep -v "node_modules"
+grep -rn "console\.log.*password\|logger.*password" . --include="*.js" --include="*.ts" --include="*.py" --include="*.rb" --exclude-dir=node_modules --exclude-dir=.git
 ```
 
 ---
@@ -143,7 +149,7 @@ Test it:
 In the code, find the logout handler:
 
 ```bash
-grep -rn "logout\|signOut\|session\.destroy\|token.*invalidat\|blacklist" src/ --include="*.js" --include="*.ts" | grep -v "node_modules"
+grep -rn "logout\|signOut\|session\.destroy\|token.*invalidat\|blacklist" . --include="*.js" --include="*.ts" --include="*.py" --include="*.rb" --exclude-dir=node_modules --exclude-dir=.git
 ```
 
 Look for server-side session destruction (`session.destroy`, `deleteSession`, removing the token from a database or blocklist). If logout only clears a cookie on the client without touching the server, the session lives on.

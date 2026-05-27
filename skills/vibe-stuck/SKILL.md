@@ -3,6 +3,8 @@ name: vibe-stuck
 description: When you've been fighting the same problem for 2+ hours and tried 3+ things — stop trying, start diagnosing.
 ---
 
+# vibe-stuck
+
 ## Overview
 
 Two hours in. Three approaches down. Still broken. The temptation right now is to try one more thing.
@@ -44,6 +46,8 @@ For each thing they listed, ask — one at a time, not all at once:
 > "When you tried [X] — did anything change at all? Did the error message look different? Did it get further before failing?"
 
 This matters. "It didn't work" hides information. "The error changed from X to Y" is a clue. "It got further but then hit a different problem" is a clue. Keep asking until you have something specific for each attempt.
+
+Don't interrogate every single attempt. After the first attempt or two, batch the question: "You've tried X and Y — what did each one change and what did you see?" One question that covers multiple attempts is better than five sequential questions.
 
 ---
 
@@ -113,7 +117,9 @@ Run:
 git log --oneline -20
 ```
 
-Find the last commit before the debugging started. Say:
+Find the last commit before the debugging started. Look for commits with messages like 'checkpoint', 'before [feature]', or the last commit before a string of messages mentioning the broken feature. Run `git log --oneline -20` and show the list to the user — they'll recognize the right one.
+
+Say:
 
 > "Your last clean checkpoint was [N] commits ago — that's when this was still working. We can go back to there and rebuild the feature more carefully. You'd lose the debug attempts, but since none of them worked, we're not losing anything useful."
 
@@ -158,3 +164,17 @@ Write to `.vibe/bugs.md` before moving on:
 ```
 
 This is how the next session avoids two hours of the same loop.
+
+If a path was chosen but the fix isn't complete yet: write to `.vibe/sessions.md` under today's entry — note what was tried, what was learned, and which path was chosen. The next session should not start blind.
+
+---
+
+## Verification checklist
+
+- [ ] Stopped attempting fixes before running this skill
+- [ ] Two lists written and shown to user: what we know vs. what we've been assuming
+- [ ] One path recommended — not a menu of options
+- [ ] If fixing in-session: checkpoint created before the new attempt
+- [ ] If rolling back: user guided to the right commit, not just told to "find the checkpoint"
+- [ ] .vibe/bugs.md updated if the issue was resolved
+- [ ] .vibe/sessions.md updated with what was learned, even if not resolved

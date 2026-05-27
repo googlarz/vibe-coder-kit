@@ -60,7 +60,22 @@ console.time('fetch-posts')
 console.timeEnd('fetch-posts')
 ```
 
-Open the browser console (F12 → Console tab) to see the result. Write down the number.
+```python
+# Python
+import time
+start = time.time()
+# ... the slow operation ...
+print(f"took {time.time() - start:.2f}s")
+```
+
+```ruby
+# Ruby
+start = Time.now
+# ... the slow operation ...
+puts "took #{Time.now - start}s"
+```
+
+Open the browser console (F12 → Console tab) to see the JavaScript result. Write down the number.
 
 ### For database queries — turn on query logging
 
@@ -196,6 +211,8 @@ model Post {
 
 ### Fix: large JavaScript bundle
 
+First check if the project uses Vite — look for `vite.config.js` or `vite` in `package.json` devDependencies. If it uses webpack instead, use `npx webpack-bundle-analyzer` or the Create React App built-in: `npm run build -- --stats`.
+
 ```bash
 npx vite-bundle-visualizer   # Vite projects
 npx webpack-bundle-analyzer  # Webpack projects
@@ -224,6 +241,14 @@ If the fix didn't help: go back to Step 3 and look at a different bottleneck. On
 - Don't "add caching" as a first move — caching hides problems without fixing them
 - Don't rewrite the backend because "it feels slow" — measure first
 - Don't optimize JavaScript rendering before checking the database — the database is almost always the bottleneck
+
+### External APIs (third-party services)
+
+If the slow request is going to an external service (Stripe, Cloudinary, a slow REST API): the bottleneck isn't in your code. Confirm with:
+```javascript
+console.time('stripe-call'); await stripe.charges.retrieve(id); console.timeEnd('stripe-call')
+```
+If it confirms the external service is slow: consider caching the result (store it for N minutes), run it in the background (don't make the user wait), or add a loading state so the slowness is less painful.
 
 ---
 

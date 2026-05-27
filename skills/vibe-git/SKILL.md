@@ -31,10 +31,10 @@ If yes: check for `.env` files first. If any exist, ensure `.gitignore` includes
 If on `main` or `master`: **stop**. Do not commit directly to main.
 
 ```bash
-git checkout -b feature/[3-word-description]
+git checkout -b feature/[short-description]
 ```
 
-Name the branch after what you built: `feature/email-settings-page`, `fix/login-redirect-loop`, `chore/update-dependencies`. Three words, kebab-case, no "update" or "changes."
+Name the branch after what you built: `feature/email-settings-page`, `fix/login-redirect-loop`, `chore/update-dependencies`. Short, descriptive, kebab-case — typically 2-4 words. The goal is recognizability, not a word count. No "update" or "changes."
 
 If on a feature branch: confirm it's the right one. If it's been open for more than a week with no commits, ask whether this should be a new branch instead.
 
@@ -83,6 +83,8 @@ type(scope): what changed, in plain English
 
 Draft the message and show it to the user before committing. If they want to adjust it, do so.
 
+If `git status` shows changes across unrelated concerns (e.g., a bug fix AND a dependency update AND a config change): split into separate commits. Run `git add [specific-files]` for each logical group and commit them separately — one commit per concern.
+
 ### Step 4 — Checkpoint (if not already done)
 
 If there's no recent checkpoint commit for this session, create one now:
@@ -114,6 +116,8 @@ If the push fails because the remote branch has changes: **do not force push**. 
 Never suggest `--force` unless explicitly asked and the consequences are explained.
 
 ### Step 6 — Pull request (if pushing to a shared repo or main branch)
+
+Create a PR if: (a) this branch will be merged into main by someone else, or (b) you want a review before merging. If you're the only developer and you're merging immediately, a PR is optional — `git merge` and push directly.
 
 If this branch should become a PR, draft the description:
 

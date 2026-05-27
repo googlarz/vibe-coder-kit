@@ -30,7 +30,7 @@ git diff --stat 2>/dev/null
 
 Use both. The `--stat` flag is important — without it, `git log` lists commit SHAs but not which files changed, making it impossible to know what the session actually touched. The second command captures work still in progress. If a session spans multiple days, extend the `--since` window to match.
 
-If git isn't initialized or has no history, list the files touched in this conversation instead.
+If git log returns nothing (fresh repo, no commits yet, or git not initialized): describe what was worked on based on what you can see in the current conversation. Note: "Git history wasn't available — this summary is based on the session conversation."
 
 Also check `.vibe/sessions.md` — if today's session entry exists, it has useful context.
 
@@ -64,6 +64,8 @@ Write exactly three sentences. No more. No headers, no bullet points, no "Here's
 **Sentence 3 — Watch:** One thing to keep an eye on. If nothing is fragile or untested, say so.
 > "Keep an eye on [specific concern]." — or — "Nothing fragile — this session was clean."
 
+If the Watch sentence surfaces a recurring pattern (same area has been fragile multiple sessions in a row), suggest: "This has come up before — might be worth a `/vibe-health` check before the next big session."
+
 If there were multiple changes, still write one sentence per slot. Pick the most important thing for each. "We added email notifications and fixed the login timeout" is fine — don't split into sub-bullets.
 
 If there were only invisible changes (config, deps, security):
@@ -92,7 +94,7 @@ If today's `## YYYY-MM-DD` entry already exists (vibe-scope or vibe-think ran ea
 If there are unstaged changes, offer:
 > "Want me to save a checkpoint of this work before you go? Takes 10 seconds."
 
-If yes: `git add -A && git commit -m "session: [one-line summary from Step 2]"`
+If yes: `git add -A && git commit -m "session: [one-line summary from Step 3]"`
 
 ## Language rules
 
@@ -106,6 +108,6 @@ If yes: `git add -A && git commit -m "session: [one-line summary from Step 2]"`
 After running vibe-explain:
 - [ ] Summary is exactly three sentences — no more, no headers, no bullets
 - [ ] The summary could be read by someone who wasn't in the session and they'd understand what changed
-- [ ] "Test manually" items are specific actions, not vague ("check the login" → "try logging in with the wrong password")
+- [ ] "Try" step is a specific action, not vague ("check the login" → "try logging in with the wrong password")
 - [ ] `.vibe/sessions.md` has today's entry
-- [ ] Any risky or untested areas are named in "Watch out for"
+- [ ] Any risky or untested areas are named in "Watch"

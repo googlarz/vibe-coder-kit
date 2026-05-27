@@ -3,6 +3,8 @@ name: vibe-upgrade
 description: Update outdated or vulnerable packages one at a time, with a checkpoint before each one and a quick test after.
 ---
 
+# vibe-upgrade
+
 ## Overview
 
 Upgrading packages is not glamorous. It's also one of those things that's easy to put off until it's a problem. The right way to do it is one package at a time — not everything at once.
@@ -85,16 +87,31 @@ Tell the user:
 npm install [package]@latest
 ```
 
-**Node.js — if it's a major version upgrade and you decided it's safe:**
+**Node.js — major version upgrade:**
 ```
 npm install [package]@[specific-version]
 ```
-Don't use `@latest` for major bumps — install the specific version you've decided on.
+Don't use `@latest` for major bumps — it can silently jump to a version that breaks your app. Install the specific version you've decided on. Use `npm outdated` to see current vs wanted vs latest before deciding which version to target.
 
 **Python:**
 ```
 pip install --upgrade [package]
 ```
+
+**Go:**
+```
+go get [package]@latest
+go mod tidy
+```
+`go mod tidy` updates go.sum to match — always run it after `go get`.
+
+**Ruby:**
+```
+bundle update [gemname]
+```
+Don't run `bundle update` without a gem name — that updates everything at once, which is what we're avoiding.
+
+After each upgrade (Go or Ruby), the same pattern applies: start the app, run tests if you have them, commit if passing, revert with `git reset --hard HEAD~1` if broken.
 
 ---
 
@@ -117,7 +134,7 @@ git add package*.json package-lock.json
 git commit -m "upgrade [package] from [old version] to [new version]"
 ```
 
-(For Python: `git add requirements.txt` or `pyproject.toml`)
+(For Python: update the lockfile first — `pip install --upgrade` does not automatically update requirements.txt. Run `pip freeze > requirements.txt` before committing. Then: `git add requirements.txt` or `pyproject.toml`)
 
 Then: "That worked. Ready to do the next one?"
 
@@ -173,3 +190,16 @@ Write to `.vibe/debt.md`:
 ```
 
 Major upgrades deserve their own plan, not a quick `npm install`.
+
+---
+
+## Verification checklist
+
+- [ ] One package at a time — did not upgrade multiple packages in a single step
+- [ ] Checkpoint commit exists before each upgrade
+- [ ] Tests or manual verification ran after each upgrade
+- [ ] Successful upgrades committed with a clear message
+- [ ] Failed upgrades reverted with `git reset --hard` before moving on
+- [ ] Failed upgrades written to .vibe/debt.md
+- [ ] Python: requirements.txt updated with `pip freeze > requirements.txt` after upgrade
+- [ ] Major version upgrades: changelog reviewed before proceeding

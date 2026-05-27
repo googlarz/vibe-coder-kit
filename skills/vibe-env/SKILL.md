@@ -3,6 +3,8 @@ name: vibe-env
 description: Check that secrets aren't exposed, environment variables are consistent, and nothing will break on deploy.
 ---
 
+# vibe-env
+
 ## Overview
 
 Environment problems are the sneakiest kind — everything works locally, then breaks the moment you deploy. Or worse: it deploys fine and you don't realize your database password is visible to anyone on the internet.
@@ -99,7 +101,7 @@ Grep for patterns that look like real credentials embedded directly in code:
 - `api_key\s*=\s*["'][^"']{10,}` (variable assignments that look like real keys)
 - `AKIA[0-9A-Z]{16}` (AWS access keys)
 
-For each match, open the file and look at the line in context before flagging — don't cry wolf on example strings or comments.
+For each match, open the file and look at the line in context before flagging — don't cry wolf on example strings or comments. A false positive looks like: a variable name containing the word 'key' with no value, a comment mentioning API keys, or an example value like `your-api-key-here`. A real finding looks like: a string that starts with `sk-`, `AKIA`, or matches the format of a real key from a known service. When in doubt, flag it.
 
 **If anything looks like a real credential:**
 
@@ -131,3 +133,16 @@ If any check surfaced a surprise — a library that uses an unexpected env var n
 **The surprise:** [what it does unexpectedly]
 **Workaround:** [how to handle it]
 ```
+
+---
+
+## Verification checklist
+
+- [ ] Environment confirmed: local vs. production
+- [ ] Check 1 passed: no secrets in committed code
+- [ ] Check 2 passed: .env.example exists and matches real .env keys
+- [ ] Check 3 passed: local and deployed env vars compared — no missing keys
+- [ ] Check 4 passed: no hardcoded values that should be env vars
+- [ ] Check 5 passed: code reads env vars correctly (right key names, right syntax)
+- [ ] Check 6 passed: .env in .gitignore, not tracked by git
+- [ ] Any surprises written to .vibe/gotchas.md

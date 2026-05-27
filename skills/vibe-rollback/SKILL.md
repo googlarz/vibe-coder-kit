@@ -3,6 +3,8 @@ name: vibe-rollback
 description: Something broke in production right now — undo the last deployment and get users back online before debugging anything.
 ---
 
+# vibe-rollback
+
 ## Overview
 
 Production is broken. Users are seeing errors, the site is down, or something is clearly wrong.
@@ -59,11 +61,11 @@ Two options — give both:
 > ```
 > fly releases list
 > ```
-> Then roll back to a specific version:
+> The output shows version numbers like `v12`, `v11`, `v10`. Copy the version number from the row labeled `deployed` — that's your current version. The one above it is what you're rolling back to:
 > ```
-> fly deploy --image registry.fly.io/[your-app-name]:[version-number]
+> fly deploy --image <image-id-from-that-row>
 > ```
-> Replace `[your-app-name]` and `[version-number]` with what you saw in the list.
+> Replace `<image-id-from-that-row>` with the image ID shown in that version's row.
 
 ---
 
@@ -118,9 +120,11 @@ Slow down. Two things before doing anything else:
 > "Before we touch anything — let me create a branch with the broken code so it's not lost. That way we can look at what went wrong without it being in your main code."
 
 ```
-git checkout -b broken-[date]
-git push origin broken-[date]
+git checkout -b broken-$(date +%Y-%m-%d)
+git push origin broken-$(date +%Y-%m-%d)
 ```
+
+This creates a branch like `broken-2026-05-27` — you can always come back to it if you need to investigate what went wrong.
 
 Or if they're not comfortable with branches: "I'll just make a note of what the last commit was so we can look at it later."
 
@@ -157,3 +161,14 @@ Then run `/vibe-handoff` in emergency mode. The document should include:
 - What rollback was attempted and what happened
 - Current production status
 - The platform and any access details the developer will need
+
+---
+
+## Verification checklist
+
+- [ ] Platform detected before giving any rollback steps
+- [ ] Rollback completed — deployment dashboard shows previous version as live
+- [ ] Verified in incognito/private browser that the app actually loads for visitors
+- [ ] Broken state preserved on a separate branch (not deleted)
+- [ ] .vibe/sessions.md updated: what broke, what was rolled back to, what to investigate next
+- [ ] If rollback itself failed: escalated to /vibe-handoff

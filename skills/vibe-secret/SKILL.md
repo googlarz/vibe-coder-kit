@@ -45,6 +45,15 @@ Project dashboard → Project Settings → API → click "Rotate" next to the an
 **Vercel environment variable:**
 Project dashboard → Settings → Environment Variables → find the variable → edit it → replace the value with the new key → Save.
 
+**Resend:**
+Dashboard → API Keys → find the exposed key → Delete → Create API Key. Copy the new one.
+
+**SendGrid:**
+Settings → API Keys → find the exposed key → click the action menu → Delete → Create API Key. Copy the new one.
+
+**Railway:**
+Project → your service → Variables → find the variable containing the exposed value → click to edit → replace the value with the new key → Save.
+
 **Any other service:**
 Go to the service's dashboard. Look for "API keys", "Credentials", "Developer settings", or "Security". Find the exposed key and delete or regenerate it. If you can't find it, look for the service name + "rotate API key" in your browser.
 
@@ -68,6 +77,8 @@ git log --all -p | grep -i "FIRST8CHARS"
 ```
 
 Replace `FIRST8CHARS` with the first 8 characters of the old key (don't use the full key here — just enough to search for it). If nothing comes back, the key was never committed and you can skip this step.
+
+On large or old repositories, this command may take a minute or more — that's normal, it's reading the entire git history. If it appears to hang after 2 minutes, press Ctrl+C and use the faster alternative: `git log --all --pickaxe-regex -S 'PARTIAL_KEY' -- . 2>/dev/null | head -20`
 
 **If it shows up in the history:**
 
@@ -99,7 +110,7 @@ How did the secret end up somewhere it shouldn't be? Fix that now so it can't ha
 **Check if `.env` is in `.gitignore`:**
 
 ```bash
-cat .gitignore | grep .env
+grep .env .gitignore 2>/dev/null
 ```
 
 If `.env` doesn't appear in the output (or `.gitignore` doesn't exist), add it now:

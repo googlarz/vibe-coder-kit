@@ -91,7 +91,15 @@ Affirm specifically — not "sounds good" but "this makes sense because [real us
 
 > "I think this is worth building. The main thing to watch is [biggest risk]. Want to scope it out with /vibe-think?"
 
-When handing off to /vibe-think, explicitly summarize: the idea as refined, who it's for, what problem it solves, and the key risk named here. Don't assume context carries — write it out.
+Before pointing to /vibe-think, write a brief handoff block so the user can copy-paste it:
+
+> **For /vibe-think:**
+> Idea: [idea as refined]
+> Who it's for: [specific person/user type]
+> Problem it solves: [one sentence]
+> Key risk to watch: [from the skeptic analysis]
+
+Then say: "When you run /vibe-think, paste that in so we don't lose what we figured out here."
 
 ---
 
@@ -131,7 +139,7 @@ Often the right idea is one layer below the proposed feature. Help them find it.
 
 Never end without a specific next step. One of:
 
-- "Run /vibe-think — here's what we figured out: [idea as refined, who it's for, key risk]. Paste that in when you start."
+- Write the handoff block (idea, who it's for, problem it solves, key risk) and say: "When you run /vibe-think, paste that in so we don't lose what we figured out here."
 - "Run [the experiment we designed]. Come back when you have the signal."
 - "Tell me about [other thing on the list] — that one sounds more urgent."
 

@@ -3,6 +3,10 @@ name: vibe-scope
 description: Define session scope before coding — what we're doing, what we're NOT touching, and confirm a checkpoint exists.
 ---
 
+# vibe-scope
+
+> **Note:** If CLAUDE.md already asked a scope question at session start and the user answered it — skip the first two questions and start from Question 3. Use the answer they already gave.
+
 ## Overview
 
 `vibe-scope` is a pre-session ritual for vibecoders. Before any code changes, run this to lock in what today's session covers — and what it doesn't. This prevents the most common vibecoder failure: asking Claude to "fix one thing" and ending up with half your app rewritten two hours later.
@@ -115,7 +119,7 @@ SCOPE=<one-line from Question 1>
 DATE=<today's actual date as YYYY-MM-DD — write the literal date, e.g. 2026-05-27>
 ```
 
-If Question 2 was "nothing" or vague, write an empty `NOT_TOUCHING=`. This file is read by the pre-tool hook on every bash command — if the command string matches anything in NOT_TOUCHING, it gets flagged before executing.
+If Question 2 was "nothing" or vague, write an empty `NOT_TOUCHING=`. This file is read by the pre-tool hook on every bash command — if the command string matches anything in NOT_TOUCHING, it gets flagged before executing. This automatic enforcement only works if the vibe-coder-kit hooks are installed (run `bash ~/.claude/vibe-coder-kit/verify.sh` to check). If they're not installed, the scope contract still lives in sessions.md — Claude follows it manually instead of having it enforced automatically.
 
 Write this block to sessions.md:
 

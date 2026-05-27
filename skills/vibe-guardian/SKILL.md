@@ -26,10 +26,14 @@ This isn't a checklist to read through. It's a code review grounded in the actua
 
 Don't go off memory or session notes. Read the actual code first.
 
+Use both commands — `git status --short` shows uncommitted work; `git diff --name-only HEAD~1 HEAD` shows the last committed change. If work is uncommitted, only the first command returns results.
+
 ```bash
 git status --short 2>/dev/null
 git diff --name-only HEAD~1 HEAD 2>/dev/null
 ```
+
+If `git status` returns nothing and `git diff HEAD~1 HEAD` returns nothing, ask: "What did you just change? Can you describe it or show me the file?"
 
 Read the changed files. Focus on:
 - Functions that handle user input or form submissions
@@ -94,7 +98,20 @@ If there's a protected action in this feature, trace the check:
 
 Front-end permission checks are not real checks. Anyone who can read network requests can call the API directly.
 
+The fix is always the same: add the permission check to the API route — not just the UI. Removing it from the UI hides the gap; it needs to be enforced on the server side.
+
 *Why this matters:* This is how user data gets accessed by the wrong people. The check must live where the data is, not where the button is.
+
+---
+
+**Unsanitized user input**
+
+Look for places where user-provided input is inserted directly into:
+- Database queries without parameterization (e.g., `"SELECT * FROM users WHERE email = '" + email + "'"`)
+- HTML templates without escaping (which could let an attacker inject code into the page for other users — called XSS, cross-site scripting)
+- Shell commands (e.g., `exec('git ' + userInput)`)
+
+If the project uses an ORM (Prisma, SQLAlchemy, ActiveRecord), parameterization is usually handled automatically — note that and move on. If it uses raw SQL strings with user data: flag it.
 
 ---
 

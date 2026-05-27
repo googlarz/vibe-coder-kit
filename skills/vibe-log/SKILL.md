@@ -3,6 +3,8 @@ name: vibe-log
 description: Paste an error from Vercel, Railway, or your server and I'll tell you what it means and exactly what to do.
 ---
 
+# vibe-log
+
 ## Overview
 
 Deployment logs are written for developers. The error messages assume you know what "ECONNREFUSED" means, or why a "502 Bad Gateway" happens. You don't need to know any of that.
@@ -19,11 +21,18 @@ Ask — just this, nothing more:
 
 Wait. Don't prompt for context, don't ask what they were doing. The log usually contains everything needed.
 
+If the user pastes more than 20 lines: don't read every line. Search for the real error using this priority order:
+1. The last line before the process exited (exit codes, crash lines)
+2. Any line containing `Error:`, `Exception:`, `FATAL`, `failed`, or `Cannot`
+3. The first line that isn't boilerplate (timestamps, version info, 'Starting server...')
+
+Tell the user what you found and where in the log it was.
+
 ---
 
 ## Step 2: Read context before responding
 
-If the log references a file path that exists in the project — like `Error in lib/db.js line 42` or `Cannot find module './utils/auth'` — open and read that file before responding. A one-line translation without looking at the code is often wrong.
+If the log references a file path that exists in the project — like `Error in lib/db.js line 42` or `Cannot find module './utils/auth'` — briefly acknowledge you got the log: "Got it — let me check one thing before I respond." Then open and read that file before responding. Don't go silent for a file read without any acknowledgment. A one-line translation without looking at the code is often wrong.
 
 ---
 
@@ -111,3 +120,14 @@ Read it carefully and translate it literally. What object does it mention? What 
 If you genuinely can't identify what's happening, say: "I'm not sure what's causing this — let me look at the relevant file." Then look. Don't translate blind.
 
 If you look and still can't identify it: "This one's complex enough that I'd recommend getting a developer to look at the full context." Then run `/vibe-handoff`.
+
+---
+
+## Verification checklist
+
+- [ ] Error translated to plain English before proposing a fix
+- [ ] Relevant source file opened and read before responding (if referenced in error)
+- [ ] One fix proposed — not a list of options
+- [ ] Fix verified or user asked to test before closing
+- [ ] If fix didn't work: asked for the new error rather than guessing further
+- [ ] Escalated to /vibe-handoff if the error indicates something beyond vibe-coding scope

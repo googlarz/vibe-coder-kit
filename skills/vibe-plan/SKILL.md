@@ -26,7 +26,7 @@ Read silently:
 - `.vibe/project.md` — tech stack and how the project is structured
 - `.vibe/decisions.md` — architectural decisions already made
 - `.vibe/bugs.md` — known bugs in this area (avoid repeating past mistakes)
-- `.vibe/gotchas.md` — known library/service surprises that might affect this build
+- `.vibe/gotchas.md` — known library/service surprises that might affect this build. If gotchas.md mentions anything relevant to this feature area — especially library quirks, env setup surprises, or known failure patterns — name them in the plan as things to watch for. Don't just silently read and continue.
 - `.vibe/conventions.md` — naming and structural rules to follow
 
 If `.vibe/sessions.md` has no scope for today, ask:
@@ -46,7 +46,7 @@ If on `main` or `master`: name it. Recommend creating a feature branch before st
 git checkout -b feature/[3-word-description]
 ```
 
-If there are uncommitted changes: note them. Offer a checkpoint before we start:
+If there are uncommitted changes: note them. Offer a checkpoint before we start. Before running `git add -A`, confirm `.env` is in `.gitignore` — `git add -A` stages everything including files git has never tracked. Run `git status` first and scan for anything sensitive in the 'Untracked files' list.
 ```bash
 git add -A && git commit -m "checkpoint before [scope summary]"
 ```
@@ -100,7 +100,7 @@ Once confirmed:
 2. Offer to start:
 > "Plan saved. Want me to start with Phase 1?"
 
-If yes: begin. Create the checkpoint before the first change:
+If yes: begin. Create the checkpoint before the first change. Before running `git add -A`, confirm `.env` is in `.gitignore` — `git add -A` stages everything including files git has never tracked. Run `git status` first and scan for anything sensitive in the 'Untracked files' list.
 ```bash
 git add -A && git commit -m "checkpoint before [scope]"
 ```

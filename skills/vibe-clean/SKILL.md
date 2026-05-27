@@ -125,17 +125,21 @@ Examples:
 
 Keep the test simple. One clear scenario is enough.
 
+If the project has no testing framework set up: don't install one just for this. Instead, write a manual verification script — a short script or set of console commands that reproduces the original problem and confirms it's fixed. Document it in `.vibe/debt.md` under the resolved item: "Verified manually by: [what to run/check]."
+
 ---
 
 ## Step 7 — Verify it works
 
-Run the feature that was affected. Check three things:
+Ask the user to run the feature that was affected and report back. You can't run the browser — they need to. Example: "Can you test [the specific thing] and tell me what you see?"
+
+Check three things:
 
 1. The original problem no longer occurs
 2. The feature still works normally for the happy path
 3. One or two nearby features still work — a quick check, not a full test suite
 
-Don't declare it done from reading the code. Actually run it.
+Don't declare it done from reading the code. Wait for the user to confirm they've run it.
 
 ---
 

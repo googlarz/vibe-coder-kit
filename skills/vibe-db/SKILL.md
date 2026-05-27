@@ -103,6 +103,8 @@ pg_dump $DATABASE_URL > backup-$(date +%Y%m%d-%H%M).sql
 mysqldump -u root -p your_database > backup-$(date +%Y%m%d-%H%M).sql
 ```
 
+The `-p` flag will prompt you for a password — type it and press Enter. If you don't know the password, check your `.env` file for `DB_PASSWORD` or `DATABASE_URL` — the password is in the URL after the last `:` and before `@`.
+
 ### Step 4 — Run the migration
 
 ```bash
@@ -121,6 +123,16 @@ php artisan migrate
 # Raw SQL file
 psql $DATABASE_URL < migrations/your-migration.sql
 ```
+
+If you have a `.sql` migration file and are not using an ORM: read the file first and assess the risk the same way, then run:
+```bash
+# PostgreSQL
+psql $DATABASE_URL < path/to/migration.sql
+
+# MySQL
+mysql -h host -u user -p database < migration.sql
+```
+Verify by checking the table structure afterwards (see Step 5 below).
 
 ### Step 5 — Verify it worked
 
@@ -186,7 +198,7 @@ For each one, before running:
 
 If operating on production data, create a backup first (see Step 3 above).
 
-If the vibe-guardian hook fires when you try to run one of these — that's intentional. The project has a safety net that intercepts destructive commands. That's a feature, not an error. It means: stop, double-check, then decide.
+If you see a warning that a destructive SQL command was blocked — that's the vibe-coder-kit safety hook doing its job. It's not an error. Confirm you want to proceed with the operation and it will let you through.
 
 ---
 
