@@ -26,7 +26,7 @@ git branch --show-current
 If the command fails or shows no output: **stop**. This project doesn't have git set up yet. Say:
 > "This project doesn't have git set up yet. Want me to initialize it? Takes one command."
 
-If yes: `git init && git add -A && git commit -m "initial commit"`, then continue from Step 2.
+If yes: check for `.env` files first. If any exist, ensure `.gitignore` includes `.env` before the first add — initial commits are the most common place secrets get accidentally committed. Then: `git init && git add -A && git commit -m "initial commit"`, and continue from Step 2.
 
 If on `main` or `master`: **stop**. Do not commit directly to main.
 

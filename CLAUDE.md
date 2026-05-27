@@ -126,7 +126,7 @@ Do NOT wait until the end of a long session — by then context may be compresse
 
 Update:
 
-**`.vibe/sessions.md`** — add this block at the top:
+**`.vibe/sessions.md`** — prepend to the top of the file (newest entry first):
 ```
 ## [YYYY-MM-DD] — [one-line: what we did today]
 - Changed: [files modified]
@@ -134,6 +134,8 @@ Update:
 - Fragile: [anything held together with string, or "nothing notable"]
 - Test manually: [what the user should click through to verify it works]
 ```
+
+If today's `## YYYY-MM-DD` entry already exists (from /vibe-scope or /vibe-think running earlier), **append this block under the existing header** — do NOT add a second `## YYYY-MM-DD` header.
 
 **`.vibe/debt.md`** — if you took a shortcut or left something fragile:
 ```

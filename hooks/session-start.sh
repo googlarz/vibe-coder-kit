@@ -68,12 +68,15 @@ if [ -f "$VIBE_DIR/sessions.md" ]; then
         OUTPUT="${OUTPUT}${NL}=== RECENT SESSIONS ===${NL}${RECENT}${NL}"
     fi
 
-    # Detect unlogged commits — commits that exist after the last session entry date
-    LAST_LOG_DATE=$(grep "^## " "$VIBE_DIR/sessions.md" 2>/dev/null | head -1 | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}')
-    if [ -n "$LAST_LOG_DATE" ] && [ "$LAST_LOG_DATE" != "$TODAY" ]; then
-        UNLOGGED=$(git log --oneline --after="$LAST_LOG_DATE" 2>/dev/null | wc -l | tr -d ' ')
-        if [ "$UNLOGGED" -gt 0 ]; then
-            OUTPUT="${OUTPUT}${NL}=== SESSION LOG GAP ===${NL}Last session was logged on $LAST_LOG_DATE, but $UNLOGGED commit(s) since then have no session summary.${NL}Run /vibe-explain to document what was built.${NL}"
+    # Detect unlogged commits — only if today's session has not been started yet
+    # (suppresses spurious warnings for commits made during the current session)
+    if [ -z "$SESSION_TODAY" ]; then
+        LAST_LOG_DATE=$(grep "^## " "$VIBE_DIR/sessions.md" 2>/dev/null | head -1 | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}')
+        if [ -n "$LAST_LOG_DATE" ] && [ "$LAST_LOG_DATE" != "$TODAY" ]; then
+            UNLOGGED=$(git log --oneline --after="$LAST_LOG_DATE" 2>/dev/null | wc -l | tr -d ' ')
+            if [ "$UNLOGGED" -gt 0 ]; then
+                OUTPUT="${OUTPUT}${NL}=== SESSION LOG GAP ===${NL}Last session was logged on $LAST_LOG_DATE, but $UNLOGGED commit(s) since then have no session summary.${NL}Run /vibe-explain to document what was built.${NL}"
+            fi
         fi
     fi
 fi
@@ -114,7 +117,9 @@ elif [ -n "$DEPLOY_PLATFORM" ]; then
 fi
 
 if [ -n "$OUTPUT" ]; then
-    printf '%s' "$OUTPUT"
+    # Prefix with a sentinel line so Claude Code never mistakes the output for a JSON control directive,
+    # even if a vibe-brain file (e.g. project.md) happens to start with '{'.
+    printf '=== VIBE BRAIN ===%s' "$OUTPUT"
 fi
 # exit 0 with text output = inject as context (continue, not suppressed)
 # exit 0 with no output = continue silently

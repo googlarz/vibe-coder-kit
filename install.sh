@@ -60,6 +60,8 @@ cp "$VIBE_SKILLS_DIR/hooks/"*.sh "$INSTALL_DIR/hooks/"
 chmod +x "$INSTALL_DIR/hooks/"*.sh
 cp "$VIBE_SKILLS_DIR/test-hooks.sh" "$INSTALL_DIR/test-hooks.sh"
 chmod +x "$INSTALL_DIR/test-hooks.sh"
+cp "$VIBE_SKILLS_DIR/install.sh" "$INSTALL_DIR/install.sh"
+chmod +x "$INSTALL_DIR/install.sh"
 echo -e "  ${GREEN}✓${NC} Hooks installed to $INSTALL_DIR/hooks/"
 
 # ── 3. Copy skills ─────────────────────────────────────────────────────────────
@@ -284,7 +286,7 @@ echo "  bash $INSTALL_DIR/test-hooks.sh"
 echo ""
 if [ -z "$PROJECT_DIR" ]; then
     echo "  To set up a project:"
-    echo "  cd /your/project && bash $VIBE_SKILLS_DIR/install.sh --project"
-    echo "  (or: bash $VIBE_SKILLS_DIR/install.sh --project /your/project)"
+    echo "  cd /your/project && bash $INSTALL_DIR/install.sh --project"
+    echo "  (or: bash $INSTALL_DIR/install.sh --project /your/project)"
     echo ""
 fi

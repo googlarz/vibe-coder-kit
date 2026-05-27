@@ -79,6 +79,9 @@ Read these files if they exist:
 - `.vibe/decisions.md` — architectural decisions and why they were made
 - `.vibe/debt.md` — known shortcuts and risk levels
 - `.vibe/sessions.md` — history of what was worked on
+- `.vibe/bugs.md` — bugs that took multiple attempts to fix (the incoming developer must not repeat them)
+- `.vibe/gotchas.md` — unexpected library/service behaviors already discovered
+- `.vibe/conventions.md` — naming and structural rules the project has established
 
 ### Step 2 — Infer what's missing
 
