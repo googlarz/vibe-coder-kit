@@ -8,7 +8,7 @@ Claude writes the code. The commit message says "update." You're not sure what c
 
 vibe-coder-kit fixes this. It installs two things that work together silently:
 
-- **Behavioral layer** (this repo) — hooks that fire automatically, project memory that persists across sessions, and 18 skills covering the full lifecycle from idea to ship. The whole experience is designed to feel like a conversation with someone who knows your project — not a tool running a checklist.
+- **Behavioral layer** (this repo) — hooks that fire automatically, project memory that persists across sessions, and 23 skills covering the full lifecycle from idea to ship. The whole experience is designed to feel like a conversation with someone who knows your project — not a tool running a checklist.
 - **Mechanical layer** ([vibe-safe](https://github.com/googlarz/vibe-safe)) — 66 security checks on every commit: credentials, injection vulnerabilities, auth gaps, and more — no Claude required
 
 ---
@@ -81,10 +81,15 @@ No invocation needed. These run on every Claude Code session.
 
 | Skill | When to run |
 |---|---|
+| `/vibe-debug` | Bug exists but the cause isn't obvious — reproduce first, trace where it lives, form a hypothesis, fix the root cause. |
 | `/vibe-stuck` | Stuck in a loop — Claude keeps trying the same thing. Stops the loop, names what's known vs assumed, picks a new path. |
 | `/vibe-env` | Something works locally but not deployed — six-point environment audit: secrets, config, .gitignore, hardcoded values. |
 | `/vibe-log` | Got an error message you don't understand — translates it to plain English, finds the cause, proposes one fix. |
 | `/vibe-rollback` | Something broke in production — detects your deployment platform and gives you the exact steps to roll back right now. |
+| `/vibe-secret` | An API key, password, or token may have been exposed — rotate immediately, scrub git history, audit what was at risk. |
+| `/vibe-db` | Database migration, data inspection, or schema change — verifies environment first, reads before writing, backs up before destructive ops. |
+| `/vibe-clean` | Project is stable and you want to reduce risk — picks one documented debt item, fixes it surgically, writes a test to keep it fixed. |
+| `/vibe-perf` | Something feels slow — measures the actual bottleneck, fixes the biggest one, verifies improvement with numbers. |
 | `/vibe-upgrade` | Upgrading a dependency — one package at a time, checkpoint before each, write to debt.md on failure. |
 
 ---
