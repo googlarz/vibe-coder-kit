@@ -83,8 +83,8 @@ fi
 
 # ── Package install detection ──────────────────────────────────────────────────
 
-if echo "$COMMAND" | grep -qE "^(npm install|npm i|yarn add|pnpm add|bun add|pip install|pip3 install)[[:space:]]+"; then
-    PACKAGE=$(echo "$COMMAND" | sed -E 's/^(npm install|npm i|yarn add|pnpm add|bun add|pip install|pip3 install)[[:space:]]+//' | tr ' ' '\n' | grep -v '^-' | head -1 | sed 's/["\x27]//g')
+if echo "$COMMAND" | grep -qE "(^|&&|;)[[:space:]]*(npm install|npm i|yarn add|pnpm add|bun add|pip install|pip3 install)[[:space:]]+"; then
+    PACKAGE=$(echo "$COMMAND" | grep -oE "(npm install|npm i|yarn add|pnpm add|bun add|pip install|pip3 install)[[:space:]]+[^;&]+" | head -1 | sed -E 's/(npm install|npm i|yarn add|pnpm add|bun add|pip install|pip3 install)[[:space:]]+//' | tr ' ' '\n' | grep -v '^-' | head -1 | sed 's/["\x27]//g')
 
     # Log the install to vibe-brain for session summary
     VIBE_DIR="$(pwd)/.vibe"

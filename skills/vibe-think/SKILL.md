@@ -71,7 +71,10 @@ Do not save until the user confirms. One sentence changes here are fine. If the 
 
 Once confirmed:
 
-1. Write to `.vibe/sessions.md` at the top:
+1. Write to `.vibe/sessions.md`:
+   - If today's `## YYYY-MM-DD` entry already exists (e.g. vibe-scope ran earlier): append the scope block under that entry — do NOT add another `## YYYY-MM-DD` header.
+   - If no entry for today exists: prepend a new one at the top.
+
 ```
 ## [YYYY-MM-DD] — [one-line scope summary]
 **Scope:** [paste WHAT WE'RE BUILDING]

@@ -105,8 +105,12 @@ run_test "ls -la" \
     '{"tool_name":"Bash","tool_input":{"command":"ls -la"}}' \
     allow
 
-run_test "npm install express" \
+run_test "npm install express (standalone)" \
     '{"tool_name":"Bash","tool_input":{"command":"npm install express"}}' \
+    allow
+
+run_test "cd && npm install express (chained)" \
+    '{"tool_name":"Bash","tool_input":{"command":"cd myapp && npm install express"}}' \
     allow
 
 run_test "SELECT query (not DROP/DELETE)" \

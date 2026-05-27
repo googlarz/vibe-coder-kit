@@ -42,10 +42,14 @@ if [ -n "$VIBE_SAFE_PATH" ]; then
     fi
 fi
 
-# Check for unstaged changes
+# Check for unsaved changes — modified tracked files AND new untracked files
 UNSTAGED=$(git diff --name-only 2>/dev/null)
-if [ -n "$UNSTAGED" ]; then
-    OUTPUT="$OUTPUT\n\n[Unsaved changes detected in: $(echo "$UNSTAGED" | tr '\n' ' ')]"
+UNTRACKED=$(git ls-files --others --exclude-standard 2>/dev/null | grep -v "^node_modules/" | grep -v "^\.vibe/")
+UNSAVED=""
+[ -n "$UNSTAGED" ] && UNSAVED="$UNSTAGED"
+[ -n "$UNTRACKED" ] && UNSAVED="$UNSAVED $UNTRACKED"
+if [ -n "$UNSAVED" ]; then
+    OUTPUT="$OUTPUT\n\n[Unsaved changes detected in: $(echo "$UNSAVED" | tr '\n' ' ')]"
 fi
 
 # Remind Claude to write vibe-brain before final response

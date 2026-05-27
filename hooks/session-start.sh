@@ -20,7 +20,7 @@ fi
 if [ -f "$VIBE_DIR/conventions.md" ]; then
     CONV_ITEMS=$(grep -c "^## " "$VIBE_DIR/conventions.md" 2>/dev/null || echo 0)
     if [ "$CONV_ITEMS" -gt 0 ]; then
-        OUTPUT="$OUTPUT\n=== CONVENTIONS ($CONV_ITEMS) ===\n$(grep -A2 "^## " "$VIBE_DIR/conventions.md" | grep -v "^--$")\n"
+        OUTPUT="$OUTPUT\n=== CONVENTIONS ($CONV_ITEMS) ===\n$(grep -v "^#[^#]\|^<!--\|^-->" "$VIBE_DIR/conventions.md")\n"
     fi
 fi
 

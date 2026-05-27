@@ -245,7 +245,7 @@ If not, infer from the codebase:]
 [If this can't be inferred: "Setup instructions not documented. Ask the original developer."]
 
 ## About This Project's Setup
-This project uses [vibe-skills](https://github.com/googlarz/vibe-skills) — a set of
+This project uses [vibe-coder-kit](https://github.com/googlarz/vibe-coder-kit) — a set of
 behavioral contracts and hooks for AI-assisted development. Key things to know:
 
 - `.vibe/` folder contains project context, decision log, debt log, and session history
