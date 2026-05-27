@@ -117,6 +117,14 @@ run_test "SELECT query (not DROP/DELETE)" \
     '{"tool_name":"Bash","tool_input":{"command":"psql -c \"SELECT * FROM users LIMIT 5\""}}' \
     allow
 
+run_test "pip install pytest (Python dev tool, should block)" \
+    '{"tool_name":"Bash","tool_input":{"command":"pip install pytest"}}' \
+    block
+
+run_test "pip install requests (production dep, should allow)" \
+    '{"tool_name":"Bash","tool_input":{"command":"pip install requests"}}' \
+    allow
+
 run_test "non-Bash tool (Read)" \
     '{"tool_name":"Read","tool_input":{"file_path":"./index.js"}}' \
     allow

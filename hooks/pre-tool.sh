@@ -99,16 +99,32 @@ fi
 
 # ── Package install detection ──────────────────────────────────────────────────
 
-if echo "$COMMAND" | grep -qE "(^|&&|;)[[:space:]]*(npm install|npm i|yarn add|pnpm add|bun add|pip install|pip3 install)[[:space:]]+"; then
-    PACKAGE=$(echo "$COMMAND" | grep -oE "(npm install|npm i|yarn add|pnpm add|bun add|pip install|pip3 install)[[:space:]]+[^;&]+" | head -1 | sed -E 's/(npm install|npm i|yarn add|pnpm add|bun add|pip install|pip3 install)[[:space:]]+//' | tr ' ' '\n' | grep -v '^-' | head -1 | sed 's/["\x27]//g')
+if echo "$COMMAND" | grep -qE "(^|&&|;)[[:space:]]*(npm install|npm i|yarn add|pnpm add|bun add)[[:space:]]+"; then
+    PACKAGE=$(echo "$COMMAND" | grep -oE "(npm install|npm i|yarn add|pnpm add|bun add)[[:space:]]+[^;&]+" | head -1 | sed -E 's/(npm install|npm i|yarn add|pnpm add|bun add)[[:space:]]+//' | tr ' ' '\n' | grep -v '^-' | head -1 | sed 's/["\x27]//g')
 
-    # Flag dev-only packages being installed without --save-dev
-    DEV_ONLY="jest|vitest|eslint|prettier|typescript|@types/|nodemon|ts-node"
-    if echo "$PACKAGE" | grep -qiE "$DEV_ONLY" && ! echo "$COMMAND" | grep -qE "\-\-save\-dev|\-D\b"; then
+    # Flag JS dev-only packages being installed without --save-dev / -D
+    JS_DEV_ONLY="jest|vitest|eslint|prettier|typescript|@types/|nodemon|ts-node"
+    if echo "$PACKAGE" | grep -qiE "$JS_DEV_ONLY" && ! echo "$COMMAND" | grep -qE "\-\-save\-dev|\-D\b"; then
         cat <<EOF
 {
   "decision": "block",
   "reason": "ℹ️ '$PACKAGE' is a development tool. It should be installed with --save-dev (or -D) so it doesn't bloat your production app.\n\nShould I add --save-dev to the command?"
+}
+EOF
+        exit 1
+    fi
+fi
+
+if echo "$COMMAND" | grep -qE "(^|&&|;)[[:space:]]*(pip install|pip3 install)[[:space:]]+"; then
+    PACKAGE=$(echo "$COMMAND" | grep -oE "(pip install|pip3 install)[[:space:]]+[^;&]+" | head -1 | sed -E 's/(pip install|pip3 install)[[:space:]]+//' | tr ' ' '\n' | grep -v '^-' | head -1 | sed 's/["\x27]//g')
+
+    # Flag Python dev-only packages that shouldn't go in production requirements
+    PY_DEV_ONLY="pytest|pytest-|black|mypy|flake8|pylint|coverage|tox|isort|bandit|hypothesis"
+    if echo "$PACKAGE" | grep -qiE "$PY_DEV_ONLY"; then
+        cat <<EOF
+{
+  "decision": "block",
+  "reason": "ℹ️ '$PACKAGE' is a Python development tool. It shouldn't go in your main requirements.txt — install it in a dev-only requirements file instead.\n\nShould I add it to requirements-dev.txt (or requirements/dev.txt) instead?"
 }
 EOF
         exit 1

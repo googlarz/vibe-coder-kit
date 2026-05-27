@@ -19,7 +19,7 @@ if [ -f "$VIBE_DIR/project.md" ]; then
 fi
 
 if [ -f "$VIBE_DIR/conventions.md" ]; then
-    CONV_ITEMS=$(grep -c "^## " "$VIBE_DIR/conventions.md" 2>/dev/null || echo 0)
+    CONV_ITEMS=$(grep -c "^## " "$VIBE_DIR/conventions.md" 2>/dev/null)
     if [ "$CONV_ITEMS" -gt 0 ]; then
         # grep -v "^#[^#]" strips the top-level # title but keeps ## section headers
         OUTPUT="${OUTPUT}${NL}=== CONVENTIONS ($CONV_ITEMS) ===${NL}$(grep -v "^#[^#]\|^<!--\|^-->" "$VIBE_DIR/conventions.md")${NL}"
@@ -27,7 +27,7 @@ if [ -f "$VIBE_DIR/conventions.md" ]; then
 fi
 
 if [ -f "$VIBE_DIR/bugs.md" ]; then
-    BUG_ITEMS=$(grep -c "^## " "$VIBE_DIR/bugs.md" 2>/dev/null || echo 0)
+    BUG_ITEMS=$(grep -c "^## " "$VIBE_DIR/bugs.md" 2>/dev/null)
     if [ "$BUG_ITEMS" -gt 0 ]; then
         # grep -v "^#[^#]" strips the top-level # title but keeps ## bug entry headers
         OUTPUT="${OUTPUT}${NL}=== KNOWN BUGS ($BUG_ITEMS) ===${NL}$(grep -v "^#[^#]\|^<!--\|^-->" "$VIBE_DIR/bugs.md")${NL}"
@@ -35,7 +35,7 @@ if [ -f "$VIBE_DIR/bugs.md" ]; then
 fi
 
 if [ -f "$VIBE_DIR/gotchas.md" ]; then
-    GOTCHA_ITEMS=$(grep -c "^## " "$VIBE_DIR/gotchas.md" 2>/dev/null || echo 0)
+    GOTCHA_ITEMS=$(grep -c "^## " "$VIBE_DIR/gotchas.md" 2>/dev/null)
     if [ "$GOTCHA_ITEMS" -gt 0 ]; then
         # grep -v "^#[^#]" strips the top-level # title but keeps ## gotcha entry headers
         OUTPUT="${OUTPUT}${NL}=== GOTCHAS ($GOTCHA_ITEMS) ===${NL}$(grep -v "^#[^#]\|^<!--\|^-->" "$VIBE_DIR/gotchas.md")${NL}"
@@ -43,14 +43,14 @@ if [ -f "$VIBE_DIR/gotchas.md" ]; then
 fi
 
 if [ -f "$VIBE_DIR/decisions.md" ]; then
-    DEC_ITEMS=$(grep -c "^## " "$VIBE_DIR/decisions.md" 2>/dev/null || echo 0)
+    DEC_ITEMS=$(grep -c "^## " "$VIBE_DIR/decisions.md" 2>/dev/null)
     if [ "$DEC_ITEMS" -gt 0 ]; then
         OUTPUT="${OUTPUT}${NL}=== DECISIONS ($DEC_ITEMS) ===${NL}$(grep -v "^#[^#]\|^<!--\|^-->" "$VIBE_DIR/decisions.md" | tail -30)${NL}"
     fi
 fi
 
 if [ -f "$VIBE_DIR/debt.md" ]; then
-    DEBT_ITEMS=$(grep -c "^\-" "$VIBE_DIR/debt.md" 2>/dev/null || echo 0)
+    DEBT_ITEMS=$(grep -c "^\-" "$VIBE_DIR/debt.md" 2>/dev/null)
     if [ "$DEBT_ITEMS" -gt 0 ]; then
         OUTPUT="${OUTPUT}${NL}=== DEBT LOG ($DEBT_ITEMS items) ===${NL}$(tail -20 "$VIBE_DIR/debt.md")${NL}"
     fi
