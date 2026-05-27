@@ -1,126 +1,154 @@
-# vibe-skills
+# vibe-coder-kit
 
-Claude Code skills, hooks, and behavioral contracts for solo vibecoders.
+**Behavioral contracts and security guardrails for AI-assisted solo development.**
 
-You're building something real with AI assistance. vibe-skills makes that safer: it guards your sessions automatically, keeps project memory across conversations, and gives you structured skills for the moments that matter — before launching, when things break, when you need real help.
+---
 
-**Ship without regret. Undo anything. Know when to escalate.**
+Claude writes the code. The commit message says "update." You're not sure what changed, whether it's safe to push, or whether you've crossed a line that needs a real developer. The next session starts from scratch — no memory of what was decided, what's fragile, or what you're even building.
+
+vibe-coder-kit fixes this. It's two layers working together:
+
+- **Behavioral layer** (this repo) — hooks that fire automatically, project memory that persists, and 13 skills covering the full lifecycle from idea to ship
+- **Mechanical layer** ([vibe-safe](https://github.com/googlarz/vibe-safe)) — 66 security checks on every commit: credentials, injection vulnerabilities, auth gaps, and more — no Claude required
 
 ---
 
 ## Install
 
-**Step 1 — Install globally** (once, anywhere):
-
 ```bash
-git clone https://github.com/googlarz/vibe-skills ~/.vibe-skills
-bash ~/.vibe-skills/install.sh --global
+# 1. Install vibe-coder-kit:
+git clone https://github.com/googlarz/vibe-coder-kit ~/.vibe-coder-kit
+bash ~/.vibe-coder-kit/install.sh
 ```
 
-This installs the hooks and skills into `~/.claude/`. They fire in every Claude Code session from this point on.
+The installer registers hooks, links skills, and offers to install vibe-safe in one flow.
 
-**Step 2 — Set up each project** (once per project, from the project root):
+To set up a project:
 
 ```bash
 cd ~/your-project
-bash ~/.vibe-skills/install.sh --project
+bash ~/.vibe-coder-kit/install.sh --project
 ```
 
-This adds `CLAUDE.md` and `.vibe/` to your project. You'll be asked whether to commit or gitignore `.vibe/` — see below.
-
-The installer:
-- Registers hooks in `~/.claude/settings.json`
-- Links skills so you can invoke them with `/vibe-*`
-- Writes `CLAUDE.md` behavioral baseline to your project
-- Initializes `.vibe/` project memory (Claude fills this as you work)
+This adds a `CLAUDE.md` behavioral baseline and a `.vibe/` project memory directory.
 
 ---
 
-## What you get
+## What fires automatically
 
-### Automatic — fires without invoking anything
+No invocation needed. These run on every Claude Code session.
 
-| What | When it fires | What it does |
+| Hook | When | What it does |
 |---|---|---|
-| **Session start** | Every new conversation | Loads your project memory. Asks what you're working on and what NOT to touch. Warns if production environment detected. |
-| **Before bash commands** | Before any shell command | Blocks destructive operations (`DROP TABLE`, `rm -rf`, force push) and asks for confirmation. Checks package names for typos before install. |
-| **Session stop** | When Claude finishes | Runs vibe-safe scan if installed. Reminds Claude to update `.vibe/` with what changed. |
-| **CLAUDE.md behavioral baseline** | Always active | Defines how Claude behaves: environment checks, checkpoint creation, plain-English explanations, the "you need a real developer" signal. |
+| **Session start** | Every new conversation | Reads `.vibe/project.md` and `.vibe/sessions.md`. Surfaces recent history. Asks what you're building today and what NOT to touch. Warns if a production environment is detected. |
+| **Before bash commands** | Any shell command | Blocks `DROP TABLE`, `rm -rf`, `git push --force`, `git reset --hard`. Explains every package before `npm install`. Requires confirmation before anything that can't be undone. |
+| **Session stop** | When Claude finishes | Runs vibe-safe scan. Surfaces findings before the final response. Reminds Claude to update `.vibe/sessions.md`. |
+| **CLAUDE.md baseline** | Always active | Environment checks before DB ops. Git checkpoints before big changes. Plain-English risk explanations. The signal to escalate to a real developer. |
 
-### On-demand — invoke when you need them
+---
 
-| Skill | What it does |
+## Skills — invoke when you need them
+
+**Before you build:**
+
+| Skill | When to run |
 |---|---|
-| `/vibe-scope` | 5-question session setup — defines what we're building today and what we're NOT touching. Creates a save point if you don't have one. |
-| `/vibe-check` | Pre-push security scan. Runs vibe-safe if installed, translates every finding into plain English with a clear verdict: safe / fix first / do not push. |
-| `/vibe-oops` | Recovery protocol when things break. Diagnoses the error in plain English, then gives exactly three options: fix it, undo it, get help. |
-| `/vibe-launch` | Pre-launch checklist — 6 checks before telling real users about your app: secrets, deployment, core flow, monitoring, user contact, rollback. |
-| `/vibe-health` | Weekly project health dashboard — debt level, momentum, safety signals, and honest assessment of whether you need a real developer yet. |
-| `/vibe-handoff` | Generates a developer handoff document — either an emergency escalation (something broke) or a planned onboarding doc (bringing in a developer). |
-| `/vibe-explain` | Plain-English summary of what changed this session — what's new, what to test manually, what might break. Run before closing the tab. |
+| `/vibe-skeptic` | New idea — challenges whether you should build it at all. Asks who needs it, what the simplest test would be, what happens if you don't build it. Returns: build it / validate first / don't build this. |
+| `/vibe-think` | Idea passes — clarify the scope before writing any code. 5 questions, concrete scope, what you're NOT building, biggest risk. |
+| `/vibe-plan` | Scope confirmed — break the work into 3-5 phases, each with a checkpoint command and a user-observable verify step. |
+
+**During a session:**
+
+| Skill | When to run |
+|---|---|
+| `/vibe-scope` | Start of session — defines what we're working on today and what NOT to touch. Creates a save point. |
+| `/vibe-test` | Feature is built — structured verification: happy path, failure paths, edge cases, regression check. |
+| `/vibe-guardian` | Anything that touches user data, auth, or external services — walks through error states and failure modes Claude skips by default. |
+| `/vibe-oops` | Something broke — diagnoses in plain English, three options: fix it, undo it, escalate. |
+
+**Shipping:**
+
+| Skill | When to run |
+|---|---|
+| `/vibe-check` | Before pushing — vibe-safe (66 checks) or inline scan, every finding translated to plain English, clear verdict. |
+| `/vibe-git` | After /vibe-check passes — branch check, meaningful commit message, push with upstream tracking, optional PR description. |
+| `/vibe-launch` | Before going live — six checks: secrets, deployment, core flow, monitoring, contact info, rollback. |
+| `/vibe-health` | Project feels messy — debt level, momentum, safety signals, honest "do you need a real developer?" |
+| `/vibe-handoff` | Bringing in a developer — emergency escalation doc or planned onboarding doc. |
+| `/vibe-explain` | Session wrapping up — plain-English summary of what changed, what to test, what might have broken. |
 
 ---
 
 ## vibe-brain — project memory
 
-vibe-skills creates a `.vibe/` directory in your project. Claude writes to it automatically.
+Every project gets a `.vibe/` directory. Claude writes to it automatically during each session.
 
 ```
 .vibe/
 ├── project.md      what you're building, your stack, your deployment
 ├── sessions.md     what changed in each session, what to test manually
+├── decisions.md    why you chose X over Y
 ├── debt.md         shortcuts taken, fragile things, "ask a dev about this"
-└── decisions.md    why you chose X over Y
+├── bugs.md         bug root causes — so the same thing isn't debugged twice
+├── gotchas.md      unexpected library/service behaviors — each one cost time to find
+└── conventions.md  naming rules and patterns that should stay consistent
 ```
 
-At the start of every session, Claude reads these files silently. It knows your project — the history, the debt, the environment — without you having to re-explain everything.
+At the start of every session, Claude reads these files silently. No re-explaining the project. No rebuilding context. The history, the debt, the bugs, the conventions — already there.
 
-**Should you commit `.vibe/`?** Your call — the installer asks:
-
-- **Commit it** if you want project memory to travel with the code (good for backup or sharing with a future developer)
-- **Gitignore it** if you want it private and out of your commit history (fine for solo work)
-
-Either way works. You can always change your mind later.
+**Should you commit `.vibe/`?** The installer asks. Commit it if you want project memory to travel with the code (good for teams or backup). Gitignore it if you want it private. Either works.
 
 ---
 
-## vibe-safe integration
+## vibe-safe — the security layer
 
-[vibe-safe](https://github.com/googlarz/vibe-safe) is a companion security scanner that checks your code for secrets, injection vulnerabilities, and common mistakes.
+vibe-coder-kit pairs with [vibe-safe](https://github.com/googlarz/vibe-safe): a shell script that runs 66 security checks on every commit without Claude. It catches what behavioral contracts can't — the credential that slipped into the wrong file, the SQL query built from user input, the JWT that never expires.
 
-Install it for the best experience:
+The two layers are designed to complement each other:
+
+| vibe-coder-kit (behavioral) | vibe-safe (mechanical) |
+|---|---|
+| Claude interprets context | Shell script — no LLM |
+| Guards intentions and scope | Checks actual code and git state |
+| Runs during conversation | Runs on every commit |
+| Explains in plain English | Cites exact file:line |
+
+When vibe-safe is installed:
+
+- `/vibe-check` runs it and translates every `vibe-safe:` finding into plain English with a concrete fix
+- The session stop hook surfaces findings before Claude writes its final response
+- Pre-commit: git commit is blocked until STOP-level findings are resolved
+
+vibe-safe is installed as part of the `install.sh` flow. To install it separately:
 
 ```bash
-# follow vibe-safe install instructions
+git clone https://github.com/googlarz/vibe-safe ~/.claude/skills/vibe-safe
 ```
-
-`/vibe-check` will detect vibe-safe automatically and use it if available. Without it, vibe-check runs a basic inline scan.
 
 ---
 
 ## Requirements
 
-- [Claude Code](https://claude.ai/code)
+- [Claude Code](https://claude.ai/code) (CLI or desktop app)
 - bash
-- Python 3 (used by install.sh to update `settings.json`)
-- git (recommended — save points won't work without it)
+- Python 3 (used by the installer to update `settings.json`)
+- git (recommended — save points and vibe-safe don't work without it)
 
 ---
 
 ## Philosophy
 
-Three rules, in order:
+Three failure modes end vibe-coded projects:
 
-1. **Safety first** — never break what's working; always have a way back
-2. **Plain English** — if you can't explain a risk in one sentence, it's not useful
-3. **Know your limits** — the best skill vibe-skills teaches is recognizing when to bring in a real developer
+1. **You don't know what changed** — vibe-brain and `/vibe-explain` fix this
+2. **Mistakes ship before you catch them** — vibe-safe and `/vibe-check` fix this
+3. **You don't know when to stop** — `/vibe-health` and `/vibe-handoff` fix this
 
-vibe-skills doesn't make you a developer. It makes you a safer solo builder.
+vibe-coder-kit doesn't make you a developer. It makes solo AI-assisted development sustainable.
 
 ---
 
 ## Related
 
-- [vibe-safe](https://github.com/googlarz/vibe-safe) — security scanner this pack integrates with
-- [agent-skills](https://github.com/googlarz/agent-skills) — the equivalent pack for professional engineers
-- [context-handoff](https://github.com/googlarz/context-handoff) — continue Claude conversations exactly where you left off
+- [vibe-safe](https://github.com/googlarz/vibe-safe) — the security layer this pack pairs with
+- [agent-skills](https://github.com/googlarz/agent-skills) — equivalent pack for professional engineers

@@ -90,16 +90,14 @@ Tell the user:
 Then offer:
 > "Before we go back, should I save what we have now as a separate checkpoint? That way we don't lose the work entirely — we can look at it later."
 
-If they want to undo:
-```
-git revert HEAD
-```
-or for a hard reset to a specific commit (confirm first):
-```
-git reset --hard [commit hash]
-```
+If they want to undo, explain the two options in plain English before running anything:
 
-Always confirm before running a hard reset. Say what will be lost.
+- **Undo just the last change** (`git revert HEAD`): Creates a new commit that cancels out the last one. Safe — your history stays intact and you can undo the undo if needed.
+- **Jump back to an earlier state** (`git reset --hard [commit hash]`): Moves your project back in time. Any work since that point is gone. This cannot be undone.
+
+For most situations, `git revert` is safer. Only use `git reset --hard` if the user understands that recent work will be permanently deleted.
+
+Always confirm before running `git reset --hard`. Say exactly what will be lost.
 
 **If no checkpoint exists:**
 
@@ -123,32 +121,17 @@ Tell the user when to choose this:
 - You've tried two different fixes and both failed
 - You're genuinely unsure what's wrong
 
-**Produce a handoff note immediately.** Fill this in and give it to the user to share with a developer:
+**Run `/vibe-handoff` immediately in EMERGENCY mode.** Do not write an inline summary here — `/vibe-handoff` produces a complete, structured document a developer can act on right away. It covers the stack, the error, what was tried, and where to get help.
 
-```
-## What we built
-[One paragraph describing what the app does and the tech stack]
+Say:
+> "This is beyond what I can reliably fix. Let me generate a handoff document you can share with a developer — it'll take two minutes and give them everything they need."
 
-## What broke
-[Exact description of what stopped working, when it started, what changed before it broke]
+Then invoke `/vibe-handoff`.
 
-## The error message
-[Paste the exact error — full text, not a summary]
-
-## What we tried
-[List every fix that was attempted, in order]
-
-## What to look at first
-[Your best guess at the root cause based on the error type]
-
-## Files most likely involved
-[List the relevant files — routes, config, database connection, etc.]
-```
-
-**Where to get help:**
+**Where to get help after the document is ready:**
 - For common frameworks (Next.js, Supabase, Vercel, Stripe): search their official Discord — usually fastest
 - Stack Overflow: good for error messages — paste the exact error in quotes
-- Hiring a developer for a few hours: Toptal, Upwork, or a local freelancer — use the handoff note above
+- Hiring a developer for a few hours: Toptal, Upwork, or a local freelancer — share the vibe-handoff document
 
 ---
 
@@ -173,8 +156,11 @@ Treat as critical severity.
 **Go to Option 2 first.** Do not attempt fixes while real users are affected.
 
 1. Undo to the last known-good state
-2. Verify production is back up
-3. Then investigate the fix in a safe environment
+2. **While the rollback is deploying** (1–3 min on Vercel/Railway, up to 5 on Fly.io): tell the user to open their deployment dashboard and watch the build status.
+   - "Building..." → normal, wait
+   - "Error" or red status → there's a build problem in the rollback itself — check deployment logs before assuming it will recover
+3. Once the dashboard shows "Ready" / "Live" / "Deployed": ask the user to reload the app and confirm it's actually loading for visitors (not just the dashboard saying it's live)
+4. Then investigate the fix in a safe environment — not in production
 
 If you can't undo, prioritize getting *something* working over getting it working *correctly*.
 

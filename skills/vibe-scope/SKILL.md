@@ -9,6 +9,8 @@ description: Define session scope before coding — what we're doing, what we're
 
 Run this at the start of every work session. It takes two minutes and saves hours.
 
+**Emergency exception:** If the user invoked `/vibe-scope` but their message also describes something broken or urgent — an error, a crash, something not working for real users — acknowledge it and go to `/vibe-oops` instead. Scope-setting is for fresh starts, not for someone whose production is down.
+
 ---
 
 ## Process
@@ -40,15 +42,35 @@ If live + the work today is risky (involves payments, login, database changes, a
 
 > "When did you last save your work? (In coding terms: do you have a recent commit — basically a snapshot of your app before we start?)"
 
-- If yes: note it and move on.
-- If no, or if they don't know: explain it simply —
-  > "Before we change anything, let's take a snapshot of your app so we can go back if something breaks. I'll do that now — it takes 10 seconds."
-  
-  Then ask: "Should I save a snapshot now?"
+First, check if git is initialized:
+```bash
+git status 2>&1
+```
+
+**If git is not initialized** (command errors with "not a git repository"):
+> "Git — your version control system — isn't set up in this project. That means there's no way to go back if something breaks today. I'd strongly recommend setting it up before we start. Want me to do that? It takes 30 seconds."
+
+If yes:
+```bash
+git init && git add -A && git commit -m "initial checkpoint $(date +'%Y-%m-%d')"
+```
+
+If they say no, note "No git — no save point available" in the contract and add a warning: **⚠️ No undo available if things break.**
+
+**If git is initialized:**
+- Check `git log --oneline -1 2>/dev/null` to see if any commits exist
+- If yes: note the most recent commit and move on
+- If no commits yet, or if the last commit was more than a few days ago: offer to create a checkpoint now
+  > "Before we change anything, let's take a snapshot so we can go back if something breaks. Takes 10 seconds."
   
   If yes, run: `git add -A && git commit -m "checkpoint $(date +'%Y-%m-%d')"` and confirm it worked.
   
-  If they say no or seem confused, note "No save point — user declined" in the contract and add a warning.
+  If they decline but the project is live (has real users): don't just note it and move on. Offer a safer middle ground:
+  > "At least let me save just the files we're already tracking — takes 5 seconds and won't touch anything sensitive."
+  Run: `git add --update && git commit -m "checkpoint $(date +'%Y-%m-%d')"`
+  `--update` only stages files git already knows about — it cannot accidentally commit a `.env` file that hasn't been tracked before. This is always safe to run.
+
+  If they decline entirely: note "No save point — user declined" in the contract and add a warning: **⚠️ No undo available if things break.**
 
 ### Question 5 — What does "done" look like?
 
@@ -83,11 +105,10 @@ Do not proceed until you have a specific, one-sentence scope. If after two clari
 
 ## What to write to `.vibe/sessions.md`
 
-After collecting all 5 answers, create `.vibe/sessions.md` if it doesn't exist (create the `.vibe/` directory too). Append the following block:
+After collecting all 5 answers, create `.vibe/sessions.md` if it doesn't exist (create the `.vibe/` directory too). **Prepend** (add to the top of the file, not the bottom) the following block:
 
 ```
----
-Session: [date]
+## [YYYY-MM-DD] — [one-sentence scope: what we're doing today]
 
 TODAY WE ARE:
 [Answer from Question 1 — specific and concrete]
@@ -103,8 +124,11 @@ SAVE POINT:
 
 DONE WHEN:
 [Answer from Question 5 — observable success criteria]
+
 ---
 ```
+
+The `## YYYY-MM-DD` header is required — the session-start hook detects "session already started today" by looking for `## [today's date]` at the top of sessions.md. If you append instead of prepend, today's session won't be detected and the scope ritual will fire again on the next conversation.
 
 Tell the user what you wrote. Show them the contract in plain English. Ask: "Does this look right?"
 

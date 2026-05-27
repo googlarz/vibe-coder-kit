@@ -1,0 +1,135 @@
+#!/bin/bash
+# test-hooks.sh — verify pre-tool.sh blocks destructive commands correctly
+# Run after install to confirm the hook fires as expected
+#
+# Usage: bash test-hooks.sh
+# Expected: all tests pass
+
+HOOK="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/hooks/pre-tool.sh"
+
+if [ ! -f "$HOOK" ]; then
+    echo "ERROR: hooks/pre-tool.sh not found at $HOOK"
+    exit 1
+fi
+
+PASS=0
+FAIL=0
+
+run_test() {
+    local name="$1"
+    local input="$2"
+    local expect="$3"  # "block" or "allow"
+
+    result=$(echo "$input" | bash "$HOOK" 2>/dev/null)
+    exit_code=$?
+
+    if [ "$expect" = "block" ]; then
+        if [ $exit_code -ne 0 ] && echo "$result" | grep -q '"decision"'; then
+            echo "  ✓ BLOCK  $name"
+            PASS=$((PASS+1))
+        else
+            echo "  ✗ MISSED $name (expected block, got exit $exit_code)"
+            [ -n "$result" ] && echo "    output: $result"
+            FAIL=$((FAIL+1))
+        fi
+    else
+        if [ $exit_code -eq 0 ]; then
+            echo "  ✓ ALLOW  $name"
+            PASS=$((PASS+1))
+        else
+            echo "  ✗ WRONG  $name (expected allow, got blocked)"
+            [ -n "$result" ] && echo "    output: $result"
+            FAIL=$((FAIL+1))
+        fi
+    fi
+}
+
+echo ""
+echo "  pre-tool.sh hook tests"
+echo "  ──────────────────────"
+echo ""
+echo "  Destructive commands (should block):"
+
+run_test "rm -rf /tmp/test" \
+    '{"tool_name":"Bash","tool_input":{"command":"rm -rf /tmp/test"}}' \
+    block
+
+run_test "rm -rf ~ (home dir)" \
+    '{"tool_name":"Bash","tool_input":{"command":"rm -rf ~"}}' \
+    block
+
+run_test "DROP TABLE users" \
+    '{"tool_name":"Bash","tool_input":{"command":"psql -c \"DROP TABLE users\""}}' \
+    block
+
+run_test "DELETE FROM sessions (bare table)" \
+    '{"tool_name":"Bash","tool_input":{"command":"sqlite3 app.db \"DELETE FROM sessions\""}}' \
+    block
+
+run_test "DELETE FROM \"Users\" (quoted table)" \
+    '{"tool_name":"Bash","tool_input":{"command":"psql -c \"DELETE FROM \\\"Users\\\"\""}}' \
+    block
+
+run_test "TRUNCATE users" \
+    '{"tool_name":"Bash","tool_input":{"command":"psql -c \"TRUNCATE users\""}}' \
+    block
+
+run_test "git push --force" \
+    '{"tool_name":"Bash","tool_input":{"command":"git push --force origin main"}}' \
+    block
+
+run_test "git push -f" \
+    '{"tool_name":"Bash","tool_input":{"command":"git push -f origin main"}}' \
+    block
+
+run_test "git reset --hard" \
+    '{"tool_name":"Bash","tool_input":{"command":"git reset --hard HEAD~3"}}' \
+    block
+
+run_test "git clean -f" \
+    '{"tool_name":"Bash","tool_input":{"command":"git clean -f"}}' \
+    block
+
+echo ""
+echo "  Safe commands (should allow):"
+
+run_test "git status" \
+    '{"tool_name":"Bash","tool_input":{"command":"git status"}}' \
+    allow
+
+run_test "git log --oneline" \
+    '{"tool_name":"Bash","tool_input":{"command":"git log --oneline -5"}}' \
+    allow
+
+run_test "ls -la" \
+    '{"tool_name":"Bash","tool_input":{"command":"ls -la"}}' \
+    allow
+
+run_test "npm install express" \
+    '{"tool_name":"Bash","tool_input":{"command":"npm install express"}}' \
+    allow
+
+run_test "SELECT query (not DROP/DELETE)" \
+    '{"tool_name":"Bash","tool_input":{"command":"psql -c \"SELECT * FROM users LIMIT 5\""}}' \
+    allow
+
+run_test "non-Bash tool (Read)" \
+    '{"tool_name":"Read","tool_input":{"file_path":"./index.js"}}' \
+    allow
+
+echo ""
+echo "  ──────────────────────"
+echo "  Results: $PASS passed, $FAIL failed"
+echo ""
+
+if [ $FAIL -eq 0 ]; then
+    echo "  All tests passed — hooks are working correctly."
+    echo ""
+    exit 0
+else
+    echo "  Some tests failed. Check hooks/pre-tool.sh and re-run."
+    echo "  Tip: The hook receives JSON on stdin and must exit non-zero"
+    echo "       with a {\"decision\":\"block\",\"reason\":\"...\"} payload to block."
+    echo ""
+    exit 1
+fi

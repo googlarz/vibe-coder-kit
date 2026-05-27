@@ -7,22 +7,39 @@ VIBE_DIR="$(pwd)/.vibe"
 OUTPUT=""
 
 # Run vibe-safe if installed
+# Standard install: git clone https://github.com/googlarz/vibe-safe ~/.claude/skills/vibe-safe
 VIBE_SAFE_PATH=""
-for path in \
+for candidate in \
+    "$HOME/.claude/skills/vibe-safe/hooks/pre-commit" \
     "$(which vibe-safe 2>/dev/null)" \
     "$HOME/bin/vibe-safe" \
     "$HOME/.local/bin/vibe-safe" \
-    "$(pwd)/vibe-safe" \
     "$(pwd)/vibe-safe.sh"; do
-    if [ -x "$path" ]; then
-        VIBE_SAFE_PATH="$path"
+    if [ -n "$candidate" ] && [ -x "$candidate" ]; then
+        VIBE_SAFE_PATH="$candidate"
         break
     fi
 done
 
 if [ -n "$VIBE_SAFE_PATH" ]; then
-    SAFE_RESULT=$(bash "$VIBE_SAFE_PATH" 2>&1 | tail -5)
-    OUTPUT="$OUTPUT\nvibe-safe scan: $SAFE_RESULT"
+    SAFE_OUTPUT=$(bash "$VIBE_SAFE_PATH" 2>&1)
+    SAFE_EXIT=$?
+
+    if echo "$SAFE_OUTPUT" | grep -q "all.*checks passed.*clear"; then
+        # Clean — append a brief note so Claude knows (CLEAN_LINE already has "vibe-safe: " prefix)
+        CLEAN_LINE=$(echo "$SAFE_OUTPUT" | grep "all.*checks passed.*clear" | head -1)
+        OUTPUT="$OUTPUT\n[$CLEAN_LINE]"
+    else
+        # Extract finding lines (each starts with "vibe-safe: ")
+        FINDINGS=$(echo "$SAFE_OUTPUT" | grep "^vibe-safe:" | grep -v "all.*checks passed.*clear")
+        if [ -n "$FINDINGS" ]; then
+            if [ "$SAFE_EXIT" -ne 0 ]; then
+                OUTPUT="$OUTPUT\n\n[vibe-safe STOP — do not push until fixed:\n$FINDINGS]"
+            else
+                OUTPUT="$OUTPUT\n\n[vibe-safe findings (fix before pushing):\n$FINDINGS]"
+            fi
+        fi
+    fi
 fi
 
 # Check for unstaged changes
@@ -31,8 +48,13 @@ if [ -n "$UNSTAGED" ]; then
     OUTPUT="$OUTPUT\n\n[Unsaved changes detected in: $(echo "$UNSTAGED" | tr '\n' ' ')]"
 fi
 
+# Remind Claude to write vibe-brain before final response
+if [ -d "$VIBE_DIR" ]; then
+    OUTPUT="$OUTPUT\n\n[REMINDER: Before your final response, update .vibe/sessions.md with what changed this session — what was built, what's fragile, what to test manually. Without this, the next session starts with no memory of today's work.]"
+fi
+
 if [ -n "$OUTPUT" ]; then
-    printf "$OUTPUT\n"
+    printf '%s\n' "$OUTPUT"
 fi
 
 exit 0

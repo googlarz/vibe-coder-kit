@@ -17,6 +17,34 @@ if [ -f "$VIBE_DIR/project.md" ]; then
     OUTPUT="$OUTPUT\n=== PROJECT CONTEXT ===\n$(cat "$VIBE_DIR/project.md")\n"
 fi
 
+if [ -f "$VIBE_DIR/conventions.md" ]; then
+    CONV_ITEMS=$(grep -c "^## " "$VIBE_DIR/conventions.md" 2>/dev/null || echo 0)
+    if [ "$CONV_ITEMS" -gt 0 ]; then
+        OUTPUT="$OUTPUT\n=== CONVENTIONS ($CONV_ITEMS) ===\n$(grep -A2 "^## " "$VIBE_DIR/conventions.md" | grep -v "^--$")\n"
+    fi
+fi
+
+if [ -f "$VIBE_DIR/bugs.md" ]; then
+    BUG_ITEMS=$(grep -c "^## " "$VIBE_DIR/bugs.md" 2>/dev/null || echo 0)
+    if [ "$BUG_ITEMS" -gt 0 ]; then
+        OUTPUT="$OUTPUT\n=== KNOWN BUGS ($BUG_ITEMS) ===\n$(cat "$VIBE_DIR/bugs.md" | grep -v "^#\|^<!--\|^-->")\n"
+    fi
+fi
+
+if [ -f "$VIBE_DIR/gotchas.md" ]; then
+    GOTCHA_ITEMS=$(grep -c "^## " "$VIBE_DIR/gotchas.md" 2>/dev/null || echo 0)
+    if [ "$GOTCHA_ITEMS" -gt 0 ]; then
+        OUTPUT="$OUTPUT\n=== GOTCHAS ($GOTCHA_ITEMS) ===\n$(cat "$VIBE_DIR/gotchas.md" | grep -v "^#\|^<!--\|^-->")\n"
+    fi
+fi
+
+if [ -f "$VIBE_DIR/decisions.md" ]; then
+    DEC_ITEMS=$(grep -c "^## " "$VIBE_DIR/decisions.md" 2>/dev/null || echo 0)
+    if [ "$DEC_ITEMS" -gt 0 ]; then
+        OUTPUT="$OUTPUT\n=== DECISIONS ($DEC_ITEMS) ===\n$(tail -30 "$VIBE_DIR/decisions.md")\n"
+    fi
+fi
+
 if [ -f "$VIBE_DIR/debt.md" ]; then
     DEBT_ITEMS=$(grep -c "^\-" "$VIBE_DIR/debt.md" 2>/dev/null || echo 0)
     if [ "$DEBT_ITEMS" -gt 0 ]; then
@@ -31,9 +59,18 @@ if [ -f "$VIBE_DIR/sessions.md" ]; then
         OUTPUT="$OUTPUT\n=== SESSION ALREADY STARTED TODAY ===\n[Scope was already set this session — show a lighter 'picking up from earlier' prompt, not the full 5 questions]\n"
     fi
     # Last 3 sessions
-    RECENT=$(awk '/^## /{count++} count<=3{print}' "$VIBE_DIR/sessions.md" 2>/dev/null)
+    RECENT=$(awk '/^## /{count++} count>0 && count<=3{print}' "$VIBE_DIR/sessions.md" 2>/dev/null)
     if [ -n "$RECENT" ]; then
         OUTPUT="$OUTPUT\n=== RECENT SESSIONS ===\n$RECENT\n"
+    fi
+
+    # Detect unlogged commits — commits that exist after the last session entry date
+    LAST_LOG_DATE=$(grep "^## " "$VIBE_DIR/sessions.md" 2>/dev/null | head -1 | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}')
+    if [ -n "$LAST_LOG_DATE" ] && [ "$LAST_LOG_DATE" != "$TODAY" ]; then
+        UNLOGGED=$(git log --oneline --after="$LAST_LOG_DATE" 2>/dev/null | wc -l | tr -d ' ')
+        if [ "$UNLOGGED" -gt 0 ]; then
+            OUTPUT="$OUTPUT\n=== SESSION LOG GAP ===\nLast session was logged on $LAST_LOG_DATE, but $UNLOGGED commit(s) since then have no session summary.\nRun /vibe-explain to document what was built.\n"
+        fi
     fi
 fi
 
@@ -73,7 +110,7 @@ elif [ -n "$DEPLOY_PLATFORM" ]; then
 fi
 
 if [ -n "$OUTPUT" ]; then
-    printf "$OUTPUT"
+    printf '%s' "$OUTPUT"
 fi
-
-echo '{"continue":true,"suppressOutput":false}'
+# exit 0 with text output = inject as context (continue, not suppressed)
+# exit 0 with no output = continue silently

@@ -83,11 +83,20 @@ Read these files if they exist:
 ### Step 2 — Infer what's missing
 
 If any of these files are missing or sparse, fill in what you can from the codebase:
-- Check `package.json`, `requirements.txt`, or equivalent for the stack
-- Check for `README.md` for setup instructions
-- Look at the project structure to infer architecture
 
-Note what you inferred versus what came from the vibe-brain files.
+```bash
+# Stack
+cat package.json 2>/dev/null | grep -E '"name"|"dependencies"' | head -20
+cat requirements.txt 2>/dev/null | head -20
+
+# Project structure (top-level only)
+ls -1 . | grep -v node_modules | grep -v ".git"
+
+# Entry points
+ls src/ app/ pages/ api/ 2>/dev/null
+```
+
+Note explicitly what you inferred from code versus what came from `.vibe/` files. Inferences can be wrong — the developer receiving this document needs to know what to verify.
 
 ### Step 3 — Assess what needs professional attention
 
@@ -220,7 +229,7 @@ If sessions file doesn't exist: "No session log available."]
 - [ ] **Performance** — [describe any known slow paths]
 - [ ] **Deployment** — [describe how deploys work; note if it's manual/fragile]
 
-[Remove items that don't apply. Add others that do.]
+[**Default: keep all items.** Only remove a line if you have specific evidence from the codebase that the concern genuinely doesn't apply — e.g. "no auth system present" is grounds to remove the Auth line; "I didn't see any Stripe files" is not evidence the payments concern doesn't apply (it may just not be implemented yet). When in doubt, keep the line. A developer would rather see a concern that turns out to be a non-issue than find a gap you quietly omitted. Add any concerns not on this list that are specific to this project.]
 
 ## How to Run Locally
 [If a README exists with setup instructions, summarize them here.
@@ -236,7 +245,7 @@ If not, infer from the codebase:]
 [If this can't be inferred: "Setup instructions not documented. Ask the original developer."]
 
 ## About This Project's Setup
-This project uses [vibe-skills](https://github.com/[vibe-skills-repo]) — a set of
+This project uses [vibe-skills](https://github.com/googlarz/vibe-skills) — a set of
 behavioral contracts and hooks for AI-assisted development. Key things to know:
 
 - `.vibe/` folder contains project context, decision log, debt log, and session history
@@ -250,8 +259,15 @@ When working with AI tools on this project, the behavioral baseline is active by
 
 ## Verification
 
-After producing either document, confirm:
+Before handing either document to anyone, show it to the user first:
 
+> "Before I send this — does this describe your project accurately? Is there anything wrong or missing?"
+
+This matters because you may have inferred things that are slightly off. The user is the final check.
+
+After that, confirm:
+
+- [ ] The document was reviewed and confirmed by the user before sending
 - [ ] The document could be handed to a developer who has never seen the project and they would know where to start
 - [ ] Error messages are copied verbatim (EMERGENCY) or stack is stated precisely (PLANNED)
 - [ ] Nothing is softened — risks, debt, and uncertainty are stated plainly

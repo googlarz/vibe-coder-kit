@@ -31,22 +31,22 @@ fi
 DESTRUCTIVE=false
 REASON=""
 
-if echo "$COMMAND" | grep -qiE "DROP\s+TABLE|DROP\s+DATABASE|DELETE\s+FROM\s+|TRUNCATE\s+TABLE"; then
+if echo "$COMMAND" | grep -qiE "DROP[[:space:]]+TABLE|DROP[[:space:]]+DATABASE|DELETE[[:space:]]+FROM[[:space:]]+|TRUNCATE[[:space:]]+(TABLE[[:space:]]+)?[a-zA-Z\"'\`]"; then
     DESTRUCTIVE=true
     REASON="SQL destructive operation"
 fi
 
-if echo "$COMMAND" | grep -qE "rm\s+-rf|rm\s+-fr"; then
+if echo "$COMMAND" | grep -qE "rm[[:space:]]+-rf|rm[[:space:]]+-fr|rm[[:space:]]+-r[[:space:]]+-f|rm[[:space:]]+-f[[:space:]]+-r|\\\\rm[[:space:]]+-rf"; then
     DESTRUCTIVE=true
     REASON="recursive file deletion"
 fi
 
-if echo "$COMMAND" | grep -qE "git\s+reset\s+--hard|git\s+clean\s+-f|git\s+push\s+.*--force|git\s+push\s+.*-f\b"; then
+if echo "$COMMAND" | grep -qE "git[[:space:]]+reset[[:space:]]+--hard|git[[:space:]]+clean[[:space:]]+-f|git[[:space:]]+push[[:space:]]+.*--(force|force-with-lease)|git[[:space:]]+push[[:space:]]+-f[[:space:]]|git[[:space:]]+push[[:space:]]+-f$"; then
     DESTRUCTIVE=true
     REASON="destructive git operation"
 fi
 
-if echo "$COMMAND" | grep -qE "DROP\s+COLUMN|RENAME\s+COLUMN|ALTER\s+TABLE.*DROP"; then
+if echo "$COMMAND" | grep -qE "DROP[[:space:]]+COLUMN|RENAME[[:space:]]+COLUMN|ALTER[[:space:]]+TABLE.*DROP"; then
     DESTRUCTIVE=true
     REASON="database schema change that removes data"
 fi
@@ -74,7 +74,7 @@ EOF
         cat <<EOF
 {
   "decision": "block",
-  "reason": "⚠️ BLOCKED — $REASON detected.\n\nCommand: $COMMAND\n\nBefore I run this:\n1. Do you have a save point? (if not, say 'vibe save' first)\n2. Confirm this is intentional\n\nThis cannot be undone."
+  "reason": "⚠️ BLOCKED — $REASON detected.\n\nCommand: $COMMAND\n\nBefore I run this:\n1. Do you have a checkpoint? If not: git add -A && git commit -m 'checkpoint'\n2. Confirm this is intentional — this cannot be undone."
 }
 EOF
     fi
@@ -83,8 +83,8 @@ fi
 
 # ── Package install detection ──────────────────────────────────────────────────
 
-if echo "$COMMAND" | grep -qE "^(npm install|npm i|yarn add|pnpm add|bun add|pip install|pip3 install)\s+"; then
-    PACKAGE=$(echo "$COMMAND" | sed -E 's/^(npm install|npm i|yarn add|pnpm add|bun add|pip install|pip3 install)\s+//' | awk '{print $1}' | tr -d '"'"'" )
+if echo "$COMMAND" | grep -qE "^(npm install|npm i|yarn add|pnpm add|bun add|pip install|pip3 install)[[:space:]]+"; then
+    PACKAGE=$(echo "$COMMAND" | sed -E 's/^(npm install|npm i|yarn add|pnpm add|bun add|pip install|pip3 install)[[:space:]]+//' | tr ' ' '\n' | grep -v '^-' | head -1 | sed 's/["\x27]//g')
 
     # Log the install to vibe-brain for session summary
     VIBE_DIR="$(pwd)/.vibe"

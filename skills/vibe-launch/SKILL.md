@@ -53,17 +53,21 @@ If there's a 🚨, stop here. Help the user fix it. Do not continue until Check 
 
 A surprising number of "launches" share a URL that returns a 404, shows a Vercel build error, or still points to `localhost`.
 
-**Ask the user for the live URL, then verify:**
+**Ask the user to verify in an incognito/private browser:**
 
-1. Attempt to fetch the URL and confirm it returns a 200-level response. If you can access the web, check it. If you can't, ask the user: "Can you open that URL in a private/incognito browser right now and confirm it loads?"
+> "Open this URL in a private browser window — not your regular browser where you're logged in. Does it load? What do you see?"
 
-2. Ask: "Is this using your production environment variables — not your local `.env`?" If they're on Vercel, that means the environment variables are set in the Vercel dashboard, not just in the local `.env` file.
+Incognito is important: your normal browser has cached versions and active sessions that can hide broken deployments.
+
+Then ask:
+
+2. "Is this using your production environment variables — not your local `.env`?" If they're on Vercel, the env vars need to be set in the Vercel dashboard, not just in the local `.env` file. A common failure: the app deploys but can't connect to anything because the keys are missing.
 
 3. If the app uses a database: "Is it pointing at the production database, not a local or test one?"
 
 **Result:**
-- ✅ **Live** — URL responds, production env confirmed
-- ⚠️ **Not confirmed** — URL unreachable or env variables not verified
+- ✅ **Live** — URL confirmed working in private browser, production env confirmed
+- ⚠️ **Not confirmed** — user couldn't verify, or env variables not checked
 
 If there's a ⚠️, help them resolve it before continuing.
 
@@ -77,17 +81,19 @@ The app might be "live" but broken in ways you haven't noticed because you've be
 
 > "What's the one thing a new user comes to your app to do? Describe it in one sentence."
 
-Then walk through it together, step by step, as a brand-new user:
+Then walk through it together, step by step, as a brand-new user. The user must do this test — you can't access the browser. Guide them:
 
-- If there's signup: can a new user actually sign up right now with a fresh email?
-- Can they complete the main action (whatever the one thing is)?
-- Does anything obviously break — blank pages, error messages, buttons that don't do anything?
+1. Open the live URL in an incognito window (not logged in, fresh state)
+2. If there's signup: try signing up with a fresh email right now
+3. Complete the main action from start to finish
+4. Check: any blank pages, error messages, or buttons that do nothing?
 
-Do this in a real browser if possible. Not the dev preview. The live URL.
+**Also ask:** "Open it on your phone. Does it look usable on a small screen?" Many vibecoders only test on desktop — a broken mobile layout on launch day is a common surprise.
 
 **Result:**
-- ✅ **Core flow works** — new user can sign up and complete the main action
-- ⚠️ **Issues found** — describe what broke; decide together if it's a blocker
+- ✅ **Core flow works** — new user can sign up and complete the main action; mobile looks usable
+- 🚨 **Core flow broken** — this is a launch blocker. Do not share the link until the main thing works. Help the user fix it, or if it's complex, suggest running `/vibe-oops`.
+- ⚠️ **Minor issues found** — something non-critical is broken (a secondary page, an edge case). State what it is and ask: "Is this something users will hit on their first visit? If yes, fix it first. If no, you can launch and fix it after."
 
 ---
 
@@ -104,7 +110,10 @@ Explain the options in plain English:
 - **Sentry** (free tier) catches runtime errors and sends you an email when something breaks
 - **UptimeRobot** (free) pings your URL every 5 minutes and emails you if it goes down
 
-If they have none of these, that's fine — this isn't a blocker. Just make sure they know.
+If they have none of these, this isn't a blocker — but UptimeRobot takes 2 minutes to set up and is free. Offer to walk them through it:
+> "Want to set this up right now? It takes 2 minutes and you'll never find out your app is down from an angry user again."
+
+If yes: **uptimerobot.com** → create free account → "Add New Monitor" → choose "HTTP(s)" → paste the live URL → leave everything else as defaults → "Create Monitor". Done. They'll get an email the moment the URL stops responding.
 
 **Result:**
 - ✅ **Has alerting** — some form of error tracking or uptime monitoring is in place

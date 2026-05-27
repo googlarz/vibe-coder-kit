@@ -56,11 +56,12 @@ If `.vibe/debt.md` doesn't exist, score as Green (no logged debt).
 Read `.vibe/sessions.md` if it exists. Look at the last 4–6 sessions.
 
 Look for:
+- **Recency** — When was the most recent session entry? If there are no entries in the last 7 days but git shows recent commits, the session log isn't being maintained — note this explicitly. No recency signal is not the same as Green.
 - **Fix loops** — Did a session fix something, only for a later session to fix it again, or say something broke because of the fix? That's a sign of a deeper problem.
 - **Area concentration** — Is the same file, page, or feature mentioned in 3+ sessions? Repeated attention to the same area often means the underlying structure is fragile.
 - **Session goals achieved** — Did the session "Test manually" section indicate things worked, or were there unresolved issues?
 
-If `.vibe/sessions.md` doesn't exist, score as Green (no signal either way).
+If `.vibe/sessions.md` doesn't exist or has no entries, score as Yellow (not Green) — missing session logs are a signal, not a neutral state. Note: "No session history available — can't assess momentum."
 
 **Scoring:**
 - 🟢 Green — Sessions are moving forward. Different areas. Fixes are holding.
@@ -77,15 +78,15 @@ Run the following checks from the project root:
 
 **File count check:**
 ```bash
-find . -name "*.js" -o -name "*.ts" -o -name "*.py" -o -name "*.jsx" -o -name "*.tsx" | grep -v node_modules | grep -v .git | wc -l
+find . \( -name "*.js" -o -name "*.ts" -o -name "*.py" -o -name "*.jsx" -o -name "*.tsx" \) | grep -v node_modules | grep -v .git | wc -l
 ```
-Note the count. Over 100 files is worth flagging; over 200 is a signal that complexity is high.
+Note the count. Scaffolded frameworks (Next.js, Rails, Django) start with 50–150 files before any custom code is written — factor that in. Over 200 *custom* files is worth flagging; over 400 total is a signal that complexity is high.
 
 **Copy-paste patterns:**
 ```bash
-find . -maxdepth 3 -name "*.js" -o -name "*.ts" -o -name "*.py" | grep -v node_modules | grep -v .git | sed 's/[0-9]//g' | sort | uniq -d
+find . -maxdepth 4 \( -name "*.js" -o -name "*.ts" -o -name "*.py" \) | grep -v node_modules | grep -v .git | xargs -I{} basename {} | grep -iE "(_old|_new|_copy|_bak|_backup|[0-9]\.js$|[0-9]\.ts$|[0-9]\.py$)" | sort
 ```
-Look for files with nearly identical names (e.g., `checkout.js`, `checkout2.js`, `checkout_new.js`). These often mean the same logic is duplicated in multiple places — a source of bugs.
+Look for files with suffixes like `_old`, `_new`, `_copy`, `_backup`, or names ending in a number (e.g., `checkout2.js`, `auth_new.ts`). These often mean the same logic is duplicated in multiple places — a source of bugs. Do NOT flag `.js` and `.ts` variants of the same name (e.g., `checkout.js` and `checkout.ts`) — these are expected in TypeScript projects.
 
 **TODO/FIXME count:**
 ```bash
@@ -100,9 +101,14 @@ find . -maxdepth 2 -name ".env" | grep -v node_modules
 If any `.env` files are found, check whether they appear in `.gitignore`. If `.gitignore` doesn't exist or doesn't list `.env`, flag this as a safety issue (report in Dimension 4, not here).
 
 **Scoring:**
-- 🟢 Green — Under 100 files, no obvious duplication, under 5 TODOs.
-- 🟡 Yellow — 100–200 files, or 5–15 TODOs, or 1–2 duplicated file patterns.
-- 🔴 Red — Over 200 files, or 15+ TODOs, or clear copy-paste duplication of important files (auth, payment, database).
+- 🟢 Green — Under 200 files, no obvious duplication, under 5 TODOs.
+- 🟡 Yellow — 200–400 files, or 5–15 TODOs, or 1–2 duplicated file patterns.
+- 🔴 Red — Over 400 files, or 15+ TODOs, or clear copy-paste duplication of important files (auth, payment, database).
+
+**Reading the output — what to focus on vs. ignore:**
+- **File count**: the raw number isn't meaningful alone. A scaffolded Next.js or Django project starts at 100–150 files before any custom code. Focus on whether the count seems high *relative to what was actually built*, not the absolute number.
+- **Copy-paste hits**: only flag if they match critical-area files. `auth_new.ts`, `checkout2.js`, `payment_backup.py` are signals. `config2.js`, `utils_old.js` are noise.
+- **TODO/FIXME count**: filter mentally for location. 15 TODOs in test files is fine. 2 TODOs in `stripe.js` or `auth.ts` is a signal worth surfacing.
 
 **Plain-English summary:** One sentence on the most notable signal. Example: "There are 3 files with similar names in the payment folder — this may mean the same logic is in multiple places, which makes bugs harder to fix."
 
@@ -147,7 +153,12 @@ Flag any hits that look like real values (not placeholder text like `your-api-ke
 
 ### Step 6 — Overall Score and "Need a Real Developer?" Assessment
 
-**Overall score:** Take the worst single dimension score. If two or more dimensions are Yellow, the overall is Yellow. If any dimension is Red, the overall is Red.
+**Overall score:**
+- 🟢 Green — all dimensions Green
+- 🟡 Yellow — any dimension is Yellow, OR Safety alone is Red (no git / no recent commits — serious but doesn't mean the project is broken)
+- 🔴 Red — Debt or Code Signals is Red, OR two or more dimensions are Red for any reason
+
+This matters: a project with no git set up (Safety Red) but clean debt, good momentum, and no code issues is Yellow — not Red. Treating "no git" as overall Red will cause unnecessary panic. Reserve Red for signals that indicate the project itself is fragile.
 
 **"Need a real developer?" assessment:**
 
@@ -171,6 +182,9 @@ Say **"Yes — before you go further"** (be specific about what needs attention)
 - The same class of bug has come up 3+ times
 
 Be specific. Don't just say "you might want a developer." Say what they should look at. Example: "You should have a developer review the authentication system before you add more users — there are 3 sessions mentioning login problems and one debt item flagged as high risk in that area."
+
+When the answer is "Yes — before you go further", say so and then immediately offer:
+> "Want me to generate a handoff document a developer can act on? Run `/vibe-handoff` and I'll put it together."
 
 ---
 

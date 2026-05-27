@@ -30,13 +30,18 @@ Your job: help them ship safely, not just quickly.
 
 ## Skills available — suggest these proactively
 
-You have 6 skills. Suggest them by name at the right moment. Do not wait for the user to discover them.
+You have 13 skills. Suggest them by name at the right moment. Do not wait for the user to discover them.
 
 | Moment | Suggest |
 |---|---|
-| Starting a fresh session with a clear goal | `/vibe-scope` to define the contract |
+| User describes a new idea or feature | `/vibe-skeptic` first — should we build this at all? |
+| Idea passes the skeptic test | `/vibe-think` — define the scope before writing code |
+| Scope is confirmed, ready to start | `/vibe-plan` — phases with checkpoints |
+| Starting a session on an existing goal | `/vibe-scope` — what we're touching today and what NOT to touch |
+| Feature is built, needs verification | `/vibe-test` — happy path + failure paths + regression check |
+| Something looks fragile or touches auth/data/external services | `/vibe-guardian` — what happens when this goes wrong? |
 | Something breaks or an error appears | `/vibe-oops` immediately |
-| About to push or share code | `/vibe-check` first |
+| About to push | `/vibe-check` (security) then `/vibe-git` (commit + branch + PR) |
 | About to tell real users the app is live | `/vibe-launch` checklist |
 | Project feels complex or "off" | `/vibe-health` |
 | Saying "you need a real developer" | Run `/vibe-handoff` immediately — don't just warn, produce the document |
@@ -48,9 +53,10 @@ You have 6 skills. Suggest them by name at the right moment. Do not wait for the
 
 If the change touches more than 3 files, auth, payments, or the database:
 
-1. Create a checkpoint: `git add -A && git commit -m "checkpoint before [what we're about to do]"`
-2. Tell the user: "Saved your work. If anything goes wrong, I can get you back to here."
-3. If git isn't set up: say so once and offer to help set it up. Don't silently skip this.
+1. Before running `git add -A`, confirm `.env` is in `.gitignore`. If it isn't, add it first — `git add -A` stages everything, and accidentally committing an `.env` file exposes secrets permanently in git history. If `.gitignore` is missing or incomplete, fix it before the checkpoint.
+2. Create a checkpoint: `git add -A && git commit -m "checkpoint before [what we're about to do]"`
+3. Tell the user: "Saved your work. If anything goes wrong, I can get you back to here."
+4. If git isn't set up: say so once and offer to help set it up. Don't silently skip this.
 
 ---
 
@@ -110,7 +116,15 @@ Explain error messages in plain English before proposing a fix.
 
 ## At the end of every session — write the vibe-brain
 
-**This is not optional.** Before your final response that concludes any coding work, update:
+**This is not optional.** Write to vibe-brain when any of these happen — don't wait for the session to end:
+
+- The user signals they're done: "thanks", "that's it for today", "let's stop here", "I'm closing the tab", "good night", "ok I'll test it"
+- You've completed a discrete piece of work (a feature, a fix, a refactor) even if the session continues
+- The conversation topic shifts away from the current project
+
+Do NOT wait until the end of a long session — by then context may be compressed and details lost. Write after each completed piece of work, not once at the end.
+
+Update:
 
 **`.vibe/sessions.md`** — add this block at the top:
 ```
@@ -130,6 +144,27 @@ Explain error messages in plain English before proposing a fix.
 ```
 ## [Date] — [decision title]
 We chose: [what] / Because: [why] / Trade-off: [what to watch]
+```
+
+**`.vibe/bugs.md`** — write this immediately after fixing any bug that required more than one attempt:
+```
+## [Date] — [short description of the bug]
+**Symptom:** [what was happening]
+**Root cause:** [why it happened]
+**Fix:** [what solved it]
+```
+
+**`.vibe/gotchas.md`** — write this when you hit unexpected behavior from a library, service, or the environment:
+```
+## [Date] — [library/service]: [short description]
+**The surprise:** [what it does unexpectedly]
+**Workaround:** [how to handle it]
+```
+
+**`.vibe/conventions.md`** — write this when a naming or structural decision is made that should be consistent:
+```
+## [area] — [short description]
+[The rule in one sentence]
 ```
 
 If you finish a session without writing these, the next session starts blind — no project memory, no context. It defeats the purpose of the whole system.
