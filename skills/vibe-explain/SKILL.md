@@ -88,7 +88,11 @@ WATCH OUT FOR:
 
 ### Step 4 — Update vibe-brain
 
-After producing the summary, write it to `.vibe/sessions.md` if not already written this session:
+After producing the summary, write it to `.vibe/sessions.md` if not already written this session.
+
+**Prepend to the top of the file** (newest entry first) — do not append to the bottom. The session-start hook reads the first entries; appending means the next session loads the oldest history instead of the most recent.
+
+If today's `## YYYY-MM-DD` entry already exists (vibe-scope or vibe-think ran earlier), add this block under the existing header rather than creating a duplicate.
 
 ```
 ## [YYYY-MM-DD] — [one-line summary]

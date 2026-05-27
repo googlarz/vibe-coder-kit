@@ -63,18 +63,21 @@ if $DESTRUCTIVE; then
         fi
     done
 
+    # Escape command for safe JSON embedding (escape backslashes then double-quotes)
+    SAFE_CMD=$(printf '%s' "$COMMAND" | sed 's/\\/\\\\/g; s/"/\\"/g')
+
     if [ -n "$PROD_ENV" ]; then
         cat <<EOF
 {
   "decision": "block",
-  "reason": "🚨 BLOCKED — $REASON detected in a PRODUCTION environment ($PROD_ENV).\n\nCommand: $COMMAND\n\nThis could permanently destroy real user data. To proceed:\n1. Confirm you have a database backup\n2. Explicitly tell me this is intentional and you accept the risk\n3. I will run it only after your explicit confirmation"
+  "reason": "🚨 BLOCKED — $REASON detected in a PRODUCTION environment ($PROD_ENV).\n\nCommand: $SAFE_CMD\n\nThis could permanently destroy real user data. To proceed:\n1. Confirm you have a database backup\n2. Explicitly tell me this is intentional and you accept the risk\n3. I will run it only after your explicit confirmation"
 }
 EOF
     else
         cat <<EOF
 {
   "decision": "block",
-  "reason": "⚠️ BLOCKED — $REASON detected.\n\nCommand: $COMMAND\n\nBefore I run this:\n1. Do you have a checkpoint? If not: git add -A && git commit -m 'checkpoint'\n2. Confirm this is intentional — this cannot be undone."
+  "reason": "⚠️ BLOCKED — $REASON detected.\n\nCommand: $SAFE_CMD\n\nBefore I run this:\n1. Do you have a checkpoint? If not: git add -A && git commit -m 'checkpoint'\n2. Confirm this is intentional — this cannot be undone."
 }
 EOF
     fi

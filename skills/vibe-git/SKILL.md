@@ -23,6 +23,11 @@ Clean git workflow after a session. "update", "fix", and "changes" in git histor
 git branch --show-current
 ```
 
+If the command fails or shows no output: **stop**. This project doesn't have git set up yet. Say:
+> "This project doesn't have git set up yet. Want me to initialize it? Takes one command."
+
+If yes: `git init && git add -A && git commit -m "initial commit"`, then continue from Step 2.
+
 If on `main` or `master`: **stop**. Do not commit directly to main.
 
 ```bash

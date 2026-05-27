@@ -284,7 +284,7 @@ echo "  bash $INSTALL_DIR/test-hooks.sh"
 echo ""
 if [ -z "$PROJECT_DIR" ]; then
     echo "  To set up a project:"
-    echo "  cd /your/project && bash $INSTALL_DIR/../vibe-coder-kit/install.sh --project"
+    echo "  cd /your/project && bash $VIBE_SKILLS_DIR/install.sh --project"
     echo "  (or: bash $VIBE_SKILLS_DIR/install.sh --project /your/project)"
     echo ""
 fi
