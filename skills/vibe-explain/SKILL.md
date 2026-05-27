@@ -53,24 +53,23 @@ If multiple files changed in the same area, write **one bullet** for the area �
 
 ### Step 3 — Produce the plain-English summary
 
-Write this as a natural summary, not a formatted report. Talk to the user like you're wrapping up a session together.
+Write exactly three sentences. No more. No headers, no bullet points, no "Here's a summary of..." opener.
 
-Start with what was built:
-> "Here's what we got done today: [1-3 things in plain English — what users can now do that they couldn't before]."
+**Sentence 1 — Built:** What users can now do that they couldn't before.
+> "We added [X] — [what it lets the user do in plain English]."
 
-If there were invisible changes (config, dependencies, security fixes), mention them briefly:
-> "Under the hood: [1-2 things — what changed that users won't see directly]."
+**Sentence 2 — Try:** One specific action to verify right now, with the expected result.
+> "Try [exact action] — you should see [expected result]."
 
-Then the specific things to verify — make them actionable, not a checklist:
-> "Before you close the tab: [specific action]. You should see [expected result]. Also worth trying: [second thing]."
+**Sentence 3 — Watch:** One thing to keep an eye on. If nothing is fragile or untested, say so.
+> "Keep an eye on [specific concern]." — or — "Nothing fragile — this session was clean."
 
-If anything's fragile or untested, say it plainly — don't soften it, but don't alarm:
-> "One thing to keep in mind: [specific concern]. It should be fine, but keep an eye on it."
+If there were multiple changes, still write one sentence per slot. Pick the most important thing for each. "We added email notifications and fixed the login timeout" is fine — don't split into sub-bullets.
 
-If everything looks clean:
-> "Nothing to worry about — this session was clean."
+If there were only invisible changes (config, deps, security):
+> "Under the hood we [what changed]. Try [any visible side-effect to verify]. Nothing fragile — this session was clean."
 
-**Keep it short.** A good session summary is 4-6 sentences. If you find yourself writing more, cut it.
+**The goal:** someone who wasn't in the session reads three sentences and knows exactly what happened, what to click, and what to watch. If they need more, they'll ask.
 
 ### Step 4 — Update vibe-brain
 

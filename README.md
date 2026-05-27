@@ -41,7 +41,7 @@ No invocation needed. These run on every Claude Code session.
 | Hook | When | What it does |
 |---|---|---|
 | **Session start** | Every new conversation | Reads `.vibe/project.md` and `.vibe/sessions.md`. Surfaces recent history. Asks what you're building today and what NOT to touch. Warns if a production environment is detected. |
-| **Before bash commands** | Any shell command | Blocks commands that delete databases, wipe files, or overwrite your code history — explains why before stopping. Explains every package before installing it. Requires confirmation before anything that can't be undone. |
+| **Before bash commands** | Any shell command | Blocks commands that delete databases, wipe files, or overwrite your code history — explains why before stopping. Enforces session scope (areas you said not to touch today). Explains every package before installing it. Requires confirmation before anything that can't be undone. |
 | **Session stop** | When Claude finishes | Runs vibe-safe scan. Surfaces findings before the final response. Reminds Claude to update `.vibe/sessions.md`. |
 | **CLAUDE.md baseline** | Always active | Environment checks before DB ops. Git checkpoints before big changes. Plain-English risk explanations. The signal to escalate to a real developer. |
 
@@ -61,7 +61,7 @@ No invocation needed. These run on every Claude Code session.
 
 | Skill | When to run |
 |---|---|
-| `/vibe-scope` | Start of session — defines what we're working on today and what NOT to touch. Creates a checkpoint. |
+| `/vibe-scope` | Start of session — defines what we're working on today and what NOT to touch. Creates a checkpoint. Writes a scope file so the hook can enforce it automatically for the rest of the session. |
 | `/vibe-test` | Feature is built — structured verification: happy path, failure paths, edge cases, regression check. |
 | `/vibe-guardian` | Anything that touches user data, auth, or external services — reads the actual code and finds the gaps Claude skipped: error handling, auth enforcement, edge cases, data assumptions. |
 | `/vibe-oops` | Something broke — diagnoses in plain English, three options: fix it, undo it, escalate. |
@@ -89,7 +89,7 @@ A few examples of how this shows up in practice:
 
 **`/vibe-test`** doesn't output a report. It walks you through testing the main thing first — "can you try this now?" — then shares what it found and ends with one verdict: safe to push, fix this first, or don't push yet.
 
-**`/vibe-explain`** wraps up a session in 4-6 sentences: what was built, what to try before you close the tab, and one thing to keep an eye on. No ALL-CAPS headers, no formatted blocks.
+**`/vibe-explain`** wraps up a session in exactly three sentences: what was built, what to try before you close the tab, and one thing to keep an eye on (or "nothing flagged"). No headers, no lists.
 
 **`/vibe-skeptic`** thinks out loud with you. If the idea needs validation first, it writes a concrete experiment: hypothesis, what to do today, what "yes, build it" looks like, and a timeframe in days not weeks.
 
@@ -113,6 +113,8 @@ Every project gets a `.vibe/` directory. Claude writes to it automatically durin
 ```
 
 At the start of every session, Claude reads these files silently. No re-explaining the project. No rebuilding context. The history, the debt, the bugs, the conventions — already there.
+
+`/vibe-scope` also writes a `.vibe/.scope` file — a machine-readable contract that tells the pre-tool hook which areas are off-limits today. If a command touches something you said not to touch, it gets blocked before it runs.
 
 **Should you commit `.vibe/`?** The installer asks. Commit it if you want project memory to travel with the code (good for teams or backup). Gitignore it if you want it private. Either works.
 
@@ -142,6 +144,19 @@ vibe-safe is installed as part of the `install.sh` flow. To install it separatel
 ```bash
 git clone https://github.com/googlarz/vibe-safe ~/.claude/skills/vibe-safe
 ```
+
+---
+
+## Verify your install
+
+After installing, run this to confirm everything is wired up:
+
+```bash
+bash ~/.claude/vibe-coder-kit/verify.sh
+bash ~/.claude/vibe-coder-kit/verify.sh --project   # also check the current project
+```
+
+This checks that all three hooks are installed, registered in Claude Code settings, and (with `--project`) that CLAUDE.md and all seven `.vibe/` template files are present.
 
 ---
 

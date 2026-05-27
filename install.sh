@@ -62,6 +62,8 @@ cp "$VIBE_SKILLS_DIR/test-hooks.sh" "$INSTALL_DIR/test-hooks.sh"
 chmod +x "$INSTALL_DIR/test-hooks.sh"
 cp "$VIBE_SKILLS_DIR/install.sh" "$INSTALL_DIR/install.sh"
 chmod +x "$INSTALL_DIR/install.sh"
+cp "$VIBE_SKILLS_DIR/verify.sh" "$INSTALL_DIR/verify.sh"
+chmod +x "$INSTALL_DIR/verify.sh"
 echo -e "  ${GREEN}✓${NC} Hooks installed to $INSTALL_DIR/hooks/"
 
 # ── 3. Copy skills ─────────────────────────────────────────────────────────────
@@ -281,8 +283,8 @@ echo "  During session:   /vibe-scope    /vibe-test     /vibe-guardian  /vibe-oo
 echo "  Shipping:         /vibe-check    /vibe-git      /vibe-launch"
 echo "                    /vibe-health   /vibe-handoff  /vibe-explain"
 echo ""
-echo "  Verify hooks are working (run this now):"
-echo "  bash $INSTALL_DIR/test-hooks.sh"
+echo "  Verify everything is wired up (run this now):"
+echo "  bash $INSTALL_DIR/verify.sh"
 echo ""
 if [ -z "$PROJECT_DIR" ]; then
     echo "  To set up a project:"

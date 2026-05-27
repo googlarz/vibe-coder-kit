@@ -73,25 +73,18 @@ List adjacent features and ask the user to spot-check them — one action each. 
 
 ### Step 5 — Verdict
 
-Don't output a structured report block. Summarize conversationally, then give a clear verdict.
+Write exactly three sentences. No report blocks. No "VERDICT:" labels.
 
-Start with what worked:
-> "Good news — the main thing works: [what the happy path did]. I also tried [failure scenario] and [result]."
+**Sentence 1 — What worked:** The happy path result plus any failure scenario that passed.
+> "[Happy path] worked. [Failure scenario] handled correctly too." — or — "[Happy path] worked. I couldn't test [scenario] — worth checking manually."
 
-Then flag anything that didn't pass or wasn't tested:
-> "One thing I'm not sure about: [scenario]. Worth checking before you push."
+**Sentence 2 — What to check:** One specific thing to verify before pushing, or confirm everything passed.
+> "Check [specific thing] before you push." — or — "Everything passed — nothing to flag."
 
-If something broke:
-> "Found a problem: [what broke and what it means for users]. We should fix this before pushing."
+**Sentence 3 — Next step:** One of three verdicts, no hedging.
+> "Run /vibe-check and then /vibe-git when you're ready." — or — "Fix [specific thing] first, then come back." — or — "Don't push yet — [what's broken] needs a fix first. Want me to handle it?"
 
-Then name the nearby features check result:
-> "I didn't change [adjacent feature] but it's worth a quick click to confirm it still works."
-
-End with one clear verdict — no hedging:
-
-- **Everything passed:** "Looks good. Run /vibe-check and then /vibe-git when you're ready."
-- **Minor gaps:** "Safe to push, but check [specific thing] first."
-- **Real problems:** "Don't push yet — [specific thing] is broken. Want me to fix it?"
+One verdict. One next step. Done.
 
 ### Step 6 — Automated test suggestion (optional)
 

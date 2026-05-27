@@ -107,7 +107,17 @@ Do not proceed until you have a specific, one-sentence scope. If after two clari
 
 After collecting all 5 answers, create `.vibe/sessions.md` if it doesn't exist (create the `.vibe/` directory too). **Prepend** (add to the top of the file, not the bottom) — the session-start hook reads the first entry to detect "session already started today."
 
-Write this block to the file:
+Also write `.vibe/.scope` (machine-readable scope for the pre-tool.sh hook — this enables automatic scope enforcement):
+
+```
+NOT_TOUCHING=<comma-separated list from Question 2, e.g. "payments,login,homepage">
+SCOPE=<one-line from Question 1>
+DATE=<YYYY-MM-DD>
+```
+
+If Question 2 was "nothing" or vague, write an empty `NOT_TOUCHING=`. This file is read by the pre-tool hook on every bash command — if the command string matches anything in NOT_TOUCHING, it gets flagged before executing.
+
+Write this block to sessions.md:
 
 ```
 ## [YYYY-MM-DD] — [one-sentence scope: what we're doing today]

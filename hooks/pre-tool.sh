@@ -102,4 +102,29 @@ EOF
     fi
 fi
 
+# ── Scope enforcement ─────────────────────────────────────────────────────────
+
+SCOPE_FILE="$(pwd)/.vibe/.scope"
+if [ -f "$SCOPE_FILE" ]; then
+    NOT_TOUCHING=$(grep "^NOT_TOUCHING=" "$SCOPE_FILE" 2>/dev/null | cut -d= -f2-)
+    SCOPE_DESC=$(grep "^SCOPE=" "$SCOPE_FILE" 2>/dev/null | cut -d= -f2-)
+    if [ -n "$NOT_TOUCHING" ]; then
+        IFS=',' read -ra PROTECTED <<< "$NOT_TOUCHING"
+        for area in "${PROTECTED[@]}"; do
+            area=$(echo "$area" | tr -d '[:space:]')
+            [ -z "$area" ] && continue
+            if echo "$COMMAND" | grep -qi "$area"; then
+                SAFE_CMD=$(printf '%s' "$COMMAND" | sed 's/\\/\\\\/g; s/"/\\"/g')
+                cat <<EOF
+{
+  "decision": "block",
+  "reason": "⛔ SCOPE — this command touches \"$area\" which we agreed not to touch today.\n\nToday's scope: $SCOPE_DESC\nProtected: $NOT_TOUCHING\n\nCommand: $SAFE_CMD\n\nIf this is intentional, say \"yes proceed\" and I'll run it. Or say \"add to today's scope\" to update the contract."
+}
+EOF
+                exit 1
+            fi
+        done
+    fi
+fi
+
 exit 0

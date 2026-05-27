@@ -116,6 +116,10 @@ elif [ -n "$DEPLOY_PLATFORM" ]; then
     OUTPUT="${OUTPUT}${NL}=== DEPLOYMENT DETECTED ===${NL}This project is configured for $DEPLOY_PLATFORM. Confirm which environment (local vs live) before any database operations.${NL}"
 fi
 
+RULES="${NL}=== SESSION RULES ===${NL}1. One thing at a time — don't front-load multiple findings or options${NL}2. Ask one question, wait for the answer, then ask the next${NL}3. Write to .vibe/ after every completed piece of work — not at end of session${NL}4. Before touching more than 3 files: create a git checkpoint first${NL}"
+
+OUTPUT="${OUTPUT}${RULES}"
+
 if [ -n "$OUTPUT" ]; then
     # Prefix with a sentinel line so Claude Code never mistakes the output for a JSON control directive,
     # even if a vibe-brain file (e.g. project.md) happens to start with '{'.
