@@ -43,11 +43,15 @@ For each `vibe-safe: [description]` line, strip the `vibe-safe: ` prefix and mat
 
 **If vibe-safe is not available:** Run the inline checks (see section below), then translate each finding.
 
-### Step 3 — First-time check
+### Step 3 — .gitignore check (always)
 
-If no `.vibe/.check-history` file exists, this is a first-time scan. Also check:
+On every scan, not just first-time:
 - Does `.gitignore` exist?
 - Are `.env`, `node_modules`, `.DS_Store`, `*.log`, `*.sqlite`, `*.db` listed in it?
+
+A `.gitignore` entry can be accidentally removed in any commit. Check every time.
+
+If no `.vibe/.check-history` file exists, this is a first-time scan — note it in the report.
 
 ### Step 4 — Report findings
 

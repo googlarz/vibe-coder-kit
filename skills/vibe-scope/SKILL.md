@@ -112,7 +112,7 @@ Also write `.vibe/.scope` (machine-readable scope for the pre-tool.sh hook — t
 ```
 NOT_TOUCHING=<comma-separated list from Question 2, e.g. "payments,login,homepage">
 SCOPE=<one-line from Question 1>
-DATE=<YYYY-MM-DD>
+DATE=<today's actual date as YYYY-MM-DD — write the literal date, e.g. 2026-05-27>
 ```
 
 If Question 2 was "nothing" or vague, write an empty `NOT_TOUCHING=`. This file is read by the pre-tool hook on every bash command — if the command string matches anything in NOT_TOUCHING, it gets flagged before executing.

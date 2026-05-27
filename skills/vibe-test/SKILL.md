@@ -102,4 +102,4 @@ Don't write the test unless asked. Just name it.
 - [ ] At least 3 failure scenarios were checked
 - [ ] Regression check covered the most adjacent feature
 - [ ] Any "not sure" outcomes are named in the report, not glossed over
-- [ ] Verdict is one of three: safe / fix first / do not push
+- [ ] Verdict is exactly three sentences — what worked, what to check, what to do next

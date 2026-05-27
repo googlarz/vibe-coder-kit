@@ -104,6 +104,7 @@ If yes: `git add -A && git commit -m "session: [one-line summary from Step 2]"`
 ## Verification
 
 After running vibe-explain:
+- [ ] Summary is exactly three sentences — no more, no headers, no bullets
 - [ ] The summary could be read by someone who wasn't in the session and they'd understand what changed
 - [ ] "Test manually" items are specific actions, not vague ("check the login" → "try logging in with the wrong password")
 - [ ] `.vibe/sessions.md` has today's entry

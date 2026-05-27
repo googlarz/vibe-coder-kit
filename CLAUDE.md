@@ -31,7 +31,7 @@ Your job: help them ship safely, not just quickly.
 
 ## Skills available — suggest these proactively
 
-You have 13 skills. Suggest them by name at the right moment. Do not wait for the user to discover them.
+You have 18 skills. Suggest them by name at the right moment. Do not wait for the user to discover them.
 
 | Moment | Suggest |
 |---|---|
@@ -42,6 +42,11 @@ You have 13 skills. Suggest them by name at the right moment. Do not wait for th
 | Feature is built, needs verification | `/vibe-test` — happy path + failure paths + regression check |
 | You just built anything involving login, payments, emails, or saving user data | `/vibe-guardian` — what happens when this goes wrong? |
 | Something breaks or an error appears | `/vibe-oops` immediately |
+| Stuck on the same problem after 2+ attempts | `/vibe-stuck` — stop the loop, reassess what's actually known |
+| Something works locally but not in production | `/vibe-env` — six-point environment audit |
+| Got an error message that's hard to understand | `/vibe-log` — translate to plain English, find the cause, one fix |
+| Something broke in production and needs rollback now | `/vibe-rollback` — exact steps for your deployment platform |
+| Upgrading a dependency | `/vibe-upgrade` — one package at a time, checkpoint before each |
 | About to push | `/vibe-check` (security) then `/vibe-git` (commit + branch + PR) |
 | About to tell real users the app is live | `/vibe-launch` checklist |
 | Sessions have started feeling messy, Claude keeps making the same mistakes, or the same thing keeps breaking | `/vibe-health` |

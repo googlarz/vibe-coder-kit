@@ -27,7 +27,8 @@ This isn't a checklist to read through. It's a code review grounded in the actua
 Don't go off memory or session notes. Read the actual code first.
 
 ```bash
-git diff --name-only HEAD 2>/dev/null || git diff --name-only HEAD~1 2>/dev/null
+git status --short 2>/dev/null
+git diff --name-only HEAD~1 HEAD 2>/dev/null
 ```
 
 Read the changed files. Focus on:

@@ -35,7 +35,7 @@ This is the only hard blocker. A leaked API key or exposed database password can
 
 **Do all three:**
 
-1. **Check for exposed secrets in the codebase.** If `vibe-check` is available, run it. Otherwise, scan for common patterns: files containing `sk-`, `AIza`, `AKIA`, `Bearer `, database connection strings with passwords, or anything that looks like `password=`, `secret=`, `api_key=` with a real value next to it.
+1. **Check for exposed secrets in the codebase.** Run `/vibe-check`. If vibe-check isn't set up yet, scan manually for common patterns: files containing `sk-`, `AIza`, `AKIA`, `Bearer `, database connection strings with passwords, or anything that looks like `password=`, `secret=`, `api_key=` with a real value next to it.
 
 2. **Confirm `.env` is in `.gitignore`.** Run: `cat .gitignore | grep .env` or ask the user to check. If `.env` is not listed there, add it before doing anything else.
 

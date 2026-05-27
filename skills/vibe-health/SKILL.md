@@ -208,7 +208,7 @@ Top things to watch:
 2. [second most important item]
 3. [third most important item, or "Nothing else flagged" if only 2]
 
-Need a real developer? [Direct answer, 1–2 sentences]
+Need a real developer? [Direct answer, 1–2 sentences. If yes: "Run /vibe-handoff and I'll put together a document a developer can act on."]
 ─────────────────────────────────────
 ```
 

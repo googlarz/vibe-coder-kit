@@ -193,7 +193,7 @@ Generated: [today's date]
 (prototype / MVP / in production with X users). Be honest about maturity.]
 
 ## Stack
-[From .vibe/project.md or inferred from codebase:]
+[From .vibe/project.md if available; otherwise inferred from codebase — note "[inferred from codebase, not from project log]" if project.md was missing.]
 - Language/Framework: [e.g. Next.js 14, Rails 7, Django 4]
 - Database: [e.g. PostgreSQL via Supabase, SQLite]
 - Auth: [e.g. NextAuth with Google, Clerk, custom JWT]
@@ -235,8 +235,7 @@ If sessions file doesn't exist: "No session log available."]
 [**Default: keep all items.** Only remove a line if you have specific evidence from the codebase that the concern genuinely doesn't apply — e.g. "no auth system present" is grounds to remove the Auth line; "I didn't see any Stripe files" is not evidence the payments concern doesn't apply (it may just not be implemented yet). When in doubt, keep the line. A developer would rather see a concern that turns out to be a non-issue than find a gap you quietly omitted. Add any concerns not on this list that are specific to this project.]
 
 ## How to Run Locally
-[If a README exists with setup instructions, summarize them here.
-If not, infer from the codebase:]
+[If a README exists with setup instructions, summarize them here. If not, infer from the codebase and note "[inferred from codebase, not from README]".]
 
 1. Clone the repo
 2. Copy `.env.example` to `.env` and fill in: [list required env vars]

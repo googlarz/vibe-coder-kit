@@ -92,7 +92,7 @@ git add -A
 git commit -m "[drafted message]"
 ```
 
-Confirm `.env` is not staged before running `git add -A`. If it could be:
+Always unstage `.env` after `git add -A` — even if you think it's in `.gitignore`, this is a safe no-op when it's not staged:
 ```bash
 git add -A
 git restore --staged .env 2>/dev/null

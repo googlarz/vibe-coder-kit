@@ -127,4 +127,5 @@ After running vibe-plan:
 - [ ] Highest-risk phase is named with a hint for what to do if it fails
 - [ ] Git is set up — or user knows it isn't and consequences are named
 - [ ] Plan is saved to `.vibe/sessions.md`
+- [ ] User knows the exit path: run `/vibe-check` then `/vibe-git` after the final phase
 - [ ] `.vibe/` knowledge files were checked for related prior bugs/gotchas

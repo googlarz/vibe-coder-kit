@@ -89,9 +89,9 @@ Let them correct anything. Then give your honest take — not as a verdict, as a
 
 Affirm specifically — not "sounds good" but "this makes sense because [real users + real friction + clear urgency]." Name the one risk to watch:
 
-> "I think this is worth building. The main thing to watch is [biggest risk]. Want to scope it out with /vibe-think? I can carry what we just figured out into that conversation."
+> "I think this is worth building. The main thing to watch is [biggest risk]. Want to scope it out with /vibe-think?"
 
-When handing off to /vibe-think, pass through: the idea as refined, who it's for, what problem it solves, and the key risk named here.
+When handing off to /vibe-think, explicitly summarize: the idea as refined, who it's for, what problem it solves, and the key risk named here. Don't assume context carries — write it out.
 
 ---
 
@@ -131,7 +131,7 @@ Often the right idea is one layer below the proposed feature. Help them find it.
 
 Never end without a specific next step. One of:
 
-- "Run /vibe-think — I'll carry what we figured out into the scoping conversation."
+- "Run /vibe-think — here's what we figured out: [idea as refined, who it's for, key risk]. Paste that in when you start."
 - "Run [the experiment we designed]. Come back when you have the signal."
 - "Tell me about [other thing on the list] — that one sounds more urgent."
 

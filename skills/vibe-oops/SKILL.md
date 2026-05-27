@@ -3,6 +3,8 @@ name: vibe-oops
 description: Recovery protocol when things break — diagnose first, then exactly three options: fix it, undo it, or get help.
 ---
 
+# vibe-oops
+
 ## Overview
 
 Something broke. That's okay. The worst thing you can do right now is start trying random fixes.
@@ -195,6 +197,13 @@ After a fix is applied, confirm it worked before declaring done:
 1. Ask the user to test the specific thing that was broken
 2. Ask them to test one other thing nearby (to check for side effects)
 3. Create a checkpoint: `git add -A && git commit -m "fix: [what was fixed]"`
+4. Write to `.vibe/bugs.md` if the fix required more than one attempt:
+   ```
+   ## [Date] — [short description of the bug]
+   **Symptom:** [what was happening]
+   **Root cause:** [why it happened]
+   **Fix:** [what solved it]
+   ```
 
 Only then: "Looks like that fixed it."
 
