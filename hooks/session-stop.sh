@@ -4,6 +4,7 @@
 
 VIBE_DIR="$(pwd)/.vibe"
 
+NL=$'\n'
 OUTPUT=""
 
 # Run vibe-safe if installed
@@ -28,15 +29,15 @@ if [ -n "$VIBE_SAFE_PATH" ]; then
     if echo "$SAFE_OUTPUT" | grep -q "all.*checks passed.*clear"; then
         # Clean — append a brief note so Claude knows (CLEAN_LINE already has "vibe-safe: " prefix)
         CLEAN_LINE=$(echo "$SAFE_OUTPUT" | grep "all.*checks passed.*clear" | head -1)
-        OUTPUT="$OUTPUT\n[$CLEAN_LINE]"
+        OUTPUT="${OUTPUT}${NL}[$CLEAN_LINE]"
     else
         # Extract finding lines (each starts with "vibe-safe: ")
         FINDINGS=$(echo "$SAFE_OUTPUT" | grep "^vibe-safe:" | grep -v "all.*checks passed.*clear")
         if [ -n "$FINDINGS" ]; then
             if [ "$SAFE_EXIT" -ne 0 ]; then
-                OUTPUT="$OUTPUT\n\n[vibe-safe STOP — do not push until fixed:\n$FINDINGS]"
+                OUTPUT="${OUTPUT}${NL}${NL}[vibe-safe STOP — do not push until fixed:${NL}$FINDINGS]"
             else
-                OUTPUT="$OUTPUT\n\n[vibe-safe findings (fix before pushing):\n$FINDINGS]"
+                OUTPUT="${OUTPUT}${NL}${NL}[vibe-safe findings (fix before pushing):${NL}$FINDINGS]"
             fi
         fi
     fi
@@ -49,12 +50,12 @@ UNSAVED=""
 [ -n "$UNSTAGED" ] && UNSAVED="$UNSTAGED"
 [ -n "$UNTRACKED" ] && UNSAVED="$UNSAVED $UNTRACKED"
 if [ -n "$UNSAVED" ]; then
-    OUTPUT="$OUTPUT\n\n[Unsaved changes detected in: $(echo "$UNSAVED" | tr '\n' ' ')]"
+    OUTPUT="${OUTPUT}${NL}${NL}[Unsaved changes detected in: $(echo "$UNSAVED" | tr '\n' ' ')]"
 fi
 
 # Remind Claude to write vibe-brain before final response
 if [ -d "$VIBE_DIR" ]; then
-    OUTPUT="$OUTPUT\n\n[REMINDER: Before your final response, update .vibe/sessions.md with what changed this session — what was built, what's fragile, what to test manually. Without this, the next session starts with no memory of today's work.]"
+    OUTPUT="${OUTPUT}${NL}${NL}[REMINDER: Before your final response, update .vibe/sessions.md with what changed this session — what was built, what's fragile, what to test manually. Without this, the next session starts with no memory of today's work.]"
 fi
 
 if [ -n "$OUTPUT" ]; then
