@@ -169,7 +169,7 @@ Point to specific files or functions if you know them.]
 
 **If it's a platform issue** (Vercel, Supabase, etc.):
 → [Platform name] Discord: [link if known] or their support docs.
-   For common platforms, use these: Vercel: vercel.com/support | Supabase: supabase.com/support | Railway: railway.app/help | Fly.io: community.fly.io | Stripe: support.stripe.com. If the platform isn't listed, write "Search: [Platform name] support" instead of leaving a blank link.
+   For common platforms, use these: Vercel: vercel.com/support | Supabase: supabase.com/support | Railway: railway.app/help | Fly.io: community.fly.io | Stripe: support.stripe.com. If the platform isn't in the list above, write: "Search for [actual platform name, e.g. Railway] support or community Discord" — substitute the actual platform name, not a placeholder.
 
 **If it's a framework issue** (Next.js, Rails, etc.):
 → Stack Overflow tag: [tag name] — paste the exact error message.

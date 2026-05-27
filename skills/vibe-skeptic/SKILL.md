@@ -38,7 +38,7 @@ Listen without judgment. Let them finish. Don't jump ahead or start asking quest
 
 Scope creep at the idea stage is a signal, not a problem. Name it kindly.
 
-### Step 2 — Ask the five questions
+### Step 2 — Cover these five areas
 
 Ask these one at a time, conversationally — not as a list. Each builds on what they said before.
 
@@ -161,7 +161,7 @@ Never end without a specific next step. One of:
 - [ ] Project context was read silently before the conversation started
 - [ ] The user described the idea fully before any questions were asked
 - [ ] Scope creep was flagged if the description kept expanding
-- [ ] All five questions were covered, conversationally
+- [ ] All five areas were covered, conversationally and in order
 - [ ] "Validate first" produced a concrete experiment spec — hypothesis, test, signal, timeframe — not just a vague suggestion
 - [ ] The recommendation explains the reasoning, not just the verdict
 - [ ] The session ends with a specific next step the user can take today

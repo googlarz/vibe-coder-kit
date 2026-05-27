@@ -29,6 +29,8 @@ Check these files silently if they exist:
 
 This gives you context before asking questions. Don't ask about things you can already read.
 
+If `.vibe/decisions.md` exists, skim it for any prior decisions that might affect or constrain what the user is proposing. If there's a conflict, surface it before moving to Step 2: "I noticed you decided [X] on [date] — does that affect what we're scoping here?"
+
 ### Step 2 — Ask clarifying questions
 
 If the invocation message already answers most questions (user, feature, problem, scope), compress or skip this step — briefly confirm what you understood and move to Step 3 rather than asking redundant questions.

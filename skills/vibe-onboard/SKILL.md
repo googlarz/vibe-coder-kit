@@ -16,6 +16,14 @@ The difference matters. This skill assumes the project is working and the goal i
 
 ---
 
+## Before Starting — Where to save the document
+
+Ask this before anything else:
+
+> "First — where should I save this? Common choices: `ONBOARDING.md` in the project root, or `.vibe/onboarding-[name].md` if there are multiple collaborators."
+
+---
+
 ## Step 1 — Ask who is joining
 
 Before reading anything or writing anything, ask this one question:
@@ -75,7 +83,7 @@ Generate the appropriate version based on Step 1. Use the templates below.
 
 ### Developer Version
 
-```
+~~~
 # Onboarding — [Project Name]
 Welcome. This doc covers everything you need to get productive on day one.
 Generated: [today's date]
@@ -181,6 +189,8 @@ self-contained first task before diving into the main codebase."]
 
 ## About This Project's Setup
 
+[Include this section only if the project actually uses vibe-skills — check for a `.vibe/` directory before adding it. If `.vibe/` does not exist, omit this section entirely.]
+
 This project uses the vibe-skills toolkit for AI-assisted development.
 The `.vibe/` folder holds the project's memory:
 
@@ -190,13 +200,13 @@ The `.vibe/` folder holds the project's memory:
 - `decisions.md` — architectural choices and why they were made
 
 When working with AI tools on this project, the behavioral baseline is active by default.
-```
+~~~
 
 ---
 
 ### Designer Version
 
-```
+~~~
 # Onboarding — [Project Name] (Designer)
 Welcome. This doc covers what you need to start working on the frontend.
 Generated: [today's date]
@@ -242,7 +252,7 @@ start without them, ask the project owner to share the env vars.
 
 - Don't modify auth-related UI components without talking to the project owner first
 - [Any frontend-adjacent fragile areas from debt.md]
-```
+~~~
 
 ---
 
@@ -251,7 +261,7 @@ start without them, ask the project owner to share the env vars.
 If `.vibe/` files don't exist and the codebase gives no clear picture of what the app does, ask the project owner directly before writing anything:
 > "Can you walk me through what the app does and what you'd be most nervous about breaking? I'll write the doc from there."
 
-```
+~~~
 # Onboarding — [Project Name]
 Welcome. Here's what you need to know to help out.
 Generated: [today's date]
@@ -298,21 +308,11 @@ so you can document what's solid versus what's still rough."]
 
 [If there's a task tracker or shared doc: point to it.
 If not: "Send feedback directly — screenshots help more than descriptions."]
-```
+~~~
 
 ---
 
-## Step 5 — Ask where to save it
-
-After drafting, ask:
-
-> "Should I save this to ONBOARDING.md in the project root, or somewhere else?"
-
-Default: `ONBOARDING.md` at the project root. Not inside `.vibe/` — this file is for the person joining, so it should be easy to find without knowing the project's folder structure.
-
----
-
-## Step 6 — Show it to the project owner before sharing
+## Step 5 — Show it to the project owner before sharing
 
 Before handing the document to anyone:
 

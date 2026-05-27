@@ -61,11 +61,17 @@ Two options — give both:
 > ```
 > fly releases list
 > ```
-> The output shows version numbers like `v12`, `v11`, `v10`. Copy the version number from the row labeled `deployed` — that's your current version. The one above it is what you're rolling back to:
+> The output looks like this:
 > ```
-> fly deploy --image <image-id-from-that-row>
+> VERSION   STATUS    DESCRIPTION   USER                  DATE
+> v5        complete  Deploy image  user@example.com      2026-05-27
+> v4        complete  Deploy image  user@example.com      2026-05-25
 > ```
-> Replace `<image-id-from-that-row>` with the image ID shown in that version's row.
+> The version number (like `v4`) is what you pass to `fly deploy --image` — not a separate image ID. To roll back to `v4`:
+> ```
+> fly deploy --image registry.fly.io/your-app-name:deployment-v4
+> ```
+> Replace `your-app-name` with your app name and `v4` with the version you want.
 
 ---
 
@@ -92,7 +98,7 @@ Show the user the list. Say:
 
 > "Here are your last 5 commits. Tell me which one was the last working version and I'll revert to it."
 
-Once they identify it, use `git revert HEAD` (this creates a new commit that undoes the last one — your history is preserved, not erased) to undo the last commit safely, or use `git reset --hard [commit-id]` if multiple commits need undoing — but say explicitly: "This will permanently remove the commits after [ID]. Your local code will change. Are you sure?"
+Once they identify it, use `git revert HEAD` (this creates a new commit that undoes the last one — your history is preserved, not erased) to undo the last commit safely, or use `git reset --hard [commit-id]` if multiple commits need undoing — but say explicitly: "This will permanently remove the commits after [ID] (meaning any commits you made after that point — including the changes you're trying to undo — will be permanently removed from git history on this branch). Your local code will change. Are you sure?"
 
 ---
 

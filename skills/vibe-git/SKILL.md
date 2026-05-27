@@ -83,7 +83,7 @@ type(scope): what changed, in plain English
 
 Draft the message and show it to the user before committing. If they want to adjust it, do so.
 
-If `git status` shows changes across unrelated concerns (e.g., a bug fix AND a dependency update AND a config change): split into separate commits. Run `git add [specific-files]` for each logical group and commit them separately — one commit per concern.
+If `git status` shows changes across unrelated concerns (e.g., a bug fix AND a dependency update AND a config change): split into separate commits. Run `git add [specific-files]` for each logical group and commit them separately — one commit per concern. Example: if `git diff --stat` shows both `auth/login.js` and `package.json` changed, those are likely unrelated — one is a feature/fix, the other is a dependency update. Stage and commit them separately.
 
 ### Step 4 — Commit
 
@@ -138,6 +138,8 @@ If yes and `gh` is available:
 ```bash
 gh pr create --title "[commit message]" --body "[description]"
 ```
+
+To check if `gh` is installed: run `gh --version`. If not installed: `brew install gh` (Mac) or visit cli.github.com. Then run `gh auth login` once to connect to GitHub.
 
 ---
 

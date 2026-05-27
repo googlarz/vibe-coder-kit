@@ -73,6 +73,8 @@ Tell me "save checkpoint" when you're ready to lock this in and move to the next
 
 **Note:** When the user says "save checkpoint", run: `git add -A && git restore --staged .env 2>/dev/null && git commit -m 'checkpoint: [phase name] complete'`
 
+Note: `.vibe/` will appear in `git status` as new files — this is expected and fine to include in the checkpoint commit. If you'd prefer to keep vibe-brain out of git, add `.vibe/` to `.gitignore` first.
+
 ---
 
 ### Step 4 — Name the tricky part

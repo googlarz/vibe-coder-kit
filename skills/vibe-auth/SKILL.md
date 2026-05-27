@@ -64,6 +64,8 @@ Find all the routes in the codebase:
 grep -rn "router\.\|app\.get\|app\.post\|getServerSideProps\|loader\|createBrowserRouter\|Route path" . --include="*.js" --include="*.ts" --include="*.tsx" --include="*.py" --include="*.rb" --exclude-dir=node_modules --exclude-dir=.git | grep -v "//.*router"
 ```
 
+Don't try to understand every line — just look for routes that are missing the word 'auth', 'protect', 'requireAuth', or 'middleware' in the output above. Those are the ones to manually test by trying to access them without logging in first.
+
 For each route that holds anything private (dashboard, settings, profile, admin, any user data): open an incognito window (a fresh browser session with no cookies — no login), paste the URL directly, and see what loads.
 
 If the page loads without being redirected to login, the protection is missing.
@@ -78,7 +80,7 @@ This is an authorization bug (not authentication — you're logged in, just as t
 
 If the app has URLs like `/profile/123` or `/orders/456`, try changing the number to another user's ID while logged in as someone else. Can you see their data?
 
-If the app uses UUIDs instead of numbers (e.g., `/profile/a3f8e21b-...`), try replacing the UUID with a UUID from a different user — you can find other UUIDs by checking the database or inspecting network requests while logged in as a different account.
+If the app uses UUIDs instead of numbers (e.g., `/profile/a3f8e21b-...`), try replacing the UUID with a UUID from a different user (a UUID is the long ID in the URL — it looks like `a8f3b2c1-...` or a string of letters and numbers) — you can find other UUIDs by checking the database or inspecting network requests while logged in as a different account.
 
 In the code, look for database queries that fetch by ID:
 

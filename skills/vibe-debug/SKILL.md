@@ -77,18 +77,18 @@ Run the code and look at your logs. The last one that prints tells you where exe
 
 ---
 
-## Step 4: Form a hypothesis
+## Step 4: Name your best guess
 
-Before changing anything, say out loud what you think is wrong and why.
+Before changing anything, name what you think is causing this, and why. Even a rough guess is useful. Write it down: "I think the problem is ___ because ___." This forces clarity before you start fixing.
 
 Something like:
 - "I think the user ID is undefined when it reaches the database query — the log shows undefined at point C."
 - "I think the API call is failing because the URL has a typo."
 - "I think the condition on line 47 is backwards — it runs when it shouldn't."
 
-If you have more than one hypothesis, pick the most likely one. Don't test all of them at once — you won't know which one actually fixed it.
+If you have more than one guess, pick the most likely one. Don't test all of them at once — you won't know which one actually fixed it.
 
-State the hypothesis clearly before writing any code.
+State the guess clearly before writing any code.
 
 ---
 
@@ -132,6 +132,8 @@ Search the codebase for the same pattern you just fixed:
 ```bash
 grep -r "[the pattern that was wrong]" . --include="*.js" --include="*.ts" --include="*.py" --exclude-dir=node_modules -n
 ```
+
+For example, if you fixed a bug where `calculateTotal()` wasn't handling negative numbers, search for other places that do math: `grep -rn 'calculateTotal\|subtotal\|amount' . --include='*.js' | grep -v node_modules`.
 
 If you fixed a missing null check — search for similar null access patterns. If you fixed an unhandled promise rejection — search for other async functions without try/catch. Name any siblings you find but don't fix them in this session — write them to `.vibe/debt.md`.
 

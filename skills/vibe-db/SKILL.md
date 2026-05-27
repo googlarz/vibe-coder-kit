@@ -16,7 +16,7 @@ Core principle: **read before write, verify the environment, never assume local.
 Before doing anything else, check where the database actually is.
 
 ```bash
-grep DATABASE_URL .env 2>/dev/null
+grep -E "DATABASE|POSTGRES|MONGO|REDIS|MYSQL|DB_HOST|DB_URL" .env 2>/dev/null | head -5
 ```
 
 Then check:
@@ -251,5 +251,6 @@ WHERE table_name = 'your_table';
 - [ ] Migration file read and every operation translated to plain English
 - [ ] Risk level assessed — additive (low) or destructive (high)
 - [ ] For HIGH RISK: backup exists and its age was checked
+- [ ] Backup confirmed before any HIGH RISK operation
 - [ ] Operation ran without errors
 - [ ] Schema or data verified after the operation — the change is actually there

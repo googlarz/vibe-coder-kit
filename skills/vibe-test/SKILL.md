@@ -57,7 +57,7 @@ Check these failure scenarios for anything that applies to what was built:
 | **Network offline** | No internet during a save — does data get lost? |
 | **Slow connection** | Does something submit twice if the button is clicked twice? |
 | **Missing data** | What if a field that should exist doesn't — crash or graceful message? |
-| **Mobile screen** | Does the layout break on a phone screen? |
+| **Wrong device/viewport — page breaks or actions don't work on mobile** | Does the layout break or do actions fail on a phone screen? |
 
 For each that applies, write the test step and the expected outcome. Flag any where the expected outcome is "I'm not sure" — those are the ones most likely to break.
 
@@ -107,7 +107,7 @@ Don't write the test unless asked. Just name it.
 ## Verification checklist
 
 - [ ] Happy path was tested with actual steps, not assumed
-- [ ] Failure scenarios covered for all applicable paths (at least the most likely 3) — prioritize the ones most likely to fail given what was built, not the easiest ones
+- [ ] Failure scenarios covered — at least the most likely failure paths were tested, skipping only paths that genuinely don't apply
 - [ ] Regression check covered the most adjacent feature
 - [ ] Any "not sure" outcomes are named in the report, not glossed over
 - [ ] Verdict is exactly three sentences — what worked, what to check, what to do next

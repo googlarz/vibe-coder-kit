@@ -56,6 +56,11 @@ git status 2>&1
 
 If yes:
 ```bash
+# Before staging everything, check for .env files
+find . -maxdepth 1 -name ".env"
+```
+If a `.env` file exists, confirm `.gitignore` lists `.env` before proceeding. If `.gitignore` is missing or doesn't include `.env`, add it first — otherwise git will commit your secrets.
+```bash
 git init && git add -A && git commit -m "initial checkpoint $(date +'%Y-%m-%d')"
 ```
 
@@ -170,6 +175,7 @@ Do not proceed outside scope unless the user explicitly says to update the contr
 
 Before ending the skill run, confirm:
 
+- [ ] Emergency exception checked — if the user described something broken, skill was redirected to `/vibe-oops`
 - [ ] All 5 questions answered
 - [ ] Scope is specific (not vague)
 - [ ] Save point confirmed or created

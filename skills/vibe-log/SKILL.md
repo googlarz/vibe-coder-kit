@@ -123,6 +123,8 @@ If you genuinely can't identify what's happening, say: "I'm not sure what's caus
 
 If you look and still can't identify it: "This one's complex enough that I'd recommend getting a developer to look at the full context." Then run `/vibe-handoff`.
 
+If the log shows no error at all (just a timeout, silent 200, or empty output): the problem is likely in the app behavior, not the log. Ask: "What did you expect to happen? Walk me through what you tried." Then use `/vibe-debug` to investigate.
+
 ---
 
 ## Verification checklist
@@ -130,6 +132,6 @@ If you look and still can't identify it: "This one's complex enough that I'd rec
 - [ ] Error translated to plain English before proposing a fix
 - [ ] Relevant source file opened and read before responding (if referenced in error)
 - [ ] One fix proposed — not a list of options
-- [ ] Fix verified or user asked to test before closing
+- [ ] Fix verified or user asked to test before closing — always end with: "Try it now and let me know if that resolves it."
 - [ ] If fix didn't work: asked for the new error rather than guessing further
 - [ ] Escalated to /vibe-handoff if the error indicates something beyond vibe-coding scope

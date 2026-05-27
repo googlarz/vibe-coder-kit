@@ -117,7 +117,7 @@ If the project uses an ORM (Prisma, SQLAlchemy, ActiveRecord), parameterization 
 
 **Concurrent access** *(only if users share state)*
 
-Only check this if multiple users can affect the same records, or a user might have multiple tabs open. Quick check: if your app has teams, shared documents, shared inventory, or a leaderboard — concurrent access is relevant. If it's a solo-user app (each user only sees their own data), you can skip this check.
+Only check this if multiple users can affect the same records, or a user might have multiple tabs open. Quick check: if two different users can affect the same data at the same time (booking the same slot, spending the same credits, editing the same document), concurrent access is relevant. If each user only touches their own data, skip this check.
 - What happens if two people submit at the same time? Who wins, and is the loser's data silently discarded?
 - Is there a unique constraint or transaction that prevents duplicates?
 

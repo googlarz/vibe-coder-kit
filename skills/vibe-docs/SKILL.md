@@ -35,7 +35,7 @@ Read these silently — don't ask the user:
 - `.env.example` — every environment variable that needs to be documented
 - Any existing `README.md` — preserve anything accurate, replace what's stale. If an existing README has content you can't verify (a feature you haven't confirmed exists, a setup step you can't trace to current code): keep it but add `<!-- unverified — check this is still accurate -->` as a comment. Don't delete content you're unsure about — a developer would rather see an unverified note than find a missing section.
 - `CLAUDE.md` if it has project context
-- Check for screenshots: `public/`, `images/`, `docs/`, `assets/` folders
+- Check for existing screenshots: `find . -name '*.png' -o -name '*.gif' -o -name '*.jpg' | grep -v node_modules | grep -iE '(screenshot|demo|preview|screen)' | head -10`. If any are found, include them in the README. If none, don't invent placeholder screenshot instructions.
 
 If the project has no `.vibe/` folder, infer stack from the codebase and note what you inferred.
 
@@ -57,53 +57,49 @@ Instructions for each section are below, followed by the full README template bl
 
 **README structure to write:**
 
-```markdown
-# [Project Name]
+    # [Project Name]
 
-[One sentence. What it does.]
+    [One sentence. What it does.]
 
-[2–3 sentence description: what problem it solves, who it's for, current state.]
+    [2–3 sentence description: what problem it solves, who it's for, current state.]
 
-[Screenshot or demo link — omit this line if no image exists in the repo]
+    [Screenshot or demo link — omit this line if no image exists in the repo]
 
-## Getting Started
+    ## Getting Started
 
-- [Where to access it — production URL if live]
-- [How to sign up or get started]
-- [One "first thing to try"]
+    - [Where to access it — production URL if live]
+    - [How to sign up or get started]
+    - [One "first thing to try"]
 
-## Running Locally
+    ## Running Locally
 
-​```bash
-git clone [url]
-cd [project-name]
-cp .env.example .env
-# Fill in required variables — see Environment Variables below
-npm install
-npm run dev
-​```
+        git clone [url]
+        cd [project-name]
+        cp .env.example .env
+        # Fill in required variables — see Environment Variables below
+        npm install
+        npm run dev
 
-Open http://localhost:3000
+    Open http://localhost:3000
 
-## Environment Variables
+    ## Environment Variables
 
-| Variable | What it's for | Where to get it |
-|---|---|---|
-| `DATABASE_URL` | PostgreSQL connection string | Your database host |
-| `STRIPE_SECRET_KEY` | Stripe payments | stripe.com → Developers → API keys |
+    | Variable | What it's for | Where to get it |
+    |---|---|---|
+    | `DATABASE_URL` | PostgreSQL connection string | Your database host |
+    | `STRIPE_SECRET_KEY` | Stripe payments | stripe.com → Developers → API keys |
 
-## Built With
+    ## Built With
 
-[List actual stack — e.g. "Next.js 14 with PostgreSQL on Railway", not "modern web stack"]
+    [List actual stack — e.g. "Next.js 14 with PostgreSQL on Railway", not "modern web stack"]
 
-## Project Status
+    ## Project Status
 
-[One of: "Live at [url] — actively developed" / "Personal project — used by the author only" / "Early access — expect rough edges" / "Archived — no longer maintained"]
+    [One of: "Live at [url] — actively developed" / "Personal project — used by the author only" / "Early access — expect rough edges" / "Archived — no longer maintained"]
 
-## License
+    ## License
 
-[License name] — see LICENSE file.
-```
+    [License name] — see LICENSE file.
 
 ---
 
@@ -142,9 +138,9 @@ Default save location: `README.md` in the project root. If one already exists, r
 
 After saving:
 
-> "README is written. Want me to also add a CONTRIBUTING.md with how to submit changes, or a CHANGELOG.md with what's changed in recent versions?"
+> "README is written. Want me to also add a CONTRIBUTING.md or a CHANGELOG.md with what's changed in recent versions?"
 
-CONTRIBUTING.md makes sense if: the repo is public, the user has mentioned wanting collaborators, or there are open issues. Skip it for a solo private project.
+CONTRIBUTING.md makes sense if: the repo is public, the user has mentioned wanting collaborators, or there are open issues. Skip it for a solo private project. If offering it, say: "I can add a CONTRIBUTING.md with setup instructions, code style notes, and PR guidelines — this is worth having if anyone else will contribute to the project. Want me to draft one based on what I found in the codebase?"
 
 If creating a CHANGELOG.md, use this format (Keep a Changelog style) so the output is consistent:
 

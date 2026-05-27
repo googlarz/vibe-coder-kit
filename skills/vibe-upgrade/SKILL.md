@@ -208,4 +208,4 @@ Major upgrades deserve their own plan, not a quick `npm install`.
 - [ ] Failed upgrades reverted with `git reset --hard` before moving on
 - [ ] Failed upgrades written to .vibe/debt.md
 - [ ] Python: requirements.txt updated with `pip freeze > requirements.txt` after upgrade
-- [ ] Major version upgrades: changelog reviewed before proceeding
+- [ ] Major version bumps deferred and written to `.vibe/debt.md`

@@ -66,7 +66,9 @@ If there are 5+ debug commits, name the pattern: "We've been iterating on the sa
 
 ## Step 5: Look fresh — not through the lens of what's been tried
 
-Open the relevant file or error output without assuming anything. Read it as if you haven't seen this project before.
+Run `git diff HEAD~1 HEAD --stat 2>/dev/null` to see the last commit's changes, or ask the user to paste the exact error they're seeing. If neither is available, ask: "Can you paste the exact error message or describe what happens when you try?"
+
+Read the error output without assuming anything, as if you haven't seen this project before.
 
 What does the error actually say? What file, what line, what operation?
 
@@ -136,6 +138,8 @@ Be direct about when this path is right:
 Say: "This one needs someone who can look at it deeply. Let me write the handoff document — it takes two minutes and gives a developer everything they need."
 
 Then run `/vibe-handoff`.
+
+This path requires `/vibe-handoff` from the vibe-skills pack — if it's not installed, the handoff document will need to be produced manually instead.
 
 ---
 

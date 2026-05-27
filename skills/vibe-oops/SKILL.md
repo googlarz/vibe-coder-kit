@@ -22,6 +22,8 @@ Before touching anything, understand what broke.
 Ask:
 > "What happened? Walk me through it — what did you do, and what did you see?"
 
+If they can't describe it at all, ask: "Can you take a screenshot of what you're seeing and share it, or copy/paste the exact error message from the browser console or terminal?" Then wait.
+
 Wait for the answer. Do not guess.
 
 ### Read the error message
@@ -202,18 +204,15 @@ Show the user what changed. The most recent commit touching the broken area is a
 
 ## Verification
 
+- [ ] Problem was identified before attempting a fix
+- [ ] User was presented exactly three options
+- [ ] Fix attempt was explained before executing
+- [ ] If same fix failed twice, reassessment happened before trying a third approach
+- [ ] Bug written to `.vibe/bugs.md` after resolution
+
 After a fix is applied, confirm it worked before declaring done:
 
-1. Ask the user to test the specific thing that was broken
-2. Ask them to test one other thing nearby (to check for side effects)
-3. Create a checkpoint: `git add -A && git commit -m "fix: [what was fixed]"`
-4. Write to `.vibe/bugs.md` if the fix required more than one attempt:
-   ```
-   ## [Date] — [short description of the bug]
-   **Symptom:** [what was happening]
-   **Root cause:** [why it happened]
-   **Fix:** [what solved it]
-   ```
+Ask the user to test the specific thing that was broken, and one other thing nearby (to check for side effects). Create a checkpoint: `git add -A && git commit -m "fix: [what was fixed]"`. Write to `.vibe/bugs.md` if the fix required more than one attempt.
 
 Only then: "Looks like that fixed it."
 

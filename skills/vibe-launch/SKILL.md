@@ -228,7 +228,7 @@ Skip the database parts of Check 6 and the communication parts of Check 5. Note 
 - [ ] Check 1 passed: no secrets in code, .env is in .gitignore, git history clean
 - [ ] Check 2 passed: deployment confirmed working on real device
 - [ ] Check 3 passed: core user flow tested end-to-end
-- [ ] Check 4 passed: uptime monitor created and alert email set
+- [ ] Check 4 reviewed: either uptime monitor is set up, or ⚠️ noted in the final verdict
 - [ ] Check 5 passed: contact/support method exists for users
 - [ ] Check 6 passed: rollback path confirmed (know how to undo the deploy)
 - [ ] Each check presented conversationally — user responded before moving to next

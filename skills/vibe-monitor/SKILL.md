@@ -71,6 +71,8 @@ Then add to `.env`:
 SENTRY_DSN=https://...
 ```
 
+Also add `SENTRY_DSN=` (with no value) to `.env.example` so future developers know this variable is required.
+
 **Important:** `.env` only sets the variable locally. For production, you also need to add `SENTRY_DSN` to your deployment platform:
 - Vercel: Project Settings → Environment Variables
 - Railway: Project → Variables
