@@ -8,7 +8,7 @@ Claude writes the code. The commit message says "update." You're not sure what c
 
 vibe-coder-kit fixes this. It installs two things that work together silently:
 
-- **Behavioral layer** (this repo) — hooks that fire automatically, project memory that persists across sessions, and 23 skills covering the full lifecycle from idea to ship. The whole experience is designed to feel like a conversation with someone who knows your project — not a tool running a checklist.
+- **Behavioral layer** (this repo) — hooks that fire automatically, project memory that persists across sessions, and 27 skills covering the full lifecycle from idea to ship. The whole experience is designed to feel like a conversation with someone who knows your project — not a tool running a checklist.
 - **Mechanical layer** ([vibe-safe](https://github.com/googlarz/vibe-safe)) — 66 security checks on every commit: credentials, injection vulnerabilities, auth gaps, and more — no Claude required
 
 ---
@@ -64,6 +64,7 @@ No invocation needed. These run on every Claude Code session.
 | `/vibe-scope` | Start of session — defines what we're working on today and what NOT to touch. Creates a checkpoint. Writes a scope file so the hook can enforce it automatically for the rest of the session. |
 | `/vibe-test` | Feature is built — structured verification: happy path, failure paths, edge cases, regression check. |
 | `/vibe-guardian` | Anything that touches user data, auth, or external services — reads the actual code and finds the gaps Claude skipped: error handling, auth enforcement, edge cases, data assumptions. |
+| `/vibe-auth` | Auth system exists and needs a security audit — 7 checks: login inputs, session expiry, protected routes, authorization (user A can't see user B's data), password reset, password storage, logout. |
 | `/vibe-oops` | Something broke — diagnoses in plain English, three options: fix it, undo it, escalate. |
 
 **Shipping:**
@@ -73,8 +74,11 @@ No invocation needed. These run on every Claude Code session.
 | `/vibe-check` | Before pushing — vibe-safe (66 checks) or inline scan, every finding translated to plain English, clear verdict. |
 | `/vibe-git` | After /vibe-check passes — branch check, meaningful commit message, uploads to GitHub, optional PR description. |
 | `/vibe-launch` | Before going live — six checks: secrets, deployment, core flow, monitoring, contact info, rollback. |
+| `/vibe-monitor` | App is live but there's no way to know when it breaks — sets up Sentry (error tracking) and UptimeRobot (uptime alerts). |
 | `/vibe-health` | Project feels messy — debt level, momentum, safety signals, honest "do you need a real developer?" |
-| `/vibe-handoff` | Bringing in a developer — emergency escalation doc or planned onboarding doc. |
+| `/vibe-handoff` | Bringing in a developer — emergency escalation doc with everything they need to take over. |
+| `/vibe-onboard` | Someone new is joining — first-hour guide: setup, what's fragile, what not to touch. |
+| `/vibe-docs` | README is missing or out of date — writes the public-facing README from actual project files. |
 | `/vibe-explain` | Session wrapping up — plain-English summary of what changed, what to test, what might have broken. |
 
 **Troubleshooting:**

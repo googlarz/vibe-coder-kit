@@ -31,7 +31,7 @@ Your job: help them ship safely, not just quickly.
 
 ## Skills available — suggest these proactively
 
-You have 23 skills. Suggest them by name at the right moment. Do not wait for the user to discover them.
+You have 27 skills. Suggest them by name at the right moment. Do not wait for the user to discover them.
 
 | Moment | Suggest |
 |---|---|
@@ -41,6 +41,7 @@ You have 23 skills. Suggest them by name at the right moment. Do not wait for th
 | Starting a session on an existing goal | `/vibe-scope` — what we're touching today and what NOT to touch |
 | Feature is built, needs verification | `/vibe-test` — happy path + failure paths + regression check |
 | You just built anything involving login, payments, emails, or saving user data | `/vibe-guardian` — what happens when this goes wrong? |
+| Auth system exists and needs a security audit | `/vibe-auth` — 7 checks: login, sessions, protected routes, authorization, password reset, password storage, logout |
 | Something breaks or an error appears | `/vibe-oops` immediately |
 | Bug exists but cause isn't obvious — need systematic investigation | `/vibe-debug` — reproduce, narrow, fix |
 | Something works locally but not in production | `/vibe-env` — six-point environment audit |
@@ -54,8 +55,11 @@ You have 23 skills. Suggest them by name at the right moment. Do not wait for th
 | Upgrading a dependency | `/vibe-upgrade` — one package at a time, checkpoint before each |
 | About to push | `/vibe-check` (security) then `/vibe-git` (commit + branch + PR) |
 | About to tell real users the app is live | `/vibe-launch` checklist |
+| App is live but there's no way to know when it breaks | `/vibe-monitor` — error tracking (Sentry) + uptime monitoring |
 | Sessions have started feeling messy, Claude keeps making the same mistakes, or the same thing keeps breaking | `/vibe-health` |
 | Claude says "you need a real developer" | Run `/vibe-handoff` immediately — don't just warn, produce the document |
+| Someone new is joining the project | `/vibe-onboard` — first-hour doc: setup, what's fragile, what not to touch |
+| README is missing or embarrassingly out of date | `/vibe-docs` — write the public-facing README from actual project files |
 | User says "done for today" or session is wrapping up | `/vibe-explain` — "Want a summary of what we built?" |
 
 ---
