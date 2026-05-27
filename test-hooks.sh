@@ -121,6 +121,75 @@ run_test "non-Bash tool (Read)" \
     '{"tool_name":"Read","tool_input":{"file_path":"./index.js"}}' \
     allow
 
+# ── Scope enforcement tests ────────────────────────────────────────────────────
+# These require a temporary .vibe/.scope file
+
+echo ""
+echo "  Scope enforcement (should block when .vibe/.scope is active):"
+
+# Set up a temp scope file
+TEMP_DIR=$(mktemp -d)
+mkdir -p "$TEMP_DIR/.vibe"
+TODAY=$(date '+%Y-%m-%d')
+cat > "$TEMP_DIR/.vibe/.scope" <<SCOPE
+NOT_TOUCHING=payments,auth
+SCOPE=add email form
+DATE=$TODAY
+SCOPE
+
+# Run hook from temp dir to pick up the .scope file
+run_scope_test() {
+    local name="$1"
+    local input="$2"
+    local expect="$3"
+
+    result=$(cd "$TEMP_DIR" && echo "$input" | bash "$HOOK" 2>/dev/null)
+    exit_code=$?
+
+    if [ "$expect" = "block" ]; then
+        if [ $exit_code -ne 0 ] && echo "$result" | grep -q '"decision"'; then
+            echo "  ✓ BLOCK  $name"
+            PASS=$((PASS+1))
+        else
+            echo "  ✗ MISSED $name (expected block, got exit $exit_code)"
+            [ -n "$result" ] && echo "    output: $result"
+            FAIL=$((FAIL+1))
+        fi
+    else
+        if [ $exit_code -eq 0 ]; then
+            echo "  ✓ ALLOW  $name"
+            PASS=$((PASS+1))
+        else
+            echo "  ✗ WRONG  $name (expected allow, got blocked)"
+            [ -n "$result" ] && echo "    output: $result"
+            FAIL=$((FAIL+1))
+        fi
+    fi
+}
+
+run_scope_test "Bash command touching protected area" \
+    '{"tool_name":"Bash","tool_input":{"command":"cat src/payments/stripe.js"}}' \
+    block
+
+run_scope_test "Write tool touching protected file path" \
+    '{"tool_name":"Write","tool_input":{"file_path":"src/auth/login.js","content":"..."}}' \
+    block
+
+run_scope_test "Edit tool touching protected file path" \
+    '{"tool_name":"Edit","tool_input":{"file_path":"src/payments/checkout.js","old_string":"x","new_string":"y"}}' \
+    block
+
+run_scope_test "Safe file outside protected areas" \
+    '{"tool_name":"Write","tool_input":{"file_path":"src/profile/email-form.js","content":"..."}}' \
+    allow
+
+run_scope_test "Safe bash command outside protected areas" \
+    '{"tool_name":"Bash","tool_input":{"command":"cat src/profile/email-form.js"}}' \
+    allow
+
+# Clean up
+rm -rf "$TEMP_DIR"
+
 echo ""
 echo "  ──────────────────────"
 echo "  Results: $PASS passed, $FAIL failed"

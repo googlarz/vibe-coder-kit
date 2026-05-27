@@ -55,7 +55,19 @@ fi
 
 # Remind Claude to write vibe-brain before final response
 if [ -d "$VIBE_DIR" ]; then
-    OUTPUT="${OUTPUT}${NL}${NL}[REMINDER: Before your final response, update .vibe/sessions.md with what changed this session — what was built, what's fragile, what to test manually. Without this, the next session starts with no memory of today's work.]"
+    TODAY_STOP=$(date '+%Y-%m-%d')
+    if [ -f "$VIBE_DIR/sessions.md" ] && grep -q "^## $TODAY_STOP" "$VIBE_DIR/sessions.md" 2>/dev/null; then
+        # Today's entry exists — light reminder to keep it current
+        OUTPUT="${OUTPUT}${NL}${NL}[REMINDER: .vibe/sessions.md already has today's entry — make sure it reflects everything built this session (Fragile, Test manually).]"
+    else
+        # No entry yet — stronger reminder with git data to help populate it
+        TODAY_COMMITS=$(git log --oneline --after="${TODAY_STOP} 00:00" 2>/dev/null | head -5)
+        CHANGED_FILES=$(git diff --name-only HEAD 2>/dev/null | head -10)
+        CONTEXT=""
+        [ -n "$TODAY_COMMITS" ] && CONTEXT="${CONTEXT}${NL}  Commits today: $TODAY_COMMITS"
+        [ -n "$CHANGED_FILES" ] && CONTEXT="${CONTEXT}${NL}  Files changed: $(echo "$CHANGED_FILES" | tr '\n' ' ')"
+        OUTPUT="${OUTPUT}${NL}${NL}[REQUIRED BEFORE FINAL RESPONSE: No session entry yet for $TODAY_STOP. Write to .vibe/sessions.md now:${NL}  ## [$TODAY_STOP] — [one line: what was done]${NL}  - Changed: [files]${NL}  - Added: [features]${NL}  - Fragile: [anything shaky, or 'nothing notable']${NL}  - Test manually: [what to click through]${CONTEXT}${NL}Without this, the next session starts with no memory of today.]"
+    fi
 fi
 
 if [ -n "$OUTPUT" ]; then

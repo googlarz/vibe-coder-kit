@@ -131,7 +131,7 @@ if not any(
         "hooks": [{"type": "command", "command": session_start_cmd}]
     })
 
-# PreToolUse hook for Bash
+# PreToolUse hook for Bash (destructive command intercept + package safety)
 if 'PreToolUse' not in hooks:
     hooks['PreToolUse'] = []
 pre_tool_cmd = f"bash {install_dir}/hooks/pre-tool.sh"
@@ -142,6 +142,17 @@ if not any(
 ):
     hooks['PreToolUse'].append({
         "matcher": "Bash",
+        "hooks": [{"type": "command", "command": pre_tool_cmd}]
+    })
+
+# PreToolUse hook for Write/Edit (scope enforcement — blocks file writes to protected areas)
+if not any(
+    entry.get('matcher') == 'Write|Edit' and
+    any(h.get('command') == pre_tool_cmd for h in entry.get('hooks', []))
+    for entry in hooks['PreToolUse']
+):
+    hooks['PreToolUse'].append({
+        "matcher": "Write|Edit",
         "hooks": [{"type": "command", "command": pre_tool_cmd}]
     })
 

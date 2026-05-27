@@ -56,6 +56,18 @@ if [ -f "$VIBE_DIR/debt.md" ]; then
     fi
 fi
 
+# Inject active scope contract if one was set today
+SCOPE_FILE="$VIBE_DIR/.scope"
+if [ -f "$SCOPE_FILE" ]; then
+    TODAY_CHECK=$(date '+%Y-%m-%d')
+    SCOPE_DATE=$(grep "^DATE=" "$SCOPE_FILE" 2>/dev/null | cut -d= -f2-)
+    if [ "$SCOPE_DATE" = "$TODAY_CHECK" ]; then
+        SCOPE_DESC=$(grep "^SCOPE=" "$SCOPE_FILE" 2>/dev/null | cut -d= -f2-)
+        NOT_TOUCHING=$(grep "^NOT_TOUCHING=" "$SCOPE_FILE" 2>/dev/null | cut -d= -f2-)
+        OUTPUT="${OUTPUT}${NL}=== ACTIVE SCOPE CONTRACT ===${NL}Working on: $SCOPE_DESC${NL}NOT touching today: $NOT_TOUCHING${NL}[Scope enforcement is active — the pre-tool hook will block commands and file writes that touch protected areas]${NL}"
+    fi
+fi
+
 if [ -f "$VIBE_DIR/sessions.md" ]; then
     TODAY=$(date '+%Y-%m-%d')
     SESSION_TODAY=$(grep "^## $TODAY" "$VIBE_DIR/sessions.md" 2>/dev/null)

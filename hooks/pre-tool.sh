@@ -1,32 +1,45 @@
 #!/bin/bash
-# PreToolUse hook — intercepts destructive Bash commands and package installs
-# Receives JSON on stdin: {"tool_name": "Bash", "tool_input": {"command": "..."}}
+# PreToolUse hook — intercepts destructive Bash commands, package installs, and scope violations
+# Receives JSON on stdin: {"tool_name": "...", "tool_input": {"command": "..."}} or {"tool_input": {"file_path": "..."}}
 
 INPUT=$(cat)
 
-# Extract command from JSON — try jq, then python3, then grep fallback
+# Extract command (Bash tool) and file_path (Write/Edit tools) from JSON
 COMMAND=""
+FILE_PATH=""
 if command -v jq >/dev/null 2>&1; then
-    COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // .command // ""' 2>/dev/null)
+    COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // ""' 2>/dev/null)
+    FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path // ""' 2>/dev/null)
 elif command -v python3 >/dev/null 2>&1; then
     COMMAND=$(echo "$INPUT" | python3 -c "
 import sys, json
 try:
     d = json.load(sys.stdin)
-    inp = d.get('tool_input', d)
-    print(inp.get('command', ''))
+    print(d.get('tool_input', d).get('command', ''))
+except:
+    print('')
+" 2>/dev/null)
+    FILE_PATH=$(echo "$INPUT" | python3 -c "
+import sys, json
+try:
+    d = json.load(sys.stdin)
+    print(d.get('tool_input', d).get('file_path', ''))
 except:
     print('')
 " 2>/dev/null)
 else
-    # Basic fallback: pull the command value out of the raw JSON string
+    # Basic fallback: grep values from raw JSON
     COMMAND=$(echo "$INPUT" | grep -o '"command"[[:space:]]*:[[:space:]]*"[^"]*"' | head -1 \
         | sed 's/.*"command"[[:space:]]*:[[:space:]]*"//;s/"[[:space:]]*$//')
+    FILE_PATH=$(echo "$INPUT" | grep -o '"file_path"[[:space:]]*:[[:space:]]*"[^"]*"' | head -1 \
+        | sed 's/.*"file_path"[[:space:]]*:[[:space:]]*"//;s/"[[:space:]]*$//')
 fi
 
-[ -z "$COMMAND" ] && exit 0
+[ -z "$COMMAND" ] && [ -z "$FILE_PATH" ] && exit 0
 
-# ── Destructive pattern detection ─────────────────────────────────────────────
+# ── Bash-only checks (destructive patterns + package installs) ────────────────
+
+if [ -n "$COMMAND" ]; then
 
 DESTRUCTIVE=false
 REASON=""
@@ -102,7 +115,9 @@ EOF
     fi
 fi
 
-# ── Scope enforcement ─────────────────────────────────────────────────────────
+fi # end Bash-only checks
+
+# ── Scope enforcement — applies to both Bash commands and Write/Edit file paths ─
 
 SCOPE_FILE="$(pwd)/.vibe/.scope"
 if [ -f "$SCOPE_FILE" ]; then
@@ -113,12 +128,21 @@ if [ -f "$SCOPE_FILE" ]; then
         for area in "${PROTECTED[@]}"; do
             area=$(echo "$area" | tr -d '[:space:]')
             [ -z "$area" ] && continue
-            if echo "$COMMAND" | grep -qi "$area"; then
-                SAFE_CMD=$(printf '%s' "$COMMAND" | sed 's/\\/\\\\/g; s/"/\\"/g')
+            MATCHED_TARGET=""
+            MATCHED_LABEL=""
+            if [ -n "$COMMAND" ] && echo "$COMMAND" | grep -qi "$area"; then
+                MATCHED_TARGET="$COMMAND"
+                MATCHED_LABEL="command"
+            elif [ -n "$FILE_PATH" ] && echo "$FILE_PATH" | grep -qi "$area"; then
+                MATCHED_TARGET="$FILE_PATH"
+                MATCHED_LABEL="file"
+            fi
+            if [ -n "$MATCHED_TARGET" ]; then
+                SAFE_TARGET=$(printf '%s' "$MATCHED_TARGET" | sed 's/\\/\\\\/g; s/"/\\"/g')
                 cat <<EOF
 {
   "decision": "block",
-  "reason": "⛔ SCOPE — this command touches \"$area\" which we agreed not to touch today.\n\nToday's scope: $SCOPE_DESC\nProtected: $NOT_TOUCHING\n\nCommand: $SAFE_CMD\n\nIf this is intentional, say \"yes proceed\" and I'll run it. Or say \"add to today's scope\" to update the contract."
+  "reason": "⛔ SCOPE — this $MATCHED_LABEL touches \"$area\" which we agreed not to touch today.\n\nToday's scope: $SCOPE_DESC\nProtected: $NOT_TOUCHING\n\n$MATCHED_LABEL: $SAFE_TARGET\n\nIf this is intentional, say \"yes proceed\" and I'll run it. Or say \"add to today's scope\" to update the contract."
 }
 EOF
                 exit 1

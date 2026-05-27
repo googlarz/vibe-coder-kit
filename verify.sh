@@ -86,26 +86,50 @@ PYTHON
             check "SessionStart hook registered" "fail" "Re-run: bash $INSTALL_DIR/install.sh"
         fi
 
-        PRE_TOOL_OK=$(python3 - <<PYTHON 2>/dev/null
+        PRE_TOOL_BASH_OK=$(python3 - <<PYTHON 2>/dev/null
 import json
 try:
     with open("$SETTINGS_FILE") as f:
         s = json.load(f)
     hooks = s.get("hooks", {})
     for entry in hooks.get("PreToolUse", []):
-        for h in entry.get("hooks", []):
-            if "pre-tool.sh" in h.get("command", ""):
-                print("yes")
-                exit()
+        if entry.get("matcher") == "Bash":
+            for h in entry.get("hooks", []):
+                if "pre-tool.sh" in h.get("command", ""):
+                    print("yes")
+                    exit()
     print("no")
 except:
     print("no")
 PYTHON
 )
-        if [ "$PRE_TOOL_OK" = "yes" ]; then
-            check "PreToolUse hook registered" "pass" ""
+        if [ "$PRE_TOOL_BASH_OK" = "yes" ]; then
+            check "PreToolUse (Bash) hook registered" "pass" ""
         else
-            check "PreToolUse hook registered" "fail" "Re-run: bash $INSTALL_DIR/install.sh"
+            check "PreToolUse (Bash) hook registered" "fail" "Re-run: bash $INSTALL_DIR/install.sh"
+        fi
+
+        PRE_TOOL_WRITE_OK=$(python3 - <<PYTHON 2>/dev/null
+import json
+try:
+    with open("$SETTINGS_FILE") as f:
+        s = json.load(f)
+    hooks = s.get("hooks", {})
+    for entry in hooks.get("PreToolUse", []):
+        if entry.get("matcher") == "Write|Edit":
+            for h in entry.get("hooks", []):
+                if "pre-tool.sh" in h.get("command", ""):
+                    print("yes")
+                    exit()
+    print("no")
+except:
+    print("no")
+PYTHON
+)
+        if [ "$PRE_TOOL_WRITE_OK" = "yes" ]; then
+            check "PreToolUse (Write|Edit) hook registered" "pass" ""
+        else
+            check "PreToolUse (Write|Edit) hook registered" "fail" "Re-run: bash $INSTALL_DIR/install.sh"
         fi
 
         STOP_OK=$(python3 - <<PYTHON 2>/dev/null
