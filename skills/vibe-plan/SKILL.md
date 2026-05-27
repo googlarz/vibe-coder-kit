@@ -51,36 +51,30 @@ If there are uncommitted changes: note them. Offer a checkpoint before we start:
 git add -A && git commit -m "checkpoint before [scope summary]"
 ```
 
-### Step 3 — Build the plan
+### Step 3 — Build and present the plan
 
 Break the work into **3-5 phases**. No more. If it genuinely needs more than 5 phases, the scope is too big — say so and suggest splitting.
 
-For each phase, write:
+Introduce the plan conversationally before laying it out:
+> "Here's how I'm thinking we tackle this. Tell me if anything doesn't feel right — we can adjust before we start."
 
-```
-Phase [N]: [plain-English name — what this phase produces]
+Then present each phase clearly. Write them as natural descriptions, not form fields:
 
-What we're building:
-[2-4 sentences. What will exist after this phase that doesn't exist now.
-Concrete: "A form on the settings page with two fields: new email and confirm email."]
+---
+**Phase [N]: [plain-English name — what this phase produces]**
 
-Checkpoint: When this phase is done, tell me "save checkpoint" and I'll commit everything safely.
+[2-4 sentences of what will exist after this phase that doesn't exist now. Concrete: "A form on the settings page with two fields: new email and confirm new email."]
 
-Verify:
-[One specific thing to check that proves this phase worked.
-Not "the code looks right" — a user action or visible result.
-"Open /settings — the form should appear. Submitting it does nothing yet (that's the next phase)."]
-```
+When this is done: [one specific thing to check that proves it worked — a user action or visible result, not "the code looks right"]
 
-### Step 4 — Flag the highest-risk phase
+Tell me "save checkpoint" when you're ready to lock this in and move to the next phase.
 
-After the phases, add:
+---
 
-```
-HIGHEST RISK: Phase [N] — [one sentence on why]
-[What could go wrong here, and what to watch for.
-If this phase produces an error, here's what it probably means: [hint].]
-```
+### Step 4 — Name the tricky part
+
+After the phases, say which one you're most uncertain about — in plain language:
+> "The part I'd watch most carefully is Phase [N] — [why in one sentence]. If something goes wrong there, it'll probably show up as [hint]."
 
 ### Step 5 — Ask one question
 

@@ -105,7 +105,9 @@ Do not proceed until you have a specific, one-sentence scope. If after two clari
 
 ## What to write to `.vibe/sessions.md`
 
-After collecting all 5 answers, create `.vibe/sessions.md` if it doesn't exist (create the `.vibe/` directory too). **Prepend** (add to the top of the file, not the bottom) the following block:
+After collecting all 5 answers, create `.vibe/sessions.md` if it doesn't exist (create the `.vibe/` directory too). **Prepend** (add to the top of the file, not the bottom) — the session-start hook reads the first entry to detect "session already started today."
+
+Write this block to the file:
 
 ```
 ## [YYYY-MM-DD] — [one-sentence scope: what we're doing today]
@@ -119,7 +121,7 @@ WE ARE NOT TOUCHING:
 VERSION:
 [Live / Test] [add ⚠️ WARNING: Live + risky work if applicable]
 
-SAVE POINT:
+CHECKPOINT:
 [Yes — committed at [time/date] / No — user declined / Created now at [time]]
 
 DONE WHEN:
@@ -128,11 +130,10 @@ DONE WHEN:
 ---
 ```
 
-The `## YYYY-MM-DD` header is required — the session-start hook detects "session already started today" by looking for `## [today's date]` at the top of sessions.md. If you append instead of prepend, today's session won't be detected and the scope ritual will fire again on the next conversation.
+Then confirm it with the user conversationally — don't show them the raw file, just reflect it back:
+> "Okay, here's what I've got: we're [scope], leaving [off-limits] alone, and we'll know we're done when [success criteria]. Sound right?"
 
-Tell the user what you wrote. Show them the contract in plain English. Ask: "Does this look right?"
-
-If they change anything, update the file.
+If they want to change anything, update the file.
 
 ---
 

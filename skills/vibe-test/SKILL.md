@@ -28,16 +28,15 @@ List the files changed this session. For each file, identify what user-facing be
 
 ### Step 2 — Happy path test
 
-Write out the exact steps to test the main thing that was built. Be specific enough that a non-developer could follow them.
+Tell the user what to try — conversationally, not as a numbered list. Say something like:
 
-```
-HAPPY PATH:
-1. [Specific action — e.g., "Open the app at /settings while logged in"]
-2. [Next action]
-3. [Expected result — e.g., "Your new email address appears immediately"]
-```
+> "Let me walk you through a quick test. First — [specific action]. What happens?"
 
-Ask the user to run through these steps now if possible. If they can't test right now, say so explicitly — this is not a step to defer.
+Wait for them to try it and report back before moving on. If they can't test right now, say so clearly:
+
+> "This is the most important step — trying it for real. Can you open the app now?"
+
+If they genuinely can't test (it's broken, they're on mobile, etc.), note it as untested and flag it in the verdict.
 
 ### Step 3 — Failure path tests
 
@@ -72,28 +71,27 @@ git diff --name-only HEAD~1 2>/dev/null
 
 List adjacent features and ask the user to spot-check them — one action each. This doesn't need to be exhaustive, just the most likely collateral damage.
 
-### Step 5 — Report
+### Step 5 — Verdict
 
-Output the test results in this format:
+Don't output a structured report block. Summarize conversationally, then give a clear verdict.
 
-```
-TEST RESULTS
-─────────────────────────────────
-✅ Happy path: [passed / failed — what happened]
+Start with what worked:
+> "Good news — the main thing works: [what the happy path did]. I also tried [failure scenario] and [result]."
 
-FAILURE PATHS:
-✅ [scenario]: [result]
-⚠️  [scenario]: not tested — [why, or "couldn't reproduce"]
-🚨 [scenario]: [what broke]
+Then flag anything that didn't pass or wasn't tested:
+> "One thing I'm not sure about: [scenario]. Worth checking before you push."
 
-THINGS WE DIDN'T TOUCH (check these still work):
-✅ [feature]: checked, still working
-⚠️  [feature]: not checked — [reason]
+If something broke:
+> "Found a problem: [what broke and what it means for users]. We should fix this before pushing."
 
-VERDICT:
-[Safe to push / Fix these before pushing / Do not push — [what's broken]]
-─────────────────────────────────
-```
+Then name the nearby features check result:
+> "I didn't change [adjacent feature] but it's worth a quick click to confirm it still works."
+
+End with one clear verdict — no hedging:
+
+- **Everything passed:** "Looks good. Run /vibe-check and then /vibe-git when you're ready."
+- **Minor gaps:** "Safe to push, but check [specific thing] first."
+- **Real problems:** "Don't push yet — [specific thing] is broken. Want me to fix it?"
 
 ### Step 6 — Automated test suggestion (optional)
 

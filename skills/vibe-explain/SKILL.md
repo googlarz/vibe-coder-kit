@@ -53,38 +53,24 @@ If multiple files changed in the same area, write **one bullet** for the area �
 
 ### Step 3 — Produce the plain-English summary
 
-Output exactly this format:
+Write this as a natural summary, not a formatted report. Talk to the user like you're wrapping up a session together.
 
-```
-─────────────────────────────────────
-  WHAT WE BUILT — [today's date]
-─────────────────────────────────────
-WHAT'S NEW:
-[2-4 bullet points — things the user can see or click in the app]
-• [e.g. "The login page now shows an error message if the password is wrong"]
-• [e.g. "Users can now upload a profile photo"]
-[Skip this section if today was purely infrastructure work with nothing new to click]
+Start with what was built:
+> "Here's what we got done today: [1-3 things in plain English — what users can now do that they couldn't before]."
 
-WHAT CHANGED UNDER THE HOOD:
-[1-3 bullets — invisible changes: config, dependencies, structure, security fixes]
-• [e.g. "We updated how passwords are stored — more secure now"]
-• [e.g. "Added a new page at /settings (not linked anywhere yet)"]
-• [e.g. "Moved the database connection to a config file — nothing visible changed, but it's easier to manage now"]
-[Skip this section if today was all user-facing with no technical scaffolding]
+If there were invisible changes (config, dependencies, security fixes), mention them briefly:
+> "Under the hood: [1-2 things — what changed that users won't see directly]."
 
-TEST THESE MANUALLY:
-[Specific things to click through to confirm everything works]
-1. [e.g. "Try logging in with a wrong password — you should see a red error message"]
-2. [e.g. "Sign up as a new user and check that the welcome email arrives"]
-3. [e.g. "Open the app on your phone and confirm the layout looks right"]
+Then the specific things to verify — make them actionable, not a checklist:
+> "Before you close the tab: [specific action]. You should see [expected result]. Also worth trying: [second thing]."
 
-WATCH OUT FOR:
-[Things that might have broken or are fragile — honest, not alarming]
-• [e.g. "The logout button wasn't tested today — worth checking"]
-• [e.g. "This only works if STRIPE_KEY is set in your environment variables"]
-• ["Nothing flagged" if everything looks clean]
-─────────────────────────────────────
-```
+If anything's fragile or untested, say it plainly — don't soften it, but don't alarm:
+> "One thing to keep in mind: [specific concern]. It should be fine, but keep an eye on it."
+
+If everything looks clean:
+> "Nothing to worry about — this session was clean."
+
+**Keep it short.** A good session summary is 4-6 sentences. If you find yourself writing more, cut it.
 
 ### Step 4 — Update vibe-brain
 
