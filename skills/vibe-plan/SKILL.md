@@ -55,6 +55,8 @@ git add -A && git commit -m "checkpoint before [scope summary]"
 
 ### Step 3 — Build and present the plan
 
+**How checkpoints work:** after each phase, the user will say "save checkpoint" and you'll commit that phase's work before starting the next. Make this explicit in the plan — each phase ends with "Tell me when you're done and I'll save a checkpoint."
+
 Break the work into **3-5 phases**. No more. If it genuinely needs more than 5 phases, the scope is too big — say so and suggest splitting.
 
 Introduce the plan conversationally before laying it out:

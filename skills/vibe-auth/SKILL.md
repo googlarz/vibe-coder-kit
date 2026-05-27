@@ -28,10 +28,12 @@ Test these manually in the login form:
 - Type this in the email field: `' OR '1'='1` — this is a SQL injection attempt (a trick to bypass login by confusing the database). The app should reject it, not break or log you in
 - Paste 500 characters into the email field → should handle it without freezing or erroring out
 
+**Note on ORMs:** If the project uses an ORM (Prisma, Sequelize, Mongoose, Django ORM, ActiveRecord) rather than raw SQL queries — SQL injection is handled automatically. Skip the manual SQL injection test and note "ORM provides protection" in the summary.
+
 Open the login form and test these inputs manually. Tell me what happens for each one:
 - Empty email + empty password
 - Real email + wrong password
-- `' OR '1'='1` in the email field
+- `' OR '1'='1` in the email field (skip if the project uses an ORM)
 - 500 characters pasted into the email field
 
 ---
@@ -84,7 +86,7 @@ This is an authorization bug (not authentication — you're logged in, just as t
 
 If the app has URLs like `/profile/123` or `/orders/456`, try changing the number to another user's ID while logged in as someone else. Can you see their data?
 
-If the app uses UUIDs instead of numbers (e.g., `/profile/a3f8e21b-...`), try replacing the UUID with a UUID from a different user (a UUID is the long ID in the URL — it looks like `a8f3b2c1-...` or a string of letters and numbers) — you can find other UUIDs by checking the database or inspecting network requests while logged in as a different account.
+If the app uses UUIDs instead of numbers (e.g., `/profile/a3f8e21b-...`), try replacing the UUID with a UUID from a different user. To find a UUID to test with: open the app, go to a page that shows user-specific content (profile, dashboard, settings). Look at the URL in your browser — if it has a long ID like `/profile/a8f3b2c1-d4e5-...`, that's a UUID. Copy it, then change one character. Paste the modified URL and press Enter.
 
 In the code, look for database queries that fetch by ID:
 

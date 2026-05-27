@@ -62,7 +62,9 @@ Say this clearly to the user before moving on:
 
 Present all three options, but for production emergencies (users are affected right now), lead with: "The fastest path is Option 2 — undo to the last safe state. Here's how. I'll also show you Options 1 and 3 after the rollback is running."
 
-Always in this order. Always with honest confidence.
+Present exactly three options — normally in this order: Fix, Undo, Get Help. **Exception: if production is down or users are affected RIGHT NOW, lead with Option 2 (Undo) — speed matters more than explanation.**
+
+Always with honest confidence.
 
 ---
 
@@ -80,6 +82,8 @@ What to tell the user:
 Do not say "this should work" without explaining why you think it'll work.
 
 If confidence is below 50%, say so: "I'm not confident in this fix. I'd recommend Option 2 first."
+
+If you're not sure whether the fix will work — say so. "I think this will work but I'm not certain" is more useful than false confidence.
 
 ---
 

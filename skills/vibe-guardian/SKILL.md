@@ -55,6 +55,17 @@ Then say — out loud, not silently — what was built and what it touches:
 
 Based on what you read, check which of these apply. **Skip the ones that genuinely don't** — this is a code review, not a form to fill out.
 
+**Quick-skip guide — check only what matches what was built:**
+
+| Built/changed... | Check these categories |
+|---|---|
+| Authentication (login, sessions) | Authentication, Sensitive data |
+| Payments or pricing | Validation, Error handling |
+| Database queries or forms | Validation, Authentication |
+| File uploads | Validation, Sensitive data |
+| User-visible content | Authorization, Error handling |
+| Background jobs/APIs | Error handling, Concurrent access |
+
 For each gap you find, name the specific file and function. Not "the API call" — "the `createOrder()` call in `api/orders.js` has no error handler."
 
 ---

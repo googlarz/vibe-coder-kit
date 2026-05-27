@@ -40,7 +40,7 @@ Write down their answer even if it's short. "Leave the checkout flow alone" is a
 
 > "Are we working on the live version (what real users see right now) or a test/preview version?"
 
-If live + the work today is risky (involves payments, login, database changes, anything user-facing), add a warning to the session contract: **⚠️ Working on live — be careful and move in small steps.**
+If live + the work today is risky (risky means: touches authentication, payments, the database schema, or any change that affects all users at once), add a warning to the session contract: **⚠️ Working on live — be careful and move in small steps.**
 
 ### Question 4 — Do we have a checkpoint?
 

@@ -97,11 +97,16 @@ Grep for patterns that look like real credentials embedded directly in code:
 
 - `sk_live_` (Stripe live key)
 - `sk_test_` (Stripe test key — still worth flagging)
+- `sk-` (OpenAI API keys)
+- `AIza` (Google API keys)
+- `xox[bp]-` (Slack tokens)
 - `ghp_` or `github_pat_` (GitHub tokens)
 - `postgres://[^localhost]` (non-local database URLs with credentials)
 - `Bearer [A-Za-z0-9+/]{20,}` (long Bearer tokens)
 - `api_key\s*=\s*["'][^"']{10,}` (variable assignments that look like real keys)
 - `AKIA[0-9A-Z]{16}` (AWS access keys)
+
+**Common prefixes to watch for:** `sk-` (OpenAI), `AIza` (Google), `xox[bp]-` (Slack), `ghp_` (GitHub PAT), `AKIA` (AWS). If you see any of these in code (not in `.env`), flag immediately.
 
 For each match, open the file and look at the line in context before flagging — don't cry wolf on example strings or comments. A false positive looks like: a variable name containing the word 'key' with no value, a comment mentioning API keys, or an example value like `your-api-key-here`. A real finding looks like: a string that starts with `sk-`, `AKIA`, or matches the format of a real key from a known service. When in doubt, flag it.
 

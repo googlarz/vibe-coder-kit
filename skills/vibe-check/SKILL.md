@@ -128,6 +128,8 @@ Match by keyword in the finding description. For anything not listed, apply the 
 
 ## Inline Checks (when vibe-safe is not available)
 
+> **Note:** These greps are a fallback for when vibe-safe isn't installed. If vibe-safe is installed, its patterns are more precise — these may produce more false positives on real codebases. Apply the "False positives are common" rule strictly here.
+
 Run these grep patterns on the project files. Skip `node_modules`, `.git`, and binary files. The scan runs automatically — here's what each finding means in plain English:
 
 ```bash

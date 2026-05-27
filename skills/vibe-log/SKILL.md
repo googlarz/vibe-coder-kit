@@ -70,6 +70,18 @@ This: "Check that `DATABASE_URL` in your `.env` file matches the connection stri
 
 **Reference — don't read end to end.** Find the error pattern that matches what the user pasted.
 
+**CORS error** (`Access-Control-Allow-Origin` / "blocked by CORS policy")
+The server isn't allowing requests from this browser location. Check the server's CORS configuration and add the correct domain.
+
+**`401 Unauthorized`**
+The request isn't authenticated. The user may need to log in again, or the auth token has expired.
+
+**`403 Forbidden`**
+The user is authenticated but doesn't have permission for this action. Check authorization logic.
+
+**`404 Not Found`** (API route)
+The API endpoint doesn't exist at this path. Check the URL and the server's route definitions.
+
 **`ECONNREFUSED`**
 Your app is trying to reach a server (database, Redis, an external API) and it's refusing the connection — nothing is listening there. Either the service isn't running, or the URL/port is wrong. Check the service is up and the URL in your `.env` is correct.
 

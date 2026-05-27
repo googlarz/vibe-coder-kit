@@ -78,9 +78,10 @@ Do not save until the user confirms. One sentence changes here are fine. If the 
 Once confirmed:
 
 1. Write to `.vibe/sessions.md`:
-   - If today's `## YYYY-MM-DD` entry already exists (e.g. vibe-scope ran earlier): append the scope block under that entry — do NOT add another `## YYYY-MM-DD` header.
-   - If a **Scope:** or `TODAY WE ARE:` block already exists under today's entry, overwrite it rather than appending a second one — the user may have run /vibe-scope earlier.
-   - If no entry for today exists: prepend a new one at the top.
+
+   **Case A — No entry for today:** Prepend the block at the top of the file.
+
+   **Case B — An entry for today already exists** (e.g., from `/vibe-scope`): Find the existing `## YYYY-MM-DD` header and add the `TODAY WE ARE:` block under it. Do NOT create a second `## YYYY-MM-DD` header. If a `TODAY WE ARE:` block is already there, overwrite it rather than appending a second one.
 
 ```
 ## [YYYY-MM-DD] — [one-line scope summary]

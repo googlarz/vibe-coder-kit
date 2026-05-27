@@ -127,6 +127,8 @@ Check the Network tab for:
 - Count the rows in the Network tab
 - Each request has overhead; 50 small requests often takes longer than 5 larger ones
 
+**For React apps — use the built-in Profiler:** open Chrome DevTools → Profiler tab → Record → interact with the slow part → Stop. Look for bars labeled with component names — tall bars mean slow renders. Components that render repeatedly on every interaction are good candidates for `React.memo` or `useMemo`.
+
 ### Backend (what the server is doing)
 
 **Slow endpoints** — which API route takes the longest?
