@@ -187,8 +187,57 @@ run_scope_test "Safe bash command outside protected areas" \
     '{"tool_name":"Bash","tool_input":{"command":"cat src/profile/email-form.js"}}' \
     allow
 
+# Test expired scope (yesterday's date — should NOT block)
+YESTERDAY_DIR=$(mktemp -d)
+mkdir -p "$YESTERDAY_DIR/.vibe"
+YESTERDAY=$(date -v-1d '+%Y-%m-%d' 2>/dev/null || date -d 'yesterday' '+%Y-%m-%d' 2>/dev/null)
+cat > "$YESTERDAY_DIR/.vibe/.scope" <<SCOPE
+NOT_TOUCHING=payments,auth
+SCOPE=old scope from yesterday
+DATE=$YESTERDAY
+SCOPE
+
+run_expired_test() {
+    local name="$1"
+    local input="$2"
+    local expect="$3"
+
+    result=$(cd "$YESTERDAY_DIR" && echo "$input" | bash "$HOOK" 2>/dev/null)
+    exit_code=$?
+
+    if [ "$expect" = "block" ]; then
+        if [ $exit_code -ne 0 ] && echo "$result" | grep -q '"decision"'; then
+            echo "  ✓ BLOCK  $name"
+            PASS=$((PASS+1))
+        else
+            echo "  ✗ MISSED $name (expected block, got exit $exit_code)"
+            FAIL=$((FAIL+1))
+        fi
+    else
+        if [ $exit_code -eq 0 ]; then
+            echo "  ✓ ALLOW  $name"
+            PASS=$((PASS+1))
+        else
+            echo "  ✗ WRONG  $name (expected allow, got blocked)"
+            [ -n "$result" ] && echo "    output: $result"
+            FAIL=$((FAIL+1))
+        fi
+    fi
+}
+
+echo ""
+echo "  Expired scope (yesterday's date — should NOT block):"
+
+run_expired_test "Expired scope: Write to payments/ should pass" \
+    '{"tool_name":"Write","tool_input":{"file_path":"src/payments/stripe.js","content":"x"}}' \
+    allow
+
+run_expired_test "Expired scope: bash touching auth should pass" \
+    '{"tool_name":"Bash","tool_input":{"command":"cat src/auth/login.js"}}' \
+    allow
+
 # Clean up
-rm -rf "$TEMP_DIR"
+rm -rf "$TEMP_DIR" "$YESTERDAY_DIR"
 
 echo ""
 echo "  ──────────────────────"

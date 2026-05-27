@@ -45,7 +45,7 @@ fi
 if [ -f "$VIBE_DIR/decisions.md" ]; then
     DEC_ITEMS=$(grep -c "^## " "$VIBE_DIR/decisions.md" 2>/dev/null || echo 0)
     if [ "$DEC_ITEMS" -gt 0 ]; then
-        OUTPUT="${OUTPUT}${NL}=== DECISIONS ($DEC_ITEMS) ===${NL}$(tail -30 "$VIBE_DIR/decisions.md")${NL}"
+        OUTPUT="${OUTPUT}${NL}=== DECISIONS ($DEC_ITEMS) ===${NL}$(grep -v "^#[^#]\|^<!--\|^-->" "$VIBE_DIR/decisions.md" | tail -30)${NL}"
     fi
 fi
 

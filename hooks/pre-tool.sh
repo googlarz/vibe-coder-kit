@@ -118,36 +118,42 @@ fi
 fi # end Bash-only checks
 
 # ── Scope enforcement — applies to both Bash commands and Write/Edit file paths ─
+# Only enforces if the .scope file was written today (DATE field must match)
 
 SCOPE_FILE="$(pwd)/.vibe/.scope"
 if [ -f "$SCOPE_FILE" ]; then
-    NOT_TOUCHING=$(grep "^NOT_TOUCHING=" "$SCOPE_FILE" 2>/dev/null | cut -d= -f2-)
-    SCOPE_DESC=$(grep "^SCOPE=" "$SCOPE_FILE" 2>/dev/null | cut -d= -f2-)
-    if [ -n "$NOT_TOUCHING" ]; then
-        IFS=',' read -ra PROTECTED <<< "$NOT_TOUCHING"
-        for area in "${PROTECTED[@]}"; do
-            area=$(echo "$area" | tr -d '[:space:]')
-            [ -z "$area" ] && continue
-            MATCHED_TARGET=""
-            MATCHED_LABEL=""
-            if [ -n "$COMMAND" ] && echo "$COMMAND" | grep -qi "$area"; then
-                MATCHED_TARGET="$COMMAND"
-                MATCHED_LABEL="command"
-            elif [ -n "$FILE_PATH" ] && echo "$FILE_PATH" | grep -qi "$area"; then
-                MATCHED_TARGET="$FILE_PATH"
-                MATCHED_LABEL="file"
-            fi
-            if [ -n "$MATCHED_TARGET" ]; then
-                SAFE_TARGET=$(printf '%s' "$MATCHED_TARGET" | sed 's/\\/\\\\/g; s/"/\\"/g')
-                cat <<EOF
+    SCOPE_DATE=$(grep "^DATE=" "$SCOPE_FILE" 2>/dev/null | cut -d= -f2-)
+    SCOPE_TODAY=$(date '+%Y-%m-%d')
+    if [ "$SCOPE_DATE" = "$SCOPE_TODAY" ]; then
+        NOT_TOUCHING=$(grep "^NOT_TOUCHING=" "$SCOPE_FILE" 2>/dev/null | cut -d= -f2-)
+        SCOPE_DESC=$(grep "^SCOPE=" "$SCOPE_FILE" 2>/dev/null | cut -d= -f2-)
+        if [ -n "$NOT_TOUCHING" ]; then
+            IFS=',' read -ra PROTECTED <<< "$NOT_TOUCHING"
+            for area in "${PROTECTED[@]}"; do
+                area=$(echo "$area" | tr -d '[:space:]')
+                [ -z "$area" ] && continue
+                MATCHED_TARGET=""
+                MATCHED_LABEL=""
+                if [ -n "$COMMAND" ] && echo "$COMMAND" | grep -qi "$area"; then
+                    MATCHED_TARGET="$COMMAND"
+                    MATCHED_LABEL="command"
+                elif [ -n "$FILE_PATH" ] && echo "$FILE_PATH" | grep -qi "$area"; then
+                    MATCHED_TARGET="$FILE_PATH"
+                    MATCHED_LABEL="file"
+                fi
+                if [ -n "$MATCHED_TARGET" ]; then
+                    # Escape for safe JSON embedding (backslashes then double-quotes)
+                    SAFE_TARGET=$(printf '%s' "$MATCHED_TARGET" | sed 's/\\/\\\\/g; s/"/\\"/g')
+                    cat <<EOF
 {
   "decision": "block",
   "reason": "⛔ SCOPE — this $MATCHED_LABEL touches \"$area\" which we agreed not to touch today.\n\nToday's scope: $SCOPE_DESC\nProtected: $NOT_TOUCHING\n\n$MATCHED_LABEL: $SAFE_TARGET\n\nIf this is intentional, say \"yes proceed\" and I'll run it. Or say \"add to today's scope\" to update the contract."
 }
 EOF
-                exit 1
-            fi
-        done
+                    exit 1
+                fi
+            done
+        fi
     fi
 fi
 

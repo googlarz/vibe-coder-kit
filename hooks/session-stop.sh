@@ -62,7 +62,7 @@ if [ -d "$VIBE_DIR" ]; then
     else
         # No entry yet — stronger reminder with git data to help populate it
         TODAY_COMMITS=$(git log --oneline --after="${TODAY_STOP} 00:00" 2>/dev/null | head -5)
-        CHANGED_FILES=$(git diff --name-only HEAD 2>/dev/null | head -10)
+        CHANGED_FILES=$(git log --name-only --pretty="" --after="${TODAY_STOP} 00:00" 2>/dev/null | grep -v "^$" | sort -u | head -10)
         CONTEXT=""
         [ -n "$TODAY_COMMITS" ] && CONTEXT="${CONTEXT}${NL}  Commits today: $TODAY_COMMITS"
         [ -n "$CHANGED_FILES" ] && CONTEXT="${CONTEXT}${NL}  Files changed: $(echo "$CHANGED_FILES" | tr '\n' ' ')"
