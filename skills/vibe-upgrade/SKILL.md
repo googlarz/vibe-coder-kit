@@ -108,13 +108,25 @@ go mod tidy
 ```
 `go mod tidy` updates go.sum to match — always run it after `go get`.
 
+Verify: start the app and check the feature most likely to use this package. If it works, commit:
+```
+git add go.mod go.sum
+git commit -m "upgrade [package] from [old version] to [new version]"
+```
+If it breaks, revert: `git reset --hard HEAD~1`
+
 **Ruby:**
 ```
 bundle update [gemname]
 ```
-Don't run `bundle update` without a gem name — that updates everything at once, which is what we're avoiding.
+Don't run `bundle update` without a gem name — that updates everything at once, which is what we're avoiding. Bundler handles the lockfile (`Gemfile.lock`) automatically — no separate lockfile update step needed.
 
-After each upgrade (Go or Ruby), the same pattern applies: start the app, run tests if you have them, commit if passing, revert with `git reset --hard HEAD~1` if broken.
+Verify: start the app and check the feature most likely to use this gem. If it works, commit:
+```
+git add Gemfile.lock
+git commit -m "upgrade [gemname] from [old version] to [new version]"
+```
+If it breaks, revert: `git reset --hard HEAD~1`
 
 ---
 

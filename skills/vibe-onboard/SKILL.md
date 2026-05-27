@@ -14,6 +14,8 @@ Produces an ONBOARDING.md that eliminates the "where do I find X?" and "why does
 
 The difference matters. This skill assumes the project is working and the goal is a smooth first day, not triage.
 
+**vs. vibe-handoff (PLANNED mode):** vibe-onboard creates a first-day guide for someone joining an ongoing project. vibe-handoff (PLANNED mode) creates an exit document when handing a project to a new maintainer. Different audiences, different depth.
+
 ---
 
 ## Before Starting — Where to save the document

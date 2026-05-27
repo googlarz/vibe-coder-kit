@@ -9,6 +9,8 @@ Auth bugs don't crash your app — they just let the wrong people in, or lock th
 
 **Not for building auth from scratch** — that's what vibe-guardian does during development. Run vibe-auth after auth is built, before launch, or when something feels off.
 
+**Run one check at a time** — confirm findings with the user before moving to the next. You don't have to do all 7 in one session. If the user wants to stop after 3 checks, that's fine — just document which checks remain in `.vibe/debt.md`.
+
 Two things need to work correctly:
 - **Authentication** — proving who you are (login, logout, sessions, tokens)
 - **Authorization** — proving you're allowed to do something (only admins can delete, only you can edit your own post)

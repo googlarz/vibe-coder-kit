@@ -72,6 +72,8 @@ After the document, tell the user where to get help:
 
 When a developer is joining the project or doing a professional review.
 
+> **Note:** vibe-onboard produces a first-day setup document for a collaborator joining the team. This PLANNED handoff is for a developer inheriting the project to maintain or extend it — deeper technical context, more architectural detail.
+
 ### Step 1 — Read all vibe-brain files
 
 Read these files if they exist:

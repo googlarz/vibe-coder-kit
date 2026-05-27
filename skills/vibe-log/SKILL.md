@@ -68,6 +68,8 @@ This: "Check that `DATABASE_URL` in your `.env` file matches the connection stri
 
 ## Common error patterns — translate these on sight
 
+**Reference — don't read end to end.** Find the error pattern that matches what the user pasted.
+
 **`ECONNREFUSED`**
 Your app is trying to reach a server (database, Redis, an external API) and it's refusing the connection — nothing is listening there. Either the service isn't running, or the URL/port is wrong. Check the service is up and the URL in your `.env` is correct.
 

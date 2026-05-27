@@ -21,6 +21,8 @@ Don't use for tiny changes (single file, obvious fix). Use for anything that spa
 
 ### Step 1 — Read the context
 
+**First-run note:** If `.vibe/project.md` doesn't exist yet, skip this step and ask the user directly: "What are we building, and what parts should the plan leave alone?" This is their first session — there's no prior context to read.
+
 Read silently:
 - `.vibe/sessions.md` — today's scope (from /vibe-think or already set)
 - `.vibe/project.md` — tech stack and how the project is structured

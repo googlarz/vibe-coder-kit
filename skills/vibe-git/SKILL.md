@@ -57,6 +57,8 @@ If any of those are present, stop and address them before proceeding. If `.env` 
 
 ### Step 3 — Write the commit message
 
+Commit messages follow the Conventional Commits format — a short convention used by developers to make history scannable. The format is: `type(scope): what changed`.
+
 Commit messages follow this format:
 
 ```
