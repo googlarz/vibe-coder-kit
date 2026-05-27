@@ -154,6 +154,20 @@ Signs: a query that worked fine with 100 rows suddenly slows down with 10,000 ro
 - Is your server far from your users? A server in Australia serving users in Europe adds ~300ms per request
 - Vercel, Netlify, and Cloudflare have CDNs (global edge networks) — self-hosted servers usually don't
 
+### External APIs (third-party services)
+
+If a slow request is going to an external service (Stripe, Cloudinary, a slow REST API), the bottleneck isn't in your code — it's the round-trip to another server.
+
+To confirm, time the call in isolation:
+```javascript
+console.time('stripe-call'); await stripe.charges.retrieve(id); console.timeEnd('stripe-call')
+```
+
+If the external service is the bottleneck, your options are:
+- **Cache the result** — store it for N minutes so subsequent requests don't wait
+- **Run it in the background** — don't make the user wait; fire it async and update the UI when it's done
+- **Add a loading state** — if you can't avoid the wait, make the slowness feel intentional rather than broken
+
 ---
 
 ## Step 4 — Name the bottleneck
@@ -257,14 +271,6 @@ If the fix didn't help: go back to Step 3 and look at a different bottleneck. On
 - Don't optimize JavaScript rendering before checking the database — the database is almost always the bottleneck
 
 If the bottleneck turns out to be on the user's device or network rather than the app, note this and suggest testing from a different device or connection before optimizing.
-
-### External APIs (third-party services)
-
-If the slow request is going to an external service (Stripe, Cloudinary, a slow REST API): the bottleneck isn't in your code. Confirm with:
-```javascript
-console.time('stripe-call'); await stripe.charges.retrieve(id); console.timeEnd('stripe-call')
-```
-If it confirms the external service is slow: consider caching the result (store it for N minutes), run it in the background (don't make the user wait), or add a loading state so the slowness is less painful.
 
 ---
 

@@ -130,10 +130,12 @@ The same bug often lives in more than one place.
 Search the codebase for the same pattern you just fixed:
 
 ```bash
-grep -r "[the pattern that was wrong]" . --include="*.js" --include="*.ts" --include="*.py" --exclude-dir=node_modules -n
+grep -r "[the pattern that was wrong]" . --include="*.js" --include="*.ts" --include="*.py" --exclude-dir=node_modules -n | head -30
 ```
 
-For example, if you fixed a bug where `calculateTotal()` wasn't handling negative numbers, search for other places that do math: `grep -rn 'calculateTotal\|subtotal\|amount' . --include='*.js' | grep -v node_modules`.
+For example, if you fixed a bug where `calculateTotal()` wasn't handling negative numbers, search for other places that do math: `grep -rn 'calculateTotal\|subtotal\|amount' . --include='*.js' | grep -v node_modules | head -30`.
+
+If this returns a lot of results, skim for the same pattern in critical files (auth, payments, data saving) — those are the ones worth flagging.
 
 If you fixed a missing null check — search for similar null access patterns. If you fixed an unhandled promise rejection — search for other async functions without try/catch. Name any siblings you find but don't fix them in this session — write them to `.vibe/debt.md`.
 

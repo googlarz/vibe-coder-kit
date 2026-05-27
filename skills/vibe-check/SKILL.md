@@ -18,6 +18,8 @@ vibe-check wraps `vibe-safe` if it's installed. If not, it runs its own basic sc
 
 ## Process
 
+This skill runs a silent automated scan, then translates every finding into plain English with a verdict — no technical knowledge needed to read the output.
+
 ### Step 1 — Detect what's available
 
 Check for vibe-safe in this order:
@@ -40,7 +42,7 @@ Parse the output:
 - Lines matching `vibe-safe: [description]` (exit 0) → warnings; translate each through the guide below
 - Any output + exit code 1 → STOP findings; translate each and mark the run as 🚨
 
-For each `vibe-safe: [description]` line, strip the `vibe-safe: ` prefix and match against the translation guide. The description IS the issue — your job is to add the RISK and FIX for it. Use the vibe-safe translation table first, then fall back to the general table for anything not listed.
+For each `vibe-safe: [description]` line, strip the `vibe-safe: ` prefix and match against the translation guide. The description IS the issue — your job is to add the RISK and FIX for it.
 
 **If vibe-safe is not available:** Run the inline checks (see section below), then translate each finding.
 
@@ -79,72 +81,52 @@ Create the directory if it doesn't exist — writing to `.vibe/` will fail silen
 
 ## Translation Guide
 
-### vibe-safe Output Translations
+Match by keyword in the finding description. For anything not listed, apply the same format: explain what it is, what the real-world harm is, and what to do.
 
-When vibe-safe is installed, use this table first. Match by keyword in the `vibe-safe: ` description.
-
-| vibe-safe output contains | Plain-English translation |
+| Finding | Plain-English translation |
 |---|---|
 | `STOP -- credential pattern found` | A real password or API key is committed to the repo. Anyone who has ever cloned or forked this repo already has it — even if you delete it now, it's in git history. Rotate the credential immediately, then remove it from the code. |
-| `STOP -- committing directly to main` / `master` | You're working on the main branch. If something goes wrong, there's no safety net. Create a separate branch: `git checkout -b feature/your-change`. |
+| `private key / cert file staged` | A private key or certificate file is about to be committed. This is a credential — once in git history, it's compromised. Remove it immediately and rotate the key. |
+| `gitleaks` | An entropy-based scanner found something that looks like a real credential. Even if it looks like a test value, rotate it — entropy scanners have very low false positive rates. |
+| `Missing .gitignore entry for .env` | Your `.env` file — which contains your passwords and API keys — could get uploaded to GitHub. Anyone could read it. Add `.env` to your `.gitignore` right now. |
+| `Missing .gitignore` | You have no `.gitignore`, which means Git will track everything including sensitive files and generated folders. Create one immediately. |
+| `node_modules not in .gitignore` | Your `node_modules` folder (hundreds of megabytes of installed packages) could be uploaded to GitHub. It slows everyone down and wastes space. Add it to `.gitignore`. |
+| `.gitignore entries removed` | Files that were previously excluded from git are now being tracked. If any were security-sensitive (env files, generated credentials), they may now be committed. Restore the entries. |
+| `STOP -- SQL string concatenation` | User input is being pasted directly into a database query. An attacker can type special characters to read or delete your entire database. Use parameterized queries. |
+| `STOP -- shell: true` / `shell=True` | A subprocess is being run with shell mode enabled, and user input may flow into it. An attacker can run any command on your server. Disable shell mode and validate input. |
+| `Command injection` | Your code passes user input directly to a shell command. An attacker can run any command on your server. Never pass user input to shell commands; use a library that handles it safely. |
+| `eval(` added | Your code runs a string as code. If that string comes from user input or an external source, an attacker can execute arbitrary commands. Replace with a safe alternative. |
+| `STOP -- Math.random() in auth` | Your login or token generation uses a predictable random number generator. An attacker can predict the values. Use `crypto.randomBytes()` or equivalent. |
+| `STOP -- SSL verification disabled` | HTTPS certificate checking was turned off. Your app will accept fake or expired certificates, making it trivially easy for an attacker to intercept traffic. Remove this. |
+| `Missing HTTPS / HTTP endpoint` | Passwords and data sent over HTTP are visible to anyone on the same network (coffee shop, hotel Wi-Fi). Switch to HTTPS. |
+| `CORS wildcard` | Your API accepts requests from any website. A malicious site can make requests on behalf of your users without their knowledge. Restrict to specific domains. |
+| `dangerouslySetInnerHTML` / `innerHTML =` | Raw HTML is being written directly to the page. If any of that HTML comes from user input or an API, an attacker can inject scripts that run in your users' browsers. Use safe alternatives. |
+| `Directory traversal` | A user could request files outside your intended folder — including system files or other users' data — by using `../` in a URL. Validate and restrict file paths. |
+| `possible sensitive data in log output` | Passwords, tokens, or user data are being printed to logs. Anyone who can read your server logs — or a monitoring service — can see this. Remove the log statement. |
+| `Exposed stack trace / verbose error` | When something breaks, your app shows the full technical error to the user. This tells attackers which libraries you use, where files live, and what's misconfigured. Show a friendly error to users and log the details privately. |
+| `jwt.sign...without expiresIn` | Your login tokens never expire. If a token is stolen, the attacker has access forever. Add `expiresIn` when signing tokens. |
+| `jwt.verify...without algorithms whitelist` | Your token verification accepts any algorithm, including `none` (no signature). An attacker can forge tokens. Specify `algorithms: ['HS256']` or whichever you use. |
+| `auth token stored in localStorage` | Login tokens stored in localStorage can be stolen by any JavaScript running on your page (including injected scripts). Use httpOnly cookies instead. |
+| `new route...has no rate limiting` | A new API endpoint has no limit on how many requests a user can send. An attacker can hammer it indefinitely — to scrape data, brute-force passwords, or run up your bill. Add rate limiting. |
+| `admin/internal route...has no visible auth` | An admin endpoint has no visible authentication check. Anyone who knows the URL can access it. Verify auth is enforced — either in this file or upstream middleware. |
+| `webhook route...no visible signature verification` | Your webhook accepts any payload without checking it's really from the service that's supposed to send it. An attacker can send fake events. Verify the signature from the header. |
+| `helmet removed` | A security library that sets protective HTTP headers was removed. Your app is now missing defenses against common browser-based attacks. Restore it or replace with equivalent headers. |
 | `GitHub Action not pinned to SHA` | Your automated CI/CD runs code fetched from the internet at runtime. If that dependency gets hacked, your automation runs the malicious version. Pin to a specific commit hash. |
+| `npm audit` / `pip-audit` / `semgrep` | A known security vulnerability was found in an installed package. The package has a published CVE — update or replace it. |
+| `STOP -- committing directly to main` / `master` | You're working on the main branch. If something goes wrong, there's no safety net. Create a separate branch: `git checkout -b feature/your-change`. |
 | `SCOPE WARNING -- N files staged` | More files changed than the developer contract allows. Review the list carefully — Claude may have modified things outside the intended scope. |
 | `possible missing await on async call` | A database or API call result is probably a Promise object, not the actual data. The code looks like it works but is silently returning wrong values. Add `await`. |
 | `test added without assertions` | A test was added but it doesn't actually check anything — it will always pass regardless of what the code does. Add at least one assertion. |
 | `coverage threshold lowered` | The test coverage minimum was reduced — likely so CI would pass. This means less of your code is being tested. Restore the threshold and fix the underlying tests. |
-| `possible sensitive data in log output` | Passwords, tokens, or user data are being printed to logs. Anyone who can read your server logs — or a monitoring service — can see this. Remove the log statement. |
-| `helmet removed` | A security library that sets protective HTTP headers was removed. Your app is now missing defenses against common browser-based attacks. Restore it or replace with equivalent headers. |
-| `new route...has no rate limiting` | A new API endpoint has no limit on how many requests a user can send. An attacker can hammer it indefinitely — to scrape data, brute-force passwords, or run up your bill. Add rate limiting. |
-| `admin/internal route...has no visible auth` | An admin endpoint has no visible authentication check. Anyone who knows the URL can access it. Verify auth is enforced — either in this file or upstream middleware. |
-| `webhook route...no visible signature verification` | Your webhook accepts any payload without checking it's really from the service that's supposed to send it. An attacker can send fake events. Verify the signature from the header. |
-| `jwt.sign...without expiresIn` | Your login tokens never expire. If a token is stolen, the attacker has access forever. Add `expiresIn` when signing tokens. |
-| `jwt.verify...without algorithms whitelist` | Your token verification accepts any algorithm, including `none` (no signature). An attacker can forge tokens. Specify `algorithms: ['HS256']` or whichever you use. |
-| `auth token stored in localStorage` | Login tokens stored in localStorage can be stolen by any JavaScript running on your page (including injected scripts). Use httpOnly cookies instead. |
-| `STOP -- Math.random() in auth` | Your login or token generation uses a predictable random number generator. An attacker can predict the values. Use `crypto.randomBytes()` or equivalent. |
-| `STOP -- SQL string concatenation` | User input is being pasted directly into a database query. An attacker can type special characters to read or delete your entire database. Use parameterized queries. |
-| `STOP -- shell: true` / `shell=True` | A subprocess is being run with shell mode enabled, and user input may flow into it. An attacker can run any command on your server. Disable shell mode and validate input. |
-| `dangerouslySetInnerHTML` / `innerHTML =` | Raw HTML is being written directly to the page. If any of that HTML comes from user input or an API, an attacker can inject scripts that run in your users' browsers. Use safe alternatives. |
-| `eval(` added | Your code runs a string as code. If that string comes from user input or an external source, an attacker can execute arbitrary commands. Replace with a safe alternative. |
-| `STOP -- SSL verification disabled` | HTTPS certificate checking was turned off. Your app will accept fake or expired certificates, making it trivially easy for an attacker to intercept traffic. Remove this. |
-| `CORS wildcard` | Your API accepts requests from any website. A malicious site can make requests on behalf of your users without their knowledge. Restrict to specific domains. |
-| `private key / cert file staged` | A private key or certificate file is about to be committed. This is a credential — once in git history, it's compromised. Remove it immediately and rotate the key. |
-| `gitleaks` | An entropy-based scanner found something that looks like a real credential. Even if it looks like a test value, rotate it — entropy scanners have very low false positive rates. |
-| `.gitignore entries removed` | Files that were previously excluded from git are now being tracked. If any were security-sensitive (env files, generated credentials), they may now be committed. Restore the entries. |
 | `TODO` / `FIXME` in implementation | Placeholder code was shipped instead of a real implementation. This usually means the feature is incomplete or a known problem was intentionally left unfixed. Address it before pushing. |
 | `commented-out code` | Working code was commented out instead of deleted. This often means Claude wasn't sure whether to remove it. Review and decide: delete it or restore it. |
 | `rm -rf` in committed script | A destructive shell command is in a script that will be committed. If this runs in production with the wrong path, it can delete critical files. Add explicit path validation. |
-| `npm audit` / `pip-audit` / `semgrep` | A known security vulnerability was found in an installed package. The package has a published CVE — update or replace it. |
-
-For any vibe-safe output line not in this table, apply the general format: explain what it is, what the real-world harm is, and what to do.
-
----
-
-### General Translation Guide
-
-Translate every technical finding into plain English using these patterns. For findings not listed, apply the same format: explain what it is, what the real-world harm is, and what to do.
-
-| Technical finding | Plain-English translation |
-|---|---|
-| Potential credential exposure | Your API key or password might be in the code. Anyone who sees your repo can use your accounts, rack up charges on your behalf, or access your users' data. Remove it from the code and put it in a `.env` file instead. |
-| Hardcoded secret / hardcoded API key | Your password or secret key is written directly in the code. If your repo is public or ever becomes public, that key is compromised. Move it to `.env` and never commit that file. |
-| SQL injection vulnerability | A malicious user could steal or delete your entire database by typing special characters into a form. Use parameterized queries instead of building SQL strings by hand. |
-| Missing .gitignore entry for .env | Your `.env` file — which contains your passwords and API keys — could get uploaded to GitHub. Anyone could read it. Add `.env` to your `.gitignore` right now. |
-| Missing .gitignore | You have no `.gitignore`, which means Git will track everything including sensitive files and generated folders. Create one immediately. |
-| node_modules not in .gitignore | Your `node_modules` folder (hundreds of megabytes of installed packages) could be uploaded to GitHub. It slows everyone down and wastes space. Add it to `.gitignore`. |
-| Unpinned GitHub Actions / unpinned dependency | Your automated tasks run code from the internet without locking the version. Someone could change that code and your automation would run the malicious version. Pin dependencies to exact versions or commit hashes. |
-| eval() usage / unsafe eval | Your code runs arbitrary strings as code. An attacker who can control that string can run any command on your server. Replace `eval` with a safe alternative. |
-| Insecure random number generator | Your code uses a predictable random number for something that needs to be unpredictable (like a session token or password reset link). An attacker can guess these values. Use a cryptographically secure random generator. |
-| Console.log of sensitive data | You're printing passwords, tokens, or user data to your logs. Anyone who can read your logs — including log-monitoring services — can see this. Remove the log line or replace with a non-sensitive placeholder. |
-| Missing HTTPS / HTTP endpoint | Passwords and data sent over HTTP are visible to anyone on the same network (coffee shop, hotel Wi-Fi). Switch to HTTPS. |
-| Directory traversal | A user could request files outside your intended folder — including system files or other users' data — by using `../` in a URL. Validate and restrict file paths. |
-| Command injection | Your code passes user input directly to a shell command. An attacker can run any command on your server. Never pass user input to shell commands; use a library that handles it safely. |
-| Exposed stack trace / verbose error | When something breaks, your app shows the full technical error to the user. This tells attackers which libraries you use, where files live, and what's misconfigured. Show a friendly error to users and log the details privately. |
 
 ---
 
 ## Inline Checks (when vibe-safe is not available)
 
-Run these grep patterns on the project files. Skip `node_modules`, `.git`, and binary files.
+Run these grep patterns on the project files. Skip `node_modules`, `.git`, and binary files. The scan runs automatically — here's what each finding means in plain English:
 
 ```bash
 # Hardcoded secrets

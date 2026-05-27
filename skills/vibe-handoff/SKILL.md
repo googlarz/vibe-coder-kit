@@ -233,7 +233,7 @@ If sessions file doesn't exist: "No session log available."]
 - [ ] **Performance** — [describe any known slow paths]
 - [ ] **Deployment** — [describe how deploys work; note if it's manual/fragile]
 
-[**Default: keep all items.** Only remove a line if you have specific evidence from the codebase that the concern genuinely doesn't apply — e.g. "no auth system present" is grounds to remove the Auth line; "I didn't see any Stripe files" is not evidence the payments concern doesn't apply (it may just not be implemented yet). When in doubt, keep the line. A developer would rather see a concern that turns out to be a non-issue than find a gap you quietly omitted. Add any concerns not on this list that are specific to this project.]
+[Default: include every section — a developer would rather see a non-issue than a gap you quietly removed. Add any concerns not on this list that are specific to this project.]
 
 ## How to Run Locally
 [If a README exists with setup instructions, summarize them here. If not, infer from the codebase and note "[inferred from codebase, not from README]".]

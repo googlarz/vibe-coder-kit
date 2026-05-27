@@ -58,18 +58,21 @@ Break the work into **3-5 phases**. No more. If it genuinely needs more than 5 p
 Introduce the plan conversationally before laying it out:
 > "Here's how I'm thinking we tackle this. Tell me if anything doesn't feel right — we can adjust before we start."
 
-Then present each phase clearly. Write them as natural descriptions, not form fields:
+Then present each phase using this template:
 
----
-**Phase [N]: [plain-English name — what this phase produces]**
+```
+## Phase [N] — [Short phase name]
 
-[2-4 sentences of what will exist after this phase that doesn't exist now. Concrete: "A form on the settings page with two fields: new email and confirm new email."]
+**Goal:** [What the app can do after this phase that it can't now — one sentence]
 
-When this is done: [one specific thing to check that proves it worked — a user action or visible result, not "the code looks right"]
+**Steps:**
+1. [Concrete task]
+2. [Concrete task]
+3. [Concrete task]
 
-Tell me "save checkpoint" when you're ready to lock this in and move to the next phase.
-
----
+**Verify:** [What to try to confirm it worked — one user action]
+**Checkpoint:** When you're ready, say "save checkpoint" and I'll commit this phase.
+```
 
 **Note:** When the user says "save checkpoint", run: `git add -A && git restore --staged .env 2>/dev/null && git commit -m 'checkpoint: [phase name] complete'`
 

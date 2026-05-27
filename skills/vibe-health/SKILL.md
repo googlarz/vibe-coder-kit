@@ -84,9 +84,9 @@ Note the count. Scaffolded frameworks (Next.js, Rails, Django) start with 50–1
 
 **Copy-paste patterns:**
 ```bash
-timeout 15 find . -maxdepth 4 \( -name "*.js" -o -name "*.ts" -o -name "*.py" \) | grep -v node_modules | grep -v .git | xargs -I{} basename {} | grep -iE "(_old|_new|_copy|_bak|_backup|[0-9]\.js$|[0-9]\.ts$|[0-9]\.py$)" | sort
+timeout 15 find . -maxdepth 4 \( -name "*.js" -o -name "*.ts" -o -name "*.py" \) | grep -v node_modules | grep -v .git | xargs -I{} basename {} | grep -iE "(_old|_new|_copy|_bak|_backup|[0-9]\.js$|[0-9]\.ts$|[0-9]\.py$)" | sort 2>/dev/null || true
 ```
-The `timeout 15` stops the command after 15 seconds if it hasn't finished. If `timeout` isn't available (macOS doesn't include it by default — install via `brew install coreutils`), you can press Ctrl+C to cancel it manually. If the command is skipped for any reason, the other signals in this dimension are sufficient.
+The `timeout 15` stops the command after 15 seconds if it hasn't finished. On macOS: `timeout` may not be available. Either install it with `brew install coreutils` or just press Ctrl+C if the command runs longer than 15 seconds — the other signals are sufficient.
 Look for files with suffixes like `_old`, `_new`, `_copy`, `_backup`, or names ending in a number (e.g., `checkout2.js`, `auth_new.ts`). These often mean the same logic is duplicated in multiple places — a source of bugs. Do NOT flag `.js` and `.ts` variants of the same name (e.g., `checkout.js` and `checkout.ts`) — these are expected in TypeScript projects.
 
 **TODO/FIXME count:**
@@ -160,6 +160,8 @@ Flag any hits that look like real values (not placeholder text like `your-api-ke
 - 🔴 Red — Debt or Code Signals is Red, OR two or more dimensions are Red for any reason
 
 This matters: a project with no git set up (Safety Red) but clean debt, good momentum, and no code issues is Yellow — not Red. Treating "no git" as overall Red will cause unnecessary panic. Reserve Red for signals that indicate the project itself is fragile.
+
+> **Important:** A project with no git (Safety 🔴) but clean debt and good code signals is still 🟡 overall — reserve 🔴 overall for signals that mean the project itself is fragile, not just unprotected.
 
 **"Need a real developer?" assessment:**
 

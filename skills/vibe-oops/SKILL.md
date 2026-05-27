@@ -202,18 +202,13 @@ Show the user what changed. The most recent commit touching the broken area is a
 
 ---
 
-## Verification
+## Verification checklist
 
 - [ ] Problem was identified before attempting a fix
 - [ ] User was presented exactly three options
 - [ ] Fix attempt was explained before executing
 - [ ] If same fix failed twice, reassessment happened before trying a third approach
-- [ ] Bug written to `.vibe/bugs.md` after resolution
-
-After a fix is applied, confirm it worked before declaring done:
-
-Ask the user to test the specific thing that was broken, and one other thing nearby (to check for side effects). Create a checkpoint: `git add -A && git commit -m "fix: [what was fixed]"`. Write to `.vibe/bugs.md` if the fix required more than one attempt.
-
-Only then: "Looks like that fixed it."
-
-If testing reveals a new problem: go back to Step 1. Do not stack fixes.
+- [ ] After fix: user tested the specific broken thing AND one adjacent feature (to check for side effects)
+- [ ] Checkpoint created after fix: `git add -A && git commit -m "fix: [what was fixed]"`
+- [ ] Bug written to `.vibe/bugs.md` if the fix required more than one attempt
+- [ ] Only declared done after testing confirmed it — not before

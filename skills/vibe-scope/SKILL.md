@@ -19,7 +19,7 @@ Run this at the start of every work session. It takes two minutes and saves hour
 
 ## Process
 
-Ask the user these 5 questions in order. One at a time. Wait for each answer before moving on. Do not skip questions. Do not add more questions.
+Cover these 5 questions in order (skip Questions 1-2 if CLAUDE.md already captured them at session start). One at a time. Wait for each answer before moving on. Do not add more questions.
 
 ### Question 1 — What are we doing today?
 

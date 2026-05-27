@@ -64,6 +64,8 @@ Find all the routes in the codebase:
 grep -rn "router\.\|app\.get\|app\.post\|getServerSideProps\|loader\|createBrowserRouter\|Route path" . --include="*.js" --include="*.ts" --include="*.tsx" --include="*.py" --include="*.rb" --exclude-dir=node_modules --exclude-dir=.git | grep -v "//.*router"
 ```
 
+If the output is long, focus only on lines that contain `/api/` or route-defining keywords (`app.get`, `app.post`, `router.get`, `router.post`, `@app.route`) — those are the actual endpoints. Ignore import lines and comments.
+
 Don't try to understand every line — just look for routes that are missing the word 'auth', 'protect', 'requireAuth', or 'middleware' in the output above. Those are the ones to manually test by trying to access them without logging in first.
 
 For each route that holds anything private (dashboard, settings, profile, admin, any user data): open an incognito window (a fresh browser session with no cookies — no login), paste the URL directly, and see what loads.

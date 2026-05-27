@@ -30,6 +30,8 @@ List the files changed this session. For each file, identify what user-facing be
 
 ### Step 2 — Happy path test
 
+**For backend-only changes (no UI to click):** ask the user to trigger the changed endpoint from their app or a test tool (curl, Postman, their test suite) instead of clicking through a UI flow.
+
 Tell the user what to try — conversationally, not as a numbered list. Say something like:
 
 > "Let me walk you through a quick test. First — [specific action]. What happens?"
@@ -57,7 +59,7 @@ Check these failure scenarios for anything that applies to what was built:
 | **Network offline** | No internet during a save — does data get lost? |
 | **Slow connection** | Does something submit twice if the button is clicked twice? |
 | **Missing data** | What if a field that should exist doesn't — crash or graceful message? |
-| **Wrong device/viewport — page breaks or actions don't work on mobile** | Does the layout break or do actions fail on a phone screen? |
+| **Wrong device/viewport** | Layout or actions break on mobile. |
 
 For each that applies, write the test step and the expected outcome. Flag any where the expected outcome is "I'm not sure" — those are the ones most likely to break.
 
@@ -76,8 +78,6 @@ git diff --name-only HEAD~1 HEAD 2>/dev/null
 List adjacent features and ask the user to spot-check them — one action each. This doesn't need to be exhaustive, just the most likely collateral damage.
 
 Before moving to the verdict, confirm that anything working before this session still works. Pick the one adjacent feature most likely to have been disturbed and ask the user to check it.
-
-**For backend-only changes (no UI to click):** ask the user to trigger the changed endpoint from their app or a test tool (curl, Postman, their test suite) instead of clicking through a UI flow.
 
 ### Step 5 — Verdict
 
