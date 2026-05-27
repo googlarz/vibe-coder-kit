@@ -113,9 +113,11 @@ Once confirmed:
 2. Offer to start:
 > "Plan saved. Want me to start with Phase 1?"
 
-If yes: begin. Create the checkpoint before the first change. Same `.env` check as Step 2 — confirm before staging.
+If yes: begin. Create the checkpoint before the first change. Confirm `.env` is in `.gitignore` before staging.
 ```bash
-git add -A && git commit -m "checkpoint before [scope]"
+git add -A
+git restore --staged .env 2>/dev/null  # safety: never commit .env
+git commit -m "checkpoint before [scope]"
 ```
 
 Then announce: "Saved your starting point. If anything goes wrong, I can get you back to here."

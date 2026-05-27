@@ -60,9 +60,7 @@ Say this clearly to the user before moving on:
 
 ## Step 2: Present Exactly Three Options
 
-Present all three options, but for production emergencies (users are affected right now), lead with: "The fastest path is Option 2 — undo to the last safe state. Here's how. I'll also show you Options 1 and 3 after the rollback is running."
-
-Present exactly three options — normally in this order: Fix, Undo, Get Help. **Exception: if production is down or users are affected RIGHT NOW, lead with Option 2 (Undo) — speed matters more than explanation.**
+Present exactly three options — normally in this order: Fix, Undo, Get Help. **Exception: if production is down or users are affected RIGHT NOW, lead with Option 2 (Undo) — speed matters more than explanation.** In that case, open with: "The fastest path is Option 2 — undo to the last safe state. Here's how. I'll also show you Options 1 and 3 after the rollback is running."
 
 Always with honest confidence.
 
@@ -155,7 +153,17 @@ If `/vibe-handoff` isn't in your pack, describe the problem clearly in a post: w
 
 ---
 
-## Step 3: What NOT to Do
+## Step 3: Verify the Fix
+
+After applying a fix, ask the user to test two things:
+1. The specific thing that was broken — confirm it now works
+2. One adjacent feature — something nearby that could have been disturbed by the fix (e.g. if login was broken, also check that the logout button still works)
+
+Fixes sometimes have side effects. Testing one adjacent feature catches most of them.
+
+---
+
+## Step 4: What NOT to Do
 
 These make things worse. Do not do them:
 
@@ -214,7 +222,7 @@ Show the user what changed. The most recent commit touching the broken area is a
 - [ ] User was presented exactly three options
 - [ ] Fix attempt was explained before executing
 - [ ] If same fix failed twice, reassessment happened before trying a third approach
-- [ ] After fix: user tested the specific broken thing AND one adjacent feature (to check for side effects)
+- [ ] After fix: user tested the specific broken thing AND one adjacent feature (per Step 3 — to check for side effects)
 - [ ] Checkpoint created after fix: `git add -A && git commit -m "fix: [what was fixed]"`
 - [ ] Bug written to `.vibe/bugs.md` if the fix required more than one attempt
 - [ ] Only declared done after testing confirmed it — not before

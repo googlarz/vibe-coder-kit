@@ -71,13 +71,7 @@ Sometimes fixing one thing accidentally breaks something nearby. Check what was 
 
 First, check `.vibe/bugs.md` if it exists. Any previously fixed bugs in the area being tested are the highest-risk regressions — Claude often re-introduces the same class of bug when modifying nearby code. Name each one explicitly: "We fixed [X] on [date] — worth confirming it still holds."
 
-Then check adjacent files:
-
-```bash
-git diff --name-only HEAD~1 HEAD 2>/dev/null
-```
-
-List adjacent features and ask the user to spot-check them — one action each. This doesn't need to be exhaustive, just the most likely collateral damage.
+Use the changed files identified in Step 1 to determine what to check for regressions. List adjacent features and ask the user to spot-check them — one action each. This doesn't need to be exhaustive, just the most likely collateral damage.
 
 Before moving to the verdict, confirm that anything working before this session still works. Pick the one adjacent feature most likely to have been disturbed and ask the user to check it.
 

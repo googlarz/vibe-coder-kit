@@ -198,7 +198,7 @@ For each one, before running:
 4. Ask: "This will permanently delete [what]. There is no undo. Confirm?"
 5. Only proceed with a clear "yes"
 
-If operating on production data, create a backup first (see Step 3 above).
+If operating on production data, create a backup first (see Step 4 above).
 
 If you see a warning that a destructive SQL command was blocked — that's the vibe-coder-kit safety hook doing its job. It's not an error. Confirm you want to proceed with the operation and it will let you through.
 

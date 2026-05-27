@@ -89,8 +89,8 @@ If today's `## YYYY-MM-DD` entry already exists (vibe-scope or vibe-think ran ea
 ## [YYYY-MM-DD] — [one-line summary]
 - Changed: [file list]
 - Added: [features]
-- Fragile: [concerns from "Watch out for" above]
-- Test manually: [from "Test these manually" above]
+- Fragile: [concerns from "Watch" above]
+- Test manually: [from "Try" above]
 ```
 
 ### Step 5 — Save point
@@ -105,7 +105,7 @@ If yes: `git add -A && git commit -m "session: [one-line summary from Step 3]"`
 - Write as if explaining to someone who has never written code
 - "We added a new page" not "Created route handler for /settings"
 - "The button now does X" not "Implemented onClick handler"
-- Be honest in "Watch out for" — don't sanitize real risks
+- Be honest in "Watch" — don't sanitize real risks
 
 ## Verification
 

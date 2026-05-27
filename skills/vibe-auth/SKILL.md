@@ -30,12 +30,6 @@ Test these manually in the login form:
 
 **Note on ORMs:** If the project uses an ORM (Prisma, Sequelize, Mongoose, Django ORM, ActiveRecord) rather than raw SQL queries — SQL injection is handled automatically. Skip the manual SQL injection test and note "ORM provides protection" in the summary.
 
-Open the login form and test these inputs manually. Tell me what happens for each one:
-- Empty email + empty password
-- Real email + wrong password
-- `' OR '1'='1` in the email field (skip if the project uses an ORM)
-- 500 characters pasted into the email field
-
 ---
 
 ## Check 2 — Sessions expire
@@ -62,7 +56,15 @@ A reasonable duration depends on what the app does. A banking tool: 1 hour. A pe
 
 This is the most common silent failure. A page that should need login loads fine without it.
 
-Find all the routes in the codebase:
+Find all the routes in the codebase. First, get a count to know what you're dealing with — run this on each file that likely contains routes (e.g. `app.js`, `routes.ts`, `server.py`):
+
+```bash
+grep -c "app\.\|router\." <file>
+```
+
+If the count is over 50 lines, tell the user: "There are many routes in this file — I'll focus on ones that handle user data or sensitive actions rather than listing all of them."
+
+Then run the full grep:
 
 ```bash
 grep -rn "router\.\|app\.get\|app\.post\|getServerSideProps\|loader\|createBrowserRouter\|Route path" . --include="*.js" --include="*.ts" --include="*.tsx" --include="*.py" --include="*.rb" --exclude-dir=node_modules --exclude-dir=.git | grep -v "//.*router"

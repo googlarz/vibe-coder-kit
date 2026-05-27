@@ -55,23 +55,9 @@ If they can't tell which deployment was good: "Look at the timestamps. You want 
 
 Two options — give both:
 
-> "You can do this from the Fly.io dashboard: go to fly.io → your app → **Releases** tab → find the last healthy release → click **Rollback to this version**."
+> "Go to fly.io → your app → **Releases** tab → find the last healthy release → click **Rollback to this version**. That's the easiest path and works for most situations."
 >
-> Or from the terminal — run this to see your recent releases:
-> ```
-> fly releases list
-> ```
-> The output looks like this:
-> ```
-> VERSION   STATUS    DESCRIPTION   USER                  DATE
-> v5        complete  Deploy image  user@example.com      2026-05-27
-> v4        complete  Deploy image  user@example.com      2026-05-25
-> ```
-> The version number (like `v4`) is what you pass to `fly deploy --image` — not a separate image ID. To roll back to `v4`:
-> ```
-> fly deploy --image registry.fly.io/your-app-name:deployment-v4
-> ```
-> Replace `your-app-name` with your app name and `v4` with the version you want.
+> If the dashboard approach doesn't work, there's a terminal option — but it requires knowing your app's registry URL, which is more advanced. If you need to go that route, ask for help rather than guessing at the command.
 
 ---
 

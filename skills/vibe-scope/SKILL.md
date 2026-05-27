@@ -19,7 +19,7 @@ Run this at the start of every work session. It takes two minutes and saves hour
 
 ## Process
 
-Cover these 5 questions in order (skip Questions 1-2 if CLAUDE.md already captured them at session start). One at a time. Wait for each answer before moving on. Do not add more questions.
+Cover these 5 questions in order (if CLAUDE.md captured Q1-Q2 at session start, skip those two — still cover Q3, Q4, Q5). One at a time. Wait for each answer before moving on. Do not add more questions.
 
 ### Question 1 — What are we doing today?
 
@@ -124,7 +124,9 @@ SCOPE=<one-line from Question 1>
 DATE=<today's actual date as YYYY-MM-DD — write the literal date, e.g. 2026-05-27>
 ```
 
-If Question 2 was "nothing" or vague, write an empty `NOT_TOUCHING=`. This file is read by the pre-tool hook on every bash command — if the command string matches anything in NOT_TOUCHING, it gets flagged before executing. This automatic enforcement only works if the vibe-coder-kit hooks are installed (run `bash ~/.claude/vibe-coder-kit/verify.sh` to check). If they're not installed, the scope contract still lives in sessions.md — Claude follows it manually instead of having it enforced automatically.
+> **Automatic enforcement note:** if the vibe-coder-kit hooks are installed, this file enables automatic scope checking on every bash command. Run `bash ~/.claude/vibe-coder-kit/verify.sh` to check.
+
+If Question 2 was "nothing" or vague, write an empty `NOT_TOUCHING=`. This file is read by the pre-tool hook on every bash command — if the command string matches anything in NOT_TOUCHING, it gets flagged before executing. If the hooks are not installed, the scope contract still lives in sessions.md — Claude follows it manually instead of having it enforced automatically.
 
 Write this block to sessions.md:
 

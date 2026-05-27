@@ -79,6 +79,14 @@ Create the directory if it doesn't exist — writing to `.vibe/` will fail silen
 
 ---
 
+## Universal Scan Rules
+
+Whether using vibe-safe or running greps manually — cap at 10 examples per finding, and apply the false positive rule: check each result in context before flagging. If any pattern returns more than 10 results: check the first 3 in context. If the first 3 are false positives, note "X pattern returned Y matches — none of the first 3 are real findings" and move on. Don't list all 50 matches — that's noise.
+
+**False positives are common.** A `password = getenv('PASSWORD')` is safe — it's reading from an env variable, not hardcoding one. A `password_reset_token` variable name is not a hardcoded credential.
+
+---
+
 ## Translation Guide
 
 **Reference table — don't read this end to end.** Look up what vibe-safe reported and find the plain-English explanation.
@@ -171,10 +179,6 @@ grep -rn --include="*.yml" --include="*.yaml" \
 ```
 
 Translate each match through the translation guide above.
-
-> **Cap at 10 results.** If any grep returns more than 10 results: don't present every match. Open the first 3 results, check if they're real findings or false positives (test files, comments, placeholder values). If the first 3 are false positives, note "X pattern returned Y matches — none of the first 3 are real findings" and move on. Don't list all 50 matches — that's noise.
-
-**False positives are common.** If you see a result, check the actual line in context before flagging it. A `password = getenv('PASSWORD')` is safe — it's reading from an env variable, not hardcoding one.
 
 **Also suggest:** If the project has a `package.json`, offer to run `npm audit` for known vulnerabilities in installed packages. This catches issues vibe-safe's static analysis can't see. Translate findings the same way — in plain English with a clear verdict.
 
