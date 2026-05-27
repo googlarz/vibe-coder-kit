@@ -86,12 +86,6 @@ fi
 if echo "$COMMAND" | grep -qE "(^|&&|;)[[:space:]]*(npm install|npm i|yarn add|pnpm add|bun add|pip install|pip3 install)[[:space:]]+"; then
     PACKAGE=$(echo "$COMMAND" | grep -oE "(npm install|npm i|yarn add|pnpm add|bun add|pip install|pip3 install)[[:space:]]+[^;&]+" | head -1 | sed -E 's/(npm install|npm i|yarn add|pnpm add|bun add|pip install|pip3 install)[[:space:]]+//' | tr ' ' '\n' | grep -v '^-' | head -1 | sed 's/["\x27]//g')
 
-    # Log the install to vibe-brain for session summary
-    VIBE_DIR="$(pwd)/.vibe"
-    if [ -d "$VIBE_DIR" ]; then
-        echo "- $(date '+%Y-%m-%d') installed package: $PACKAGE" >> "$VIBE_DIR/sessions-installs.log" 2>/dev/null
-    fi
-
     # Flag dev-only packages being installed without --save-dev
     DEV_ONLY="jest|vitest|eslint|prettier|typescript|@types/|nodemon|ts-node"
     if echo "$PACKAGE" | grep -qiE "$DEV_ONLY" && ! echo "$COMMAND" | grep -qE "\-\-save\-dev|\-D\b"; then

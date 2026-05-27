@@ -90,7 +90,7 @@ git commit -m "[drafted message]"
 Confirm `.env` is not staged before running `git add -A`. If it could be:
 ```bash
 git add -A
-git reset HEAD .env 2>/dev/null
+git restore --staged .env 2>/dev/null
 git status  # verify .env is not staged
 ```
 

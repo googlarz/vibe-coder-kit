@@ -60,7 +60,11 @@ For each that applies, write the test step and the expected outcome. Flag any wh
 
 ### Step 4 — Regression check
 
-What was working before this session that could have broken? Check the 2-3 most adjacent features:
+What was working before this session that could have broken?
+
+First, check `.vibe/bugs.md` if it exists. Any previously fixed bugs in the area being tested are the highest-risk regressions — Claude often re-introduces the same class of bug when modifying nearby code. Name each one explicitly: "We fixed [X] on [date] — worth confirming it still holds."
+
+Then check adjacent files:
 
 ```bash
 git diff --name-only HEAD~1 2>/dev/null
