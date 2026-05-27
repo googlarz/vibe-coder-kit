@@ -133,6 +133,8 @@ Often the right idea is one layer below the proposed feature. Help them find it.
 
 > "I think this one can wait. What's been on your list that users have actually asked about?"
 
+If they want to proceed despite weak evidence, don't block them — instead say: "OK — let's at least name what success looks like in the first two weeks. What would have to be true for you to feel like this was worth building?" This gives them a go/no-go signal to check back against. Then offer to hand off to `/vibe-think` with the key risk clearly named.
+
 ---
 
 ### Step 4 — Close with a clear next step

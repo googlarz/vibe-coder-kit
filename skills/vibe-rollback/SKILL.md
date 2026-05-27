@@ -71,7 +71,7 @@ Two options — give both:
 
 ### Render
 
-> "Go to your Render dashboard (dashboard.render.com) → click your service → click the **Events** tab. You'll see a list of deploys. Find the last successful one before the broken deploy → click **'Rollback to this deploy'**. It'll ask you to confirm."
+> "Go to your Render dashboard (dashboard.render.com) → click your service → click the **Deploys** tab. You'll see a list of deploys. Find the last successful one before the broken deploy → click **'Rollback to this deploy'**. It'll ask you to confirm." *(Render's UI changes occasionally — look for 'Deploys' or 'Deployments' in the left sidebar if this doesn't match)*
 
 ---
 
@@ -92,7 +92,7 @@ Show the user the list. Say:
 
 > "Here are your last 5 commits. Tell me which one was the last working version and I'll revert to it."
 
-Once they identify it, use `git revert HEAD` to undo the last commit safely (keeps history intact), or use `git reset --hard [commit-id]` if multiple commits need undoing — but say explicitly: "This will permanently remove the commits after [ID]. Your local code will change. Are you sure?"
+Once they identify it, use `git revert HEAD` (this creates a new commit that undoes the last one — your history is preserved, not erased) to undo the last commit safely, or use `git reset --hard [commit-id]` if multiple commits need undoing — but say explicitly: "This will permanently remove the commits after [ID]. Your local code will change. Are you sure?"
 
 ---
 

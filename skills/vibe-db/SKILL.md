@@ -48,7 +48,7 @@ Do not proceed until confirmed. Every single time.
 
 A migration is a change to your database structure — (adding a column, removing a table, changing a data type). The content of your database stays; only the shape changes.
 
-### Step 1 — Read the migration file first
+### Step 2 — Read the migration file first
 
 Do not run it. Read it. Translate every operation into plain English.
 
@@ -61,7 +61,7 @@ Examples:
 
 Show this translation to the user before moving on.
 
-### Step 2 — Assess the risk
+### Step 3 — Assess the risk
 
 **HIGH RISK** — these cannot be undone:
 - Anything with `DROP` (column, table, index, database)
@@ -77,7 +77,7 @@ Show this translation to the user before moving on.
 
 Say the risk level out loud before running anything.
 
-### Step 3 — Backup check (required for HIGH RISK operations)
+### Step 4 — Backup check (required for HIGH RISK operations)
 
 For HIGH RISK migrations, confirm a backup exists before running.
 
@@ -105,7 +105,9 @@ mysqldump -u root -p your_database > backup-$(date +%Y%m%d-%H%M).sql
 
 The `-p` flag will prompt you for a password — type it and press Enter. If you don't know the password, check your `.env` file for `DB_PASSWORD` or `DATABASE_URL` — the password is in the URL after the last `:` and before `@`.
 
-### Step 4 — Run the migration
+If `pg_dump` isn't installed: use your database provider's dashboard to create a backup (Supabase: Project Settings → Backups; Railway: your DB service → Backups tab; PlanetScale: Branches → export).
+
+### Step 5 — Run the migration
 
 ```bash
 # Prisma
@@ -132,9 +134,9 @@ psql $DATABASE_URL < path/to/migration.sql
 # MySQL
 mysql -h host -u user -p database < migration.sql
 ```
-Verify by checking the table structure afterwards (see Step 5 below).
+Verify by checking the table structure afterwards (see Step 6 below).
 
-### Step 5 — Verify it worked
+### Step 6 — Verify it worked
 
 Check that the schema now matches what you expected:
 

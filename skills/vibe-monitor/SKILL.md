@@ -103,7 +103,7 @@ Then add to `.env`:
 SENTRY_DSN=https://...
 ```
 
-**Important:** `.env` only sets the variable locally. For production, add `SENTRY_DSN` to your deployment platform (Vercel: Project Settings → Environment Variables; Railway: Project → Variables; Render: Environment → Environment Variables; Fly.io: `fly secrets set SENTRY_DSN=https://...`).
+**Important:** `.env` only sets the variable locally. Set `SENTRY_DSN` in your deployment platform's environment variables (same steps as above).
 
 ---
 
@@ -191,9 +191,9 @@ UptimeRobot is still worth adding on top — platform dashboards don't email you
 
 ---
 
-## Step 4 — Enable deployment failure notifications
+## Step 4 — Deployment alerts (strongly recommended)
 
-This is optional but catches a common failure: you pushed something new and it silently failed to deploy, so the old version kept running.
+This catches a common failure: you pushed something new and it silently failed to deploy, so the old version kept running. If you can't read build logs fluently, this is the most important alert to set up — it tells you immediately when a deployment fails.
 
 - **Vercel:** Project Settings → Notifications → Failed Deployments → enable email
 - **Railway:** Project → Settings → Notifications → enable failed deploy emails

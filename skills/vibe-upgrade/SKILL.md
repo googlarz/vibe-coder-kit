@@ -134,7 +134,13 @@ git add package*.json package-lock.json
 git commit -m "upgrade [package] from [old version] to [new version]"
 ```
 
-(For Python: update the lockfile first — `pip install --upgrade` does not automatically update requirements.txt. Run `pip freeze > requirements.txt` before committing. Then: `git add requirements.txt` or `pyproject.toml`)
+**Python — update the lockfile before committing:**
+```
+pip freeze > requirements.txt
+git add requirements.txt
+git commit -m "upgrade [package] from [old version] to [new version]"
+```
+`pip install --upgrade` does not automatically update requirements.txt — this step is required, not optional.
 
 Then: "That worked. Ready to do the next one?"
 
@@ -147,7 +153,7 @@ Wait for their answer. Don't auto-continue.
 Don't try to fix the breakage now. Revert immediately:
 
 ```
-git reset --hard HEAD
+git reset --hard HEAD~1
 ```
 
 Tell the user:

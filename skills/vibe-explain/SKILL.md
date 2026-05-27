@@ -53,6 +53,8 @@ If multiple files changed in the same area, write **one bullet** for the area �
 
 ### Step 3 — Produce the plain-English summary
 
+Before writing the Watch sentence, scan the last 3–5 entries in `.vibe/sessions.md`. If the same area appears in 2 or more prior "Fragile:" entries, note this in the Watch sentence and suggest `/vibe-health`.
+
 Write exactly three sentences. No more. No headers, no bullet points, no "Here's a summary of..." opener.
 
 **Sentence 1 — Built:** What users can now do that they couldn't before.
@@ -65,6 +67,8 @@ Write exactly three sentences. No more. No headers, no bullet points, no "Here's
 > "Keep an eye on [specific concern]." — or — "Nothing fragile — this session was clean."
 
 If the Watch sentence surfaces a recurring pattern (same area has been fragile multiple sessions in a row), suggest: "This has come up before — might be worth a `/vibe-health` check before the next big session."
+
+**Note on spoken vs. written format:** What you say in Step 3 (three plain sentences) and what you write to sessions.md in Step 4 (structured `- Changed:`, `- Added:`, `- Fragile:`, `- Test manually:` blocks) are intentionally different. The spoken version is conversational — it's for the person in the session. The written version is structured — it's for future sessions to load as context. Don't conflate them.
 
 If there were multiple changes, still write one sentence per slot. Pick the most important thing for each. "We added email notifications and fixed the login timeout" is fine — don't split into sub-bullets.
 

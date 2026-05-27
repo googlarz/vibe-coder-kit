@@ -41,13 +41,11 @@ Wait for the list.
 
 ## Step 3: What actually happened with each attempt?
 
-For each thing they listed, ask — one at a time, not all at once:
+Ask 2-3 diagnostic questions at once — don't interrogate every attempt, just gather what you actually need to route to the right path.
 
 > "When you tried [X] — did anything change at all? Did the error message look different? Did it get further before failing?"
 
-This matters. "It didn't work" hides information. "The error changed from X to Y" is a clue. "It got further but then hit a different problem" is a clue. Keep asking until you have something specific for each attempt.
-
-Don't interrogate every single attempt. After the first attempt or two, batch the question: "You've tried X and Y — what did each one change and what did you see?" One question that covers multiple attempts is better than five sequential questions.
+This matters. "It didn't work" hides information. "The error changed from X to Y" is a clue. "It got further but then hit a different problem" is a clue. Batch the question across attempts: "You've tried X and Y — what did each one change and what did you see?" One question that covers multiple attempts is better than five sequential questions.
 
 ---
 

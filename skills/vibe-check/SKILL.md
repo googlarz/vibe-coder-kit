@@ -242,3 +242,4 @@ After running vibe-check, confirm:
 - [ ] No `eval()` on user-controlled input
 - [ ] Error messages shown to users don't include stack traces or file paths
 - [ ] GitHub Actions (if any) are pinned to a commit hash or exact version tag
+- [ ] `.vibe/.check-history` updated with today's scan date

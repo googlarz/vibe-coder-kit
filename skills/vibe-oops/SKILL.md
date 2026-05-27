@@ -101,6 +101,12 @@ If they want to undo, explain the two options in plain English before running an
 - **Undo just the last change** (`git revert HEAD`): Creates a new commit that cancels out the last one. Safe — your history stays intact and you can undo the undo if needed.
 - **Jump back to an earlier checkpoint** (`git reset --hard [ID]`): Moves your project back in time. Any work since that checkpoint is gone. This cannot be undone. (The ID is the short code at the start of each line in the list above — like `a3f8e21`. Tell me which checkpoint you want and I'll run this for you.)
 
+```
+a3f8e21 checkpoint before adding payments
+b7c2d14 fix: login form not clearing on error
+9e4a0f3 initial commit
+```
+
 For most situations, `git revert` is safer. Only use `git reset --hard` if the user understands that recent work will be permanently deleted.
 
 Always confirm before running `git reset --hard`. Say exactly what will be lost.
@@ -175,7 +181,7 @@ If you can't undo, prioritize getting *something* working over getting it workin
 Stop immediately. Do not touch anything else.
 
 1. Do not run any database commands
-2. Do not restart the database
+2. Do not restart the database (restarting can sometimes make recovery harder by overwriting recovery logs)
 3. Check if a backup exists:
    - Supabase: Dashboard → Settings → Database → Backups
    - PlanetScale, Railway, Render: check their dashboard for backup options

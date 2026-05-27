@@ -71,6 +71,10 @@ Tell me "save checkpoint" when you're ready to lock this in and move to the next
 
 ---
 
+**Note:** When the user says "save checkpoint", run: `git add -A && git restore --staged .env 2>/dev/null && git commit -m 'checkpoint: [phase name] complete'`
+
+---
+
 ### Step 4 — Name the tricky part
 
 After the phases, say which one you're most uncertain about — in plain language:

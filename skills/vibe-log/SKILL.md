@@ -34,6 +34,8 @@ Tell the user what you found and where in the log it was.
 
 If the log references a file path that exists in the project — like `Error in lib/db.js line 42` or `Cannot find module './utils/auth'` — briefly acknowledge you got the log: "Got it — let me check one thing before I respond." Then open and read that file before responding. Don't go silent for a file read without any acknowledgment. A one-line translation without looking at the code is often wrong.
 
+If the error path points to a system library or node_modules (not your project code), look for the first line in the stack trace that points to YOUR project files — that's where the actual problem is.
+
 ---
 
 ## Step 3: Translate — two sentences

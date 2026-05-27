@@ -73,12 +73,12 @@ Important: deleting the file or removing the key in a new commit does **not** er
 **First, check if it's actually in the history:**
 
 ```bash
-git log --all -p | grep -i "FIRST8CHARS"
+git log --all --pickaxe-regex -S 'FIRST8CHARS'
 ```
 
 Replace `FIRST8CHARS` with the first 8 characters of the old key (don't use the full key here — just enough to search for it). If nothing comes back, the key was never committed and you can skip this step.
 
-On large or old repositories, this command may take a minute or more — that's normal, it's reading the entire git history. If it appears to hang after 2 minutes, press Ctrl+C and use the faster alternative: `git log --all --pickaxe-regex -S 'PARTIAL_KEY' -- . 2>/dev/null | head -20`
+If the fast command doesn't find anything and you want to be thorough, you can run the slower full-history search: `git log --all -p | grep -i "FIRST8CHARS"` — this reads every commit's diff and may take a minute or more on large repositories.
 
 **If it shows up in the history:**
 

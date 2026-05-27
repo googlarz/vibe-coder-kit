@@ -121,7 +121,7 @@ If yes: **uptimerobot.com** → create free account → "Add New Monitor" → ch
 
 **Result:**
 - ✅ **Has alerting** — some form of error tracking or uptime monitoring is in place
-- ℹ️ **No alerting** — not a blocker, but: "You'll find out about problems when users tell you. That's manageable for now, but worth adding soon."
+- ⚠️ **No alerting** — not a hard blocker, but: "You'll find out about problems when users tell you, which means things can break silently. Worth setting up before you share widely."
 
 ---
 

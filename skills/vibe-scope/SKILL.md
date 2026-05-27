@@ -173,6 +173,6 @@ Before ending the skill run, confirm:
 - [ ] All 5 questions answered
 - [ ] Scope is specific (not vague)
 - [ ] Save point confirmed or created
-- [ ] `.vibe/sessions.md` written and shown to user
+- [ ] `.vibe/sessions.md` written and reflected back to user conversationally (not shown as raw file)
 - [ ] User confirmed the contract looks right
 - [ ] If live + risky: warning is visible in the contract

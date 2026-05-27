@@ -86,7 +86,21 @@ const prisma = new PrismaClient({ log: ['query'] })
 
 ```python
 # Django — in settings.py
-LOGGING = { 'loggers': { 'django.db.backends': { 'level': 'DEBUG', 'handlers': ['console'] } } }
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.db.backends': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
+}
 ```
 
 Look for queries taking more than 100ms — those are worth investigating.
@@ -241,6 +255,8 @@ If the fix didn't help: go back to Step 3 and look at a different bottleneck. On
 - Don't "add caching" as a first move — caching hides problems without fixing them
 - Don't rewrite the backend because "it feels slow" — measure first
 - Don't optimize JavaScript rendering before checking the database — the database is almost always the bottleneck
+
+If the bottleneck turns out to be on the user's device or network rather than the app, note this and suggest testing from a different device or connection before optimizing.
 
 ### External APIs (third-party services)
 

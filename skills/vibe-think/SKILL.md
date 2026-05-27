@@ -31,6 +31,8 @@ This gives you context before asking questions. Don't ask about things you can a
 
 ### Step 2 — Ask clarifying questions
 
+If the invocation message already answers most questions (user, feature, problem, scope), compress or skip this step — briefly confirm what you understood and move to Step 3 rather than asking redundant questions.
+
 Ask **at most 5 questions**. Focus on what you don't know from reading the existing files. Cover these in any order that fits the idea:
 
 1. **Who is this for?** — "Who uses this, and what are they trying to do?" (If obvious from project.md, skip.)

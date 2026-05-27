@@ -45,47 +45,33 @@ If the project has no `.vibe/` folder, infer stack from the codebase and note wh
 
 Use this structure for a mixed audience (most common case). Trim sections that don't apply.
 
-Each section below shows **what to write** followed by the template content. The template content is what goes into the README file — the instruction text above it is for you.
+Instructions for each section are below, followed by the full README template block to write to the file.
 
-**What to write:** The project name as an H1, followed by a one-sentence description. Not a mission statement. Not "powerful" or "seamless." Just what it does.
+- Open with the project name as H1 and a one-sentence description. Not a mission statement. Not "powerful" or "seamless." Just what it does. Example: "A personal reading tracker that syncs with Kindle and sends weekly summaries by email."
+- Follow with a 2–3 sentence description: what problem it solves, who it's for, current state (live / in development / personal project).
+- Include a screenshot or demo link only if there's an actual image in the repo or a real URL. Don't add a placeholder.
+- Getting Started section: include only for user-facing projects.
+- Running Locally section: include only for projects with a developer audience. Generate the environment variables table from `.env.example` — every variable should appear. If there's no `.env.example`, say so and list any variables you can infer from the codebase.
+- Be specific about the stack — from `.vibe/project.md` or inferred from `package.json` / `requirements.txt`.
+- License: include only if a LICENSE file exists in the repo.
+
+**README structure to write:**
 
 ```markdown
-<!-- README template section — write this to the file -->
 # [Project Name]
 
 [One sentence. What it does.]
-```
 
-> Example: "A personal reading tracker that syncs with Kindle and sends weekly summaries by email."
-
-**What to write:** A 2–3 sentence description: what problem it solves, who it's for, current state (live / in development / personal project). Then a screenshot or demo link — only if there's an actual image in the repo or a real URL. Don't add a placeholder.
-
-```markdown
-<!-- README template section — write this to the file -->
 [2–3 sentence description: what problem it solves, who it's for, current state.]
 
 [Screenshot or demo link — omit this line if no image exists in the repo]
-```
 
----
-
-**What to write:** Getting Started section — for user-facing projects only.
-
-```markdown
-<!-- README template section — write this to the file -->
 ## Getting Started
 
 - [Where to access it — production URL if live]
 - [How to sign up or get started]
 - [One "first thing to try"]
-```
 
----
-
-**What to write:** Running Locally section — for projects with a developer audience.
-
-```markdown
-<!-- README template section — write this to the file -->
 ## Running Locally
 
 ​```bash
@@ -105,16 +91,7 @@ Open http://localhost:3000
 |---|---|---|
 | `DATABASE_URL` | PostgreSQL connection string | Your database host |
 | `STRIPE_SECRET_KEY` | Stripe payments | stripe.com → Developers → API keys |
-```
 
-Generate the environment variables table from `.env.example` — every variable should appear here. If there's no `.env.example`, say so and list any variables you can infer from the codebase.
-
----
-
-**What to write:** Stack and project status. Be specific about the stack — from `.vibe/project.md` or inferred from `package.json` / `requirements.txt`. Be honest about status.
-
-```markdown
-<!-- README template section — write this to the file -->
 ## Built With
 
 [List actual stack — e.g. "Next.js 14 with PostgreSQL on Railway", not "modern web stack"]
@@ -122,14 +99,7 @@ Generate the environment variables table from `.env.example` — every variable 
 ## Project Status
 
 [One of: "Live at [url] — actively developed" / "Personal project — used by the author only" / "Early access — expect rough edges" / "Archived — no longer maintained"]
-```
 
----
-
-**What to write:** License — only if a LICENSE file exists in the repo.
-
-```markdown
-<!-- README template section — write this to the file -->
 ## License
 
 [License name] — see LICENSE file.
@@ -174,7 +144,7 @@ After saving:
 
 > "README is written. Want me to also add a CONTRIBUTING.md with how to submit changes, or a CHANGELOG.md with what's changed in recent versions?"
 
-Only offer these if they'd be relevant — a solo personal project probably doesn't need a CONTRIBUTING guide.
+CONTRIBUTING.md makes sense if: the repo is public, the user has mentioned wanting collaborators, or there are open issues. Skip it for a solo private project.
 
 If creating a CHANGELOG.md, use this format (Keep a Changelog style) so the output is consistent:
 

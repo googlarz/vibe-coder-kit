@@ -170,15 +170,19 @@ These give you a win in the first session and build familiarity before touching 
 2. [Task — e.g. "Add a missing loading state to the submit button on the signup form"]
 3. [Task — e.g. "Improve an error message to be more helpful for users"]
 
-[If you can't identify good starter tasks from the codebase, write:
-"Ask the project owner for a small, self-contained first task before diving into the main codebase."]
+[If the codebase gives no obvious starter tasks, look in this order before falling back to asking:
+1. Grep for TODO or FIXME comments in non-fragile files — these are pre-flagged low-stakes tasks
+2. Check .vibe/debt.md for items tagged Low risk
+3. Check open issues in GitHub (if the repo is linked) for anything labeled "good first issue" or similar
+If none of those surface anything concrete, write: "Ask the project owner for a small,
+self-contained first task before diving into the main codebase."]
 
 ---
 
 ## About This Project's Setup
 
-This project uses [vibe-coder-kit](https://github.com/googlarz/vibe-coder-kit) for
-AI-assisted development. The `.vibe/` folder holds the project's memory:
+This project uses the vibe-skills toolkit for AI-assisted development.
+The `.vibe/` folder holds the project's memory:
 
 - `project.md` — stack and deployment context
 - `sessions.md` — log of what was worked on and what was left fragile
@@ -244,6 +248,9 @@ start without them, ask the project owner to share the env vars.
 
 ### Non-Technical Collaborator Version
 
+If `.vibe/` files don't exist and the codebase gives no clear picture of what the app does, ask the project owner directly before writing anything:
+> "Can you walk me through what the app does and what you'd be most nervous about breaking? I'll write the doc from there."
+
 ```
 # Onboarding — [Project Name]
 Welcome. Here's what you need to know to help out.
@@ -265,15 +272,25 @@ Generated: [today's date]
 
 ---
 
-## What's Working and What Isn't
+## What's Working
 
-Working:
+[Source from debt.md "Working" items and sessions.md entries. If those files don't exist,
+ask the project owner to walk you through the app before writing this section. Don't invent it.]
+
 - [Feature that's solid — e.g. "Users can sign up and log in"]
 - [Feature that's solid — e.g. "The main dashboard loads and displays data correctly"]
 
-Known gaps:
+[If you can't determine this without input: "Ask the project owner to walk you through the app
+so you can document what's solid versus what's still rough."]
+
+---
+
+## What Isn't Working Yet
+
 - [From debt.md / sessions.md — e.g. "Email confirmation is not sent yet — users get added but don't receive a welcome email"]
 - [From debt.md / sessions.md — e.g. "Mobile layout is not finished on the settings page"]
+
+[If debt.md is empty or missing: ask the project owner what they'd be nervous about you accidentally triggering or breaking.]
 
 ---
 
@@ -308,6 +325,7 @@ The project owner is the final check. You may have inferred things that are slig
 ## Verification Checklist
 
 - [ ] New person's role identified before generating (developer / designer / non-technical)
+- [ ] For non-technical path: if .vibe/ files were missing, project owner was asked to walk through the app before writing
 - [ ] Local setup instructions mentally tested — would a fresh clone work with these exact steps?
 - [ ] Every required env var listed with where to get it — no "fill in your credentials" vagueness
 - [ ] "What's Fragile" sourced from debt.md and sessions.md (or directly from the project owner) — not invented

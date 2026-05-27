@@ -50,7 +50,7 @@ Then check the code for the session duration setting:
 grep -r "maxAge\|expires\|session.*duration\|ttl\|TOKEN_EXPIRY" . --include="*.js" --include="*.ts" --include="*.py" --include="*.rb" --include="*.env*" --exclude-dir=node_modules --exclude-dir=.git 2>/dev/null
 ```
 
-A reasonable duration depends on what the app does. A banking tool: 1 hour. A personal blog tool: 30 days. If there's no expiry set at all, that's a gap — a stolen session never dies.
+A reasonable duration depends on what the app does. A banking tool: 1 hour. A personal blog tool: 30 days. If there is NO expiry set at all (tokens never expire), that's a required fix — flag it with 🚨. If expiry exists but seems long for a sensitive app, flag with ⚠️ and suggest a shorter duration.
 
 ---
 

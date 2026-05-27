@@ -75,9 +75,9 @@ git diff --name-only HEAD~1 HEAD 2>/dev/null
 
 List adjacent features and ask the user to spot-check them — one action each. This doesn't need to be exhaustive, just the most likely collateral damage.
 
-#### **Step 3b — Check for regressions.**
-
 Before moving to the verdict, confirm that anything working before this session still works. Pick the one adjacent feature most likely to have been disturbed and ask the user to check it.
+
+**For backend-only changes (no UI to click):** ask the user to trigger the changed endpoint from their app or a test tool (curl, Postman, their test suite) instead of clicking through a UI flow.
 
 ### Step 5 — Verdict
 
@@ -107,7 +107,7 @@ Don't write the test unless asked. Just name it.
 ## Verification checklist
 
 - [ ] Happy path was tested with actual steps, not assumed
-- [ ] At least 3 failure scenarios checked — prioritize the ones most likely to fail given what was built, not the easiest ones
+- [ ] Failure scenarios covered for all applicable paths (at least the most likely 3) — prioritize the ones most likely to fail given what was built, not the easiest ones
 - [ ] Regression check covered the most adjacent feature
 - [ ] Any "not sure" outcomes are named in the report, not glossed over
 - [ ] Verdict is exactly three sentences — what worked, what to check, what to do next

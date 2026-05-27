@@ -131,7 +131,7 @@ If the project has no testing framework set up: don't install one just for this.
 
 ## Step 7 — Verify it works
 
-Ask the user to run the feature that was affected and report back. You can't run the browser — they need to. Example: "Can you test [the specific thing] and tell me what you see?"
+Ask the user to run the feature that was affected and report back. You can't run the browser — they need to. Example: "Can you test [the specific thing] and tell me what you see?" For a web app: open the browser and click through the feature you changed. For an API: trigger the endpoint from the app or Postman. For a script: run it from the terminal.
 
 Check three things:
 

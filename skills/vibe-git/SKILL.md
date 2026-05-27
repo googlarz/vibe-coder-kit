@@ -85,9 +85,9 @@ Draft the message and show it to the user before committing. If they want to adj
 
 If `git status` shows changes across unrelated concerns (e.g., a bug fix AND a dependency update AND a config change): split into separate commits. Run `git add [specific-files]` for each logical group and commit them separately — one commit per concern.
 
-### Step 4 — Checkpoint (if not already done)
+### Step 4 — Commit
 
-If there's no recent checkpoint commit for this session, create one now:
+This is the real commit with a proper message. If a checkpoint commit was already made earlier in the session, this supersedes it — create a new commit with the message drafted in Step 3:
 
 ```bash
 git add -A

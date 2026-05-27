@@ -35,6 +35,8 @@ Run:
 git ls-files .env
 ```
 
+**If no .env file exists at all** (e.g. Vercel-only projects where all env vars live in the platform dashboard): note this explicitly and check the deployment platform dashboard instead. List what's configured there (variable names, not values). Continue to Check 2.
+
 **If this shows anything:** Stop. Say this before anything else:
 
 > "Your .env file is being tracked by git. That means your database password, API keys, and any other secrets in it are visible to anyone who can see your GitHub repository — and they're in your git history permanently, even if you delete the file later. We need to fix this right now before anything else."
@@ -138,11 +140,9 @@ If any check surfaced a surprise — a library that uses an unexpected env var n
 
 ## Verification checklist
 
-- [ ] Environment confirmed: local vs. production
-- [ ] Check 1 passed: no secrets in committed code
-- [ ] Check 2 passed: .env.example exists and matches real .env keys
-- [ ] Check 3 passed: local and deployed env vars compared — no missing keys
-- [ ] Check 4 passed: no hardcoded values that should be env vars
-- [ ] Check 5 passed: code reads env vars correctly (right key names, right syntax)
-- [ ] Check 6 passed: .env in .gitignore, not tracked by git
+- [ ] Check 1 passed: .env is not committed to git (or no .env exists and platform dashboard vars noted)
+- [ ] Check 2 passed: .env.example exists
+- [ ] Check 3 passed: no variables used in code are missing from .env.example
+- [ ] Check 4 passed: no variables in .env.example are missing from local .env
+- [ ] Check 5 passed: no hardcoded secrets found in source files
 - [ ] Any surprises written to .vibe/gotchas.md

@@ -169,6 +169,7 @@ Point to specific files or functions if you know them.]
 
 **If it's a platform issue** (Vercel, Supabase, etc.):
 → [Platform name] Discord: [link if known] or their support docs.
+   For common platforms, use these: Vercel: vercel.com/support | Supabase: supabase.com/support | Railway: railway.app/help | Fly.io: community.fly.io | Stripe: support.stripe.com. If the platform isn't listed, write "Search: [Platform name] support" instead of leaving a blank link.
 
 **If it's a framework issue** (Next.js, Rails, etc.):
 → Stack Overflow tag: [tag name] — paste the exact error message.
@@ -273,5 +274,6 @@ After that, confirm:
 - [ ] The document could be handed to a developer who has never seen the project and they would know where to start
 - [ ] Error messages are copied verbatim (EMERGENCY) or stack is stated precisely (PLANNED)
 - [ ] Nothing is softened — risks, debt, and uncertainty are stated plainly
+- [ ] Root cause hypothesis stated (even if unconfirmed)
 - [ ] The urgency assessment (EMERGENCY) or professional attention list (PLANNED) is honest
 - [ ] Next steps are actionable, not vague
