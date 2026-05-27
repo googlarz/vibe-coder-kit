@@ -1,14 +1,14 @@
 # vibe-coder-kit
 
-**Behavioral contracts and security guardrails for AI-assisted solo development.**
+**A knowledgeable friend alongside every session — not a system printing reports.**
 
 ---
 
 Claude writes the code. The commit message says "update." You're not sure what changed, whether it's safe to push, or whether you've crossed a line that needs a real developer. The next session starts from scratch — no memory of what was decided, what's fragile, or what you're even building.
 
-vibe-coder-kit fixes this. It's two layers working together:
+vibe-coder-kit fixes this. It installs two things that work together silently:
 
-- **Behavioral layer** (this repo) — hooks that fire automatically, project memory that persists, and 13 skills covering the full lifecycle from idea to ship
+- **Behavioral layer** (this repo) — hooks that fire automatically, project memory that persists across sessions, and 13 skills covering the full lifecycle from idea to ship. The whole experience is designed to feel like a conversation with someone who knows your project — not a tool running a checklist.
 - **Mechanical layer** ([vibe-safe](https://github.com/googlarz/vibe-safe)) — 66 security checks on every commit: credentials, injection vulnerabilities, auth gaps, and more — no Claude required
 
 ---
@@ -71,7 +71,7 @@ No invocation needed. These run on every Claude Code session.
 | Skill | When to run |
 |---|---|
 | `/vibe-check` | Before pushing — vibe-safe (66 checks) or inline scan, every finding translated to plain English, clear verdict. |
-| `/vibe-git` | After /vibe-check passes — branch check, meaningful commit message, push with upstream tracking, optional PR description. |
+| `/vibe-git` | After /vibe-check passes — branch check, meaningful commit message, uploads to GitHub, optional PR description. |
 | `/vibe-launch` | Before going live — six checks: secrets, deployment, core flow, monitoring, contact info, rollback. |
 | `/vibe-health` | Project feels messy — debt level, momentum, safety signals, honest "do you need a real developer?" |
 | `/vibe-handoff` | Bringing in a developer — emergency escalation doc or planned onboarding doc. |
@@ -79,15 +79,21 @@ No invocation needed. These run on every Claude Code session.
 
 ---
 
-## Two thinking partners
+## How it feels
 
-Most skills in this pack run a defined process — a checklist, a scan, a structured output. Two work differently.
+Every skill in this pack is designed to feel like a conversation — not a system running a process. Claude talks while it works, shares one thing at a time, and always ends with a clear next step.
 
-**`/vibe-skeptic`** is a conversation, not a form. It reads your project context, listens to the idea, catches scope creep as it happens, and works through five questions one at a time. It doesn't hand you a verdict — it thinks out loud with you. If the idea needs validation first, it doesn't say "test your assumption." It writes a concrete experiment: hypothesis, test method, go/no-go signal, and timeframe.
+A few examples of how this shows up in practice:
 
-**`/vibe-guardian`** reads the code before it says anything. It runs `git diff`, opens the changed files, and looks for the gaps Claude skips on the happy path: error handling that's missing, auth checks that only exist in the UI, null fields that crash in production, double-submits that create duplicate records. Findings are tied to specific functions and lines — not generic categories. Critical items get actual code fixes, not descriptions of fixes.
+**`/vibe-scope`** asks five questions one at a time, waits for each answer, then reflects the plan back in plain speech: "Okay, here's what I've got: we're doing X, leaving Y alone, and we're done when Z. Sound right?"
 
-Both end with a clear next step.
+**`/vibe-test`** doesn't output a report. It walks you through testing the main thing first — "can you try this now?" — then shares what it found and ends with one verdict: safe to push, fix this first, or don't push yet.
+
+**`/vibe-explain`** wraps up a session in 4-6 sentences: what was built, what to try before you close the tab, and one thing to keep an eye on. No ALL-CAPS headers, no formatted blocks.
+
+**`/vibe-skeptic`** thinks out loud with you. If the idea needs validation first, it writes a concrete experiment: hypothesis, what to do today, what "yes, build it" looks like, and a timeframe in days not weeks.
+
+**`/vibe-guardian`** reads the actual code before saying anything — runs `git diff`, opens changed files, checks `.vibe/bugs.md` for patterns. Findings are tied to specific functions and lines. Critical ones come with actual code fixes, not descriptions of fixes.
 
 ---
 
