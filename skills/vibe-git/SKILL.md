@@ -69,6 +69,8 @@ type(scope): what changed, in plain English
 - `feat` — something new that users can see or do
 - `fix` — something broken that now works
 - `refactor` — code reorganization, nothing visible changed
+- `perf` — measurable improvement to speed or memory
+- `test` — adding or updating tests, nothing in production changed
 - `chore` — dependencies, config, tooling
 - `docs` — documentation only
 

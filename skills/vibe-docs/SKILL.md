@@ -43,6 +43,8 @@ If the project has no `.vibe/` folder, infer stack from the codebase and note wh
 
 ## Step 3 — Write the README
 
+Note: The template below assumes a web app with npm. For CLI tools, Python projects, or libraries: adjust the "Quick Start" section to use the appropriate install/run commands (`pip install`, `cargo run`, `go run`, etc.) and omit the browser URL step.
+
 Use this structure for a mixed audience (most common case). Trim sections that don't apply.
 
 Instructions for each section are below, followed by the full README template block to write to the file.

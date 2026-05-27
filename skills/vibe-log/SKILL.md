@@ -101,6 +101,21 @@ Package isn't in `package.json`. Run `npm install [package] --save` locally and 
 **`Heap out of memory`** / `JavaScript heap out of memory`
 Your app is running out of RAM. Usually caused by a large file being loaded entirely into memory, a loop creating too many objects, or a memory leak. Look at what the function is doing with data — is it loading an entire database table? Processing a huge file?
 
+**`ModuleNotFoundError: No module named 'X'`** (Python)
+Package not installed. Run: `pip install X`. If you're in a virtual environment, make sure it's activated first.
+
+**`IndentationError`** (Python)
+Python is strict about spaces and tabs. Check that the highlighted line uses consistent indentation — either all spaces or all tabs, not a mix.
+
+**`KeyError: 'X'`** (Python)
+Tried to read a dictionary key that doesn't exist. Check the data being passed in — the key `'X'` isn't present in that dictionary at the point where this runs.
+
+**`cannot find module`** (Go)
+Run `go mod tidy` to sync dependencies. This updates `go.sum` to match the packages your code actually imports.
+
+**`undefined: X`** (Go)
+The variable or function `X` isn't imported or defined in scope. Check the import statements at the top of the file — the package containing `X` may be missing.
+
 ---
 
 ## Step 5: Where to find more context

@@ -81,6 +81,8 @@ Create the directory if it doesn't exist — writing to `.vibe/` will fail silen
 
 ## Translation Guide
 
+**Reference table — don't read this end to end.** Look up what vibe-safe reported and find the plain-English explanation.
+
 Match by keyword in the finding description. For anything not listed, apply the same format: explain what it is, what the real-world harm is, and what to do.
 
 | Finding | Plain-English translation |

@@ -87,6 +87,9 @@ Tell the user:
 npm install [package]@latest
 ```
 
+If the project uses yarn (`yarn.lock` present): `yarn upgrade [package]@latest`
+If the project uses pnpm (`pnpm-lock.yaml` present): `pnpm update [package]`
+
 **Node.js — major version upgrade:**
 ```
 npm install [package]@[specific-version]

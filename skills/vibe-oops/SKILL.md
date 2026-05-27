@@ -142,6 +142,8 @@ Say:
 
 Then invoke `/vibe-handoff`.
 
+If `/vibe-handoff` isn't in your pack, describe the problem clearly in a post: what you tried, what the error says, what stack you're using. Stack Overflow, the framework's Discord, or a developer friend are all valid options.
+
 **Where to get help after the document is ready:**
 - For common frameworks (Next.js, Supabase, Vercel, Stripe): search their official Discord — usually fastest
 - Stack Overflow: good for error messages — paste the exact error in quotes

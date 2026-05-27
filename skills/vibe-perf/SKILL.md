@@ -246,6 +246,8 @@ npx vite-bundle-visualizer   # Vite projects
 npx webpack-bundle-analyzer  # Webpack projects
 ```
 
+For Rollup or esbuild projects: check the build output file sizes directly with `ls -lh dist/` — if any file is over 500KB, it likely needs code splitting or lazy loading.
+
 Look for large libraries used in only one place — they might load on demand instead.
 
 ---

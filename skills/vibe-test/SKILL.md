@@ -26,6 +26,8 @@ git status --short 2>/dev/null
 git diff --name-only HEAD~1 HEAD 2>/dev/null
 ```
 
+If the project has only one commit (new project), `git diff HEAD~1 HEAD` will fail because there's no previous commit to compare against. In that case, use `git status --short` instead to see what files exist.
+
 List the files changed this session. For each file, identify what user-facing behavior it affects. Map code changes to user actions — not "modified auth.js" but "users logging in."
 
 ### Step 2 — Happy path test

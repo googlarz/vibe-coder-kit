@@ -109,7 +109,7 @@ Once confirmed:
 2. Offer to start:
 > "Plan saved. Want me to start with Phase 1?"
 
-If yes: begin. Create the checkpoint before the first change. Before running `git add -A`, confirm `.env` is in `.gitignore` — `git add -A` stages everything including files git has never tracked. Run `git status` first and scan for anything sensitive in the 'Untracked files' list.
+If yes: begin. Create the checkpoint before the first change. Same `.env` check as Step 2 — confirm before staging.
 ```bash
 git add -A && git commit -m "checkpoint before [scope]"
 ```
