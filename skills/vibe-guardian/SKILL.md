@@ -1,13 +1,15 @@
 ---
 name: vibe-guardian
-description: A walkthrough of what happens when things go wrong — error states, edge cases, and failure modes Claude skips by default. Explains each risk in user terms, prioritizes what to fix, and gives concrete next steps. Run after building anything that touches user data, auth, or external services.
+description: Reads the code you just built and walks through what breaks for real users — error states, auth gaps, edge cases, data problems. Gives specific findings tied to actual code, prioritizes what to fix, and offers to write the fix. Run after building anything that touches user data, auth, or external services.
 ---
 
 # vibe-guardian
 
-A walkthrough of the failure modes Claude skips when building the happy path. Claude builds what you ask for — The Guardian asks what happens to a real user when things don't go as planned.
+Claude builds the happy path. The Guardian reads what was just built and asks what happens to a real user when things don't go as planned.
 
-This isn't a code audit. It's a guided conversation: "let's look at this together and make sure real users don't get hurt if something goes wrong."
+This isn't a checklist to read through. It's a code review grounded in the actual files that changed, ending with a clear picture of what's safe to ship and what needs fixing first.
+
+**What you'll get:** A prioritized list — what's fine, what to fix before anyone uses this, and (for critical items) a concrete code fix or an honest referral to /vibe-handoff if it's genuinely complex.
 
 ## When to use
 
@@ -20,122 +22,132 @@ This isn't a code audit. It's a guided conversation: "let's look at this togethe
 
 ## Process
 
-### Step 1 — Get oriented together
+### Step 1 — Read what was built
 
-Before diving in, understand what was built this session. Check `.vibe/sessions.md` and run:
+Don't go off memory or session notes. Read the actual code first.
 
 ```bash
-git diff --stat HEAD 2>/dev/null
+git diff --name-only HEAD 2>/dev/null || git diff --name-only HEAD~1 2>/dev/null
 ```
 
-Then say — out loud, not silently — what the feature does and who it affects:
+Read the changed files. Focus on:
+- Functions that handle user input or form submissions
+- API calls, database operations, or external service calls
+- Auth checks, permission guards, or session handling
+- Anything that creates, updates, or deletes data
 
-> "So we built [X]. This lets users [do Y]. It touches [data/service/auth]. Let me walk through what happens when things don't go perfectly."
+Also check `.vibe/bugs.md` and `.vibe/debt.md` — if there's a known fragile area that overlaps with this change, flag it early.
 
-Setting this frame matters. It tells the user what's being reviewed and why it's worth checking.
+Then say — out loud, not silently — what was built and what it touches:
 
-### Step 2 — Walk through the failure scenarios
+> "We built [X]. It lets users [do Y]. It touches [what data/services/auth]. Let me look at what happens when things don't go perfectly."
 
-Go through each category below. For any that apply, don't just flag the gap — explain what happens to the user, and then explain what to do about it. Skip categories that genuinely don't apply.
+### Step 2 — Look for gaps in the actual code
 
----
+Based on what you read, check which of these apply. **Skip the ones that genuinely don't** — this is a code review, not a form to fill out.
 
-**When the connection fails or the service is down**
-
-If this feature calls an API, a database, or any external service: what does the user see if that call fails?
-
-- Does the page crash, or show a helpful message?
-- If they were in the middle of filling out a form, is their data lost?
-- If the operation partially completed (some things saved, some didn't), is there a way back?
-
-*Why this matters:* APIs go down. Databases timeout. If users lose work or see a blank crash page, they lose trust and may not come back.
-
-*What to do:* Wrap the call in an error handler that shows a friendly message and, where possible, preserves what the user typed.
+For each gap you find, name the specific file and function. Not "the API call" — "the `createOrder()` call in `api/orders.js` has no error handler."
 
 ---
 
-**When the user does something unexpected**
+**External calls without error handling**
 
-Walk through these quickly — just the ones that apply:
+For any API call, database query, or external service call in the changed code:
+- Is there a try/catch or .catch() handler?
+- What does the user see if the call fails? (Trace the error path — what gets rendered or returned?)
+- If this is a form submit: if the call fails, does the user lose what they typed?
 
-- **Double submit:** Can they click the button twice? What happens — two records created, two charges, or is it handled?
-- **Navigate away mid-operation:** If they close the tab while something is saving, does anything break or get stuck in an in-between state?
-- **Session expired:** If they leave the tab open for hours and then try to submit, do they get a clear message or a cryptic error?
-- **URL manipulation:** If there's an ID in the URL (like `/users/123`), can they change it to `/users/124` and access someone else's data?
-
-*Why this matters:* These aren't edge cases — they happen constantly. Double-submits happen every time there's a slow connection. Sessions expire on mobile all the time.
+*Why this matters:* APIs go down. Databases timeout. A blank crash page destroys trust. A message that says "something went wrong, your data is saved" doesn't.
 
 ---
 
-**When the data isn't what you expect**
+**User behavior the code doesn't handle**
 
-- What if a field that should exist is empty or null — does the app crash or handle it gracefully?
-- What if the user's name is 300 characters? What if their input contains special characters or HTML?
-- What if there are 10,000 items where you expected 10?
+Look at the submit handlers, action functions, and state management in the changed code:
 
-*Why this matters:* Real data is messy. The test data you used while building is clean. Production data isn't.
+- **Double submit:** After the first click, does the button get disabled or is there a loading state? If not, can the action run twice?
+- **Session expiry:** If the user's session expires while the page is open, what happens when they submit? Does the code check, or does it silently fail or worse — succeed with the wrong user?
+- **URL parameters with IDs:** If there's a resource ID in the URL or request body, does the code verify the current user owns that resource before returning or modifying it? Or does it trust the client?
 
----
-
-**When auth or permissions aren't enforced**
-
-This one deserves extra attention:
-
-- Can a logged-out user reach this page directly? What happens?
-- If this action is only for certain users (admins, account owners), does the code check — or does it trust the front end?
-- If permissions are checked: where? In the component, in the API, or both?
-
-*Why this matters:* Front-end permission checks can be bypassed. Anyone who knows the URL or can read the network requests can try things the UI doesn't show them. Permissions need to be enforced where data is accessed, not just where buttons are shown.
+*Why this matters:* Double-submits happen on slow connections. Sessions expire on mobile. URL manipulation is one of the most common ways data gets exposed.
 
 ---
 
-**When two things happen at the same time**
+**Data that could cause crashes**
 
-Only applies if multiple users interact with the same data, or the same user might have multiple tabs open:
+Trace how the code accesses data from databases or external sources:
 
-- Can two users edit the same thing simultaneously? Who wins?
-- Can the same user trigger this twice from two browser tabs?
+- Are nullable fields accessed safely? (`user.profile.name` crashes if `profile` is null — look for chained property access on database results)
+- Is there any validation or max length for user-provided strings before they're stored?
+- Are list queries limited? (`SELECT * FROM orders` with no LIMIT on a user with 10,000 orders)
 
-*Why this matters:* This is rare but catastrophic when it happens — duplicated orders, overwritten data, corrupted state.
+*Why this matters:* Test data is clean. Production data isn't. The first real user with an unusual account will find every assumption.
+
+---
+
+**Auth or permission checks that exist only on the front end**
+
+If there's a protected action in this feature, trace the check:
+- Is it in the UI component (shows/hides a button), in the API route, or both?
+- If I called the API directly — bypassing the UI entirely — would the permission check still run?
+
+Front-end permission checks are not real checks. Anyone who can read network requests can call the API directly.
+
+*Why this matters:* This is how user data gets accessed by the wrong people. The check must live where the data is, not where the button is.
+
+---
+
+**Concurrent access** *(only if users share state)*
+
+Only check this if multiple users can affect the same records, or a user might have multiple tabs open:
+- What happens if two people submit at the same time? Who wins, and is the loser's data silently discarded?
+- Is there a unique constraint or transaction that prevents duplicates?
+
+*Why this matters:* Rare but catastrophic — duplicated orders, overwritten records, corrupted state. If it doesn't apply, skip it.
 
 ---
 
 ### Step 3 — Prioritize clearly
 
-After walking through the scenarios, don't just list findings. Tell the user what order to handle things in:
+After reviewing, give a clear priority order. Don't inflate severity — if everything is critical, nothing gets fixed.
 
 > "Here's how I'd prioritize this:"
 
 ```
 Fix before anyone uses this:
-• [Gap] — [one sentence on what happens to users if this isn't fixed]
+• [Specific gap] — [one sentence: what breaks for the user if this isn't fixed]
 
-Fix before launch:
-• [Gap] — [one sentence on why]
+Fix before launch (not blocking today, but should be done):
+• [Gap] — [one sentence why]
 
 Fine to leave for now:
-• [Gap] — [one sentence on why it's low risk]
+• [Gap] — [one sentence why it's acceptable at this stage]
 ```
 
-Be specific about "fix before anyone uses this" — this means real data loss, security exposure, or complete feature failure. Not everything is urgent. Most things aren't.
+"Fix before anyone uses this" means real data loss, real security exposure, or the feature failing for a predictable real-world scenario. Not everything is urgent.
 
-### Step 4 — Help fix the critical items
+### Step 4 — Fix the critical items
 
-For anything in "fix before anyone uses this": don't just name it, help fix it. Say:
+For anything in "fix before anyone uses this": don't describe the fix — write it.
 
-> "The most important one is [gap]. Here's what fixing it looks like: [concrete approach in plain English]."
+> "The most important one is [gap in `file.js`, `functionName()`]. Here's the fix:"
 
-Then offer: "Want me to handle that now?"
+```[language]
+// [what's changing and why]
+[actual code]
+```
 
-If a gap genuinely requires more than a few lines to fix correctly (database transactions, complex auth logic, race condition handling), say so clearly:
+> "Want me to apply this now?"
 
-> "This one is more complex than it looks. Fixing it properly requires [brief explanation]. This might be worth running /vibe-handoff for — a developer could sort this out in an hour."
+If the fix is genuinely complex (database transactions, proper auth middleware, race condition handling with locks), be honest:
 
-Don't patch it badly to avoid that conversation. A bad patch is worse than knowing the gap exists.
+> "Fixing this properly requires [what and why]. Getting it wrong would be worse than the current gap. This is worth a /vibe-handoff — a developer could sort this out in an hour."
+
+Don't write a bad patch to avoid that conversation.
 
 ### Step 5 — Write to vibe-brain
 
-Before closing:
+Before closing, update the project memory.
 
 **If a gap was found and fixed:** Write to `.vibe/bugs.md`:
 ```
@@ -145,41 +157,47 @@ Before closing:
 **Fix:** [what was done]
 ```
 
-**If something surprising about a library or service was discovered:** Write to `.vibe/gotchas.md`:
+**If something surprising was discovered about a library or service:** Write to `.vibe/gotchas.md`:
 ```
 ## [Date] — [library/service]: [short description]
 **The surprise:** [what it does unexpectedly]
 **Workaround:** [how to handle it]
 ```
 
-**If anything is being left unfixed for now:** Write to `.vibe/debt.md`:
+**If anything is being left unfixed:** Write to `.vibe/debt.md`:
 ```
 - [Date] [area] [Low/Medium/High] — [what the gap is and why it's acceptable to leave for now]
 ```
 
 ### Step 6 — Close with next steps
 
-End with what the user should do next, in order:
+> "Here's where things stand: [one sentence — what was fixed, what's left, is it safe to ship?]
+> Next step: [one of: fix [X] now / run /vibe-check for the security scan / run /vibe-git to commit]"
 
-> "Here's where things stand: [one sentence summary — what's fixed, what's left].
-> Next step: [specific action — fix X, or run /vibe-check to scan for security issues, or run /vibe-git to commit]."
+If everything looks solid, say so explicitly:
 
-If everything looks solid: say so. "Nothing critical found" is a real and useful outcome. Name the specific things that were checked so the user knows what was covered.
+> "Nothing critical found. The things I checked: [list what was covered]. Safe to proceed — run /vibe-check next."
+
+"Nothing critical found" is a real and useful outcome. Name what was checked so the user knows the scope of the review.
 
 ---
 
 ## Tone rules
 
+- Read first, then talk. Findings grounded in actual code are more useful than questions about hypothetical code.
 - Walk alongside, not above. "Let's look at this together" not "I've identified the following issues."
-- Explain impact in user terms. Not "unhandled null pointer" — "the page will crash if a user's profile is missing their name."
-- Be honest about severity. Not everything is critical. Inflating severity destroys trust.
-- Help, don't just report. For critical gaps: offer to fix them. For complex ones: offer /vibe-handoff.
+- Explain impact in user terms. Not "unhandled null pointer" — "the page crashes if a user's profile is missing their name."
+- Be honest about severity. Inflating severity destroys trust. Not everything is critical.
+- Help, don't just report. For critical gaps: write the fix and offer to apply it. For complex ones: /vibe-handoff — don't patch it badly.
 - End with energy. A clean review should feel like "we're ready." A review with fixes should feel like "we made it better."
 
 ## Verification
 
-- [ ] Each failure scenario was explained in user terms, not technical terms
+- [ ] Changed files were actually read before any findings were stated
+- [ ] `.vibe/bugs.md` and `.vibe/debt.md` were checked for prior patterns in this area
+- [ ] Each finding names a specific file and function, not a generic category
+- [ ] Only applicable categories were checked — irrelevant ones were skipped
 - [ ] Priorities are clear: fix now / fix before launch / fine for now
-- [ ] Critical items have a concrete fix or a referral to /vibe-handoff
+- [ ] Critical items have actual code fixes written and offered, or an honest /vibe-handoff referral
 - [ ] Unfixed items are written to `.vibe/debt.md`
 - [ ] Session closes with a specific next step

@@ -53,7 +53,7 @@ No invocation needed. These run on every Claude Code session.
 
 | Skill | When to run |
 |---|---|
-| `/vibe-skeptic` | New idea — challenges whether you should build it at all. Asks who needs it, what the simplest test would be, what happens if you don't build it. Returns: build it / validate first / don't build this. |
+| `/vibe-skeptic` | New idea — a conversation that figures out if it's worth building, catches scope creep early, and either gives a green light or designs a concrete experiment to validate first. |
 | `/vibe-think` | Idea passes — clarify the scope before writing any code. 5 questions, concrete scope, what you're NOT building, biggest risk. |
 | `/vibe-plan` | Scope confirmed — break the work into 3-5 phases, each with a checkpoint command and a user-observable verify step. |
 
@@ -63,7 +63,7 @@ No invocation needed. These run on every Claude Code session.
 |---|---|
 | `/vibe-scope` | Start of session — defines what we're working on today and what NOT to touch. Creates a save point. |
 | `/vibe-test` | Feature is built — structured verification: happy path, failure paths, edge cases, regression check. |
-| `/vibe-guardian` | Anything that touches user data, auth, or external services — walks through error states and failure modes Claude skips by default. |
+| `/vibe-guardian` | Anything that touches user data, auth, or external services — reads the actual code and finds the gaps Claude skipped: error handling, auth enforcement, edge cases, data assumptions. |
 | `/vibe-oops` | Something broke — diagnoses in plain English, three options: fix it, undo it, escalate. |
 
 **Shipping:**
@@ -76,6 +76,18 @@ No invocation needed. These run on every Claude Code session.
 | `/vibe-health` | Project feels messy — debt level, momentum, safety signals, honest "do you need a real developer?" |
 | `/vibe-handoff` | Bringing in a developer — emergency escalation doc or planned onboarding doc. |
 | `/vibe-explain` | Session wrapping up — plain-English summary of what changed, what to test, what might have broken. |
+
+---
+
+## Two thinking partners
+
+Most skills in this pack run a defined process — a checklist, a scan, a structured output. Two work differently.
+
+**`/vibe-skeptic`** is a conversation, not a form. It reads your project context, listens to the idea, catches scope creep as it happens, and works through five questions one at a time. It doesn't hand you a verdict — it thinks out loud with you. If the idea needs validation first, it doesn't say "test your assumption." It writes a concrete experiment: hypothesis, test method, go/no-go signal, and timeframe.
+
+**`/vibe-guardian`** reads the code before it says anything. It runs `git diff`, opens the changed files, and looks for the gaps Claude skips on the happy path: error handling that's missing, auth checks that only exist in the UI, null fields that crash in production, double-submits that create duplicate records. Findings are tied to specific functions and lines — not generic categories. Critical items get actual code fixes, not descriptions of fixes.
+
+Both end with a clear next step.
 
 ---
 
