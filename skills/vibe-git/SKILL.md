@@ -105,7 +105,7 @@ git status  # verify .env is not staged
 git push -u origin [branch-name]
 ```
 
-The `-u` flag sets upstream tracking so future `git push` commands work without arguments.
+This uploads your code to GitHub. (The `-u` flag means future pushes from this branch work with just `git push` — no need to repeat the full command.)
 
 If the push fails because the remote branch has changes: **do not force push**. Explain what diverged and offer:
 1. Pull and merge: `git pull origin [branch]`
@@ -142,5 +142,5 @@ gh pr create --title "[commit message]" --body "[description]"
 - [ ] Not on main/master
 - [ ] No `.env` or secrets in the staged files
 - [ ] Commit message uses a valid type, has a scope, and describes what changed in plain English
-- [ ] Push succeeded with upstream tracking set
+- [ ] Code uploaded to GitHub successfully
 - [ ] If PR: description has what changed, how to test, and what's not included

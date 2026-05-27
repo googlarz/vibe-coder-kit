@@ -5,7 +5,7 @@ description: Turn a confirmed scope into a concrete build plan — 3-5 phases, e
 
 # vibe-plan
 
-Turns a confirmed scope into a build plan with explicit checkpoints. Without this, sessions sprawl — you build for hours with no save points, and if something breaks at the end, there's nothing to go back to.
+Turns a confirmed scope into a build plan with explicit checkpoints. Without this, sessions sprawl — you build for hours with no checkpoints, and if something breaks at the end, there's nothing to go back to.
 
 ## When to use
 
@@ -64,8 +64,7 @@ What we're building:
 [2-4 sentences. What will exist after this phase that doesn't exist now.
 Concrete: "A form on the settings page with two fields: new email and confirm email."]
 
-Checkpoint:
-git add -A && git commit -m "checkpoint: [phase name]"
+Checkpoint: When this phase is done, tell me "save checkpoint" and I'll commit everything safely.
 
 Verify:
 [One specific thing to check that proves this phase worked.

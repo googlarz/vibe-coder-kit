@@ -85,7 +85,7 @@ git log --oneline -5
 **If a checkpoint exists:**
 
 Tell the user:
-> "You have a save point from [X commits ago / time if available]. We can go back to that. Everything you've done since then would be undone."
+> "You have a checkpoint from [X commits ago / time if available]. We can go back to that. Everything you've done since then would be undone."
 
 Then offer:
 > "Before we go back, should I save what we have now as a separate checkpoint? That way we don't lose the work entirely — we can look at it later."
@@ -93,7 +93,7 @@ Then offer:
 If they want to undo, explain the two options in plain English before running anything:
 
 - **Undo just the last change** (`git revert HEAD`): Creates a new commit that cancels out the last one. Safe — your history stays intact and you can undo the undo if needed.
-- **Jump back to an earlier state** (`git reset --hard [commit hash]`): Moves your project back in time. Any work since that point is gone. This cannot be undone.
+- **Jump back to an earlier checkpoint** (`git reset --hard [ID]`): Moves your project back in time. Any work since that checkpoint is gone. This cannot be undone. (The ID is the short code at the start of each line in the list above — like `a3f8e21`. Tell me which checkpoint you want and I'll run this for you.)
 
 For most situations, `git revert` is safer. Only use `git reset --hard` if the user understands that recent work will be permanently deleted.
 

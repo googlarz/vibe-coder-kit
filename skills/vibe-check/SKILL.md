@@ -186,18 +186,20 @@ After all findings are listed, end with exactly one of these:
 
 **No critical or medium issues found:**
 ```
-✅ Looks safe to push.
+✅ Looks safe to push. Run /vibe-git and I'll handle the commit and upload.
 ```
 
 **Medium issues found (e.g. missing .gitignore entries, console.log of non-critical data, unpinned actions):**
 ```
-⚠️ Fix these before pushing.
+⚠️ Fix these before pushing:
    [list each issue in one line]
+
+Fix each one above, then run /vibe-check again before uploading.
 ```
 
 **Critical issues found (credentials in code, SQL injection, .env not gitignored, command injection):**
 ```
-🚨 Do not push until fixed.
+🚨 Do not deploy or sync to GitHub yet — fix these first:
    [list each issue in one line]
 ```
 

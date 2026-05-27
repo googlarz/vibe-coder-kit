@@ -1,6 +1,6 @@
 ---
 name: vibe-scope
-description: Define session scope before coding — what we're doing, what we're NOT touching, and confirm a save point exists.
+description: Define session scope before coding — what we're doing, what we're NOT touching, and confirm a checkpoint exists.
 ---
 
 ## Overview
@@ -38,9 +38,9 @@ Write down their answer even if it's short. "Leave the checkout flow alone" is a
 
 If live + the work today is risky (involves payments, login, database changes, anything user-facing), add a warning to the session contract: **⚠️ Working on live — be careful and move in small steps.**
 
-### Question 4 — Do we have a save point?
+### Question 4 — Do we have a checkpoint?
 
-> "When did you last save your work? (In coding terms: do you have a recent commit — basically a snapshot of your app before we start?)"
+> "When did you last save your work? (In coding terms: do you have a recent commit — basically a checkpoint of your app before we start?)"
 
 First, check if git is initialized:
 ```bash
@@ -61,7 +61,7 @@ If they say no, note "No git — no save point available" in the contract and ad
 - Check `git log --oneline -1 2>/dev/null` to see if any commits exist
 - If yes: note the most recent commit and move on
 - If no commits yet, or if the last commit was more than a few days ago: offer to create a checkpoint now
-  > "Before we change anything, let's take a snapshot so we can go back if something breaks. Takes 10 seconds."
+  > "Before we change anything, let's create a checkpoint so we can go back if something breaks. Takes 10 seconds."
   
   If yes, run: `git add -A && git commit -m "checkpoint $(date +'%Y-%m-%d')"` and confirm it worked.
   
@@ -70,7 +70,7 @@ If they say no, note "No git — no save point available" in the contract and ad
   Run: `git add --update && git commit -m "checkpoint $(date +'%Y-%m-%d')"`
   `--update` only stages files git already knows about — it cannot accidentally commit a `.env` file that hasn't been tracked before. This is always safe to run.
 
-  If they decline entirely: note "No save point — user declined" in the contract and add a warning: **⚠️ No undo available if things break.**
+  If they decline entirely: note "No checkpoint — user declined" in the contract and add a warning: **⚠️ No undo available if things break.**
 
 ### Question 5 — What does "done" look like?
 

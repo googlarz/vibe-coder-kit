@@ -58,9 +58,9 @@ Check these failure scenarios for anything that applies to what was built:
 
 For each that applies, write the test step and the expected outcome. Flag any where the expected outcome is "I'm not sure" — those are the ones most likely to break.
 
-### Step 4 — Regression check
+### Step 4 — Nearby features check
 
-What was working before this session that could have broken?
+Sometimes fixing one thing accidentally breaks something nearby. Check what was working before this session that could have broken.
 
 First, check `.vibe/bugs.md` if it exists. Any previously fixed bugs in the area being tested are the highest-risk regressions — Claude often re-introduces the same class of bug when modifying nearby code. Name each one explicitly: "We fixed [X] on [date] — worth confirming it still holds."
 
@@ -86,7 +86,7 @@ FAILURE PATHS:
 ⚠️  [scenario]: not tested — [why, or "couldn't reproduce"]
 🚨 [scenario]: [what broke]
 
-REGRESSION:
+THINGS WE DIDN'T TOUCH (check these still work):
 ✅ [feature]: checked, still working
 ⚠️  [feature]: not checked — [reason]
 

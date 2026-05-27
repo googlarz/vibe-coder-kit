@@ -21,7 +21,7 @@ git clone https://github.com/googlarz/vibe-coder-kit ~/.vibe-coder-kit
 bash ~/.vibe-coder-kit/install.sh
 ```
 
-The installer registers hooks, links skills, and offers to install vibe-safe in one flow.
+This downloads the kit and connects it to Claude Code. It won't touch your app — it only changes how Claude behaves during sessions.
 
 To set up a project:
 
@@ -41,7 +41,7 @@ No invocation needed. These run on every Claude Code session.
 | Hook | When | What it does |
 |---|---|---|
 | **Session start** | Every new conversation | Reads `.vibe/project.md` and `.vibe/sessions.md`. Surfaces recent history. Asks what you're building today and what NOT to touch. Warns if a production environment is detected. |
-| **Before bash commands** | Any shell command | Blocks `DROP TABLE`, `rm -rf`, `git push --force`, `git reset --hard`. Explains every package before `npm install`. Requires confirmation before anything that can't be undone. |
+| **Before bash commands** | Any shell command | Blocks commands that delete databases, wipe files, or overwrite your code history — explains why before stopping. Explains every package before installing it. Requires confirmation before anything that can't be undone. |
 | **Session stop** | When Claude finishes | Runs vibe-safe scan. Surfaces findings before the final response. Reminds Claude to update `.vibe/sessions.md`. |
 | **CLAUDE.md baseline** | Always active | Environment checks before DB ops. Git checkpoints before big changes. Plain-English risk explanations. The signal to escalate to a real developer. |
 
@@ -61,7 +61,7 @@ No invocation needed. These run on every Claude Code session.
 
 | Skill | When to run |
 |---|---|
-| `/vibe-scope` | Start of session — defines what we're working on today and what NOT to touch. Creates a save point. |
+| `/vibe-scope` | Start of session — defines what we're working on today and what NOT to touch. Creates a checkpoint. |
 | `/vibe-test` | Feature is built — structured verification: happy path, failure paths, edge cases, regression check. |
 | `/vibe-guardian` | Anything that touches user data, auth, or external services — reads the actual code and finds the gaps Claude skipped: error handling, auth enforcement, edge cases, data assumptions. |
 | `/vibe-oops` | Something broke — diagnoses in plain English, three options: fix it, undo it, escalate. |
@@ -143,8 +143,8 @@ git clone https://github.com/googlarz/vibe-safe ~/.claude/skills/vibe-safe
 
 - [Claude Code](https://claude.ai/code) (CLI or desktop app)
 - bash
-- Python 3 (used by the installer to update `settings.json`)
-- git (recommended — save points and vibe-safe don't work without it)
+- Python 3 (already installed on most Macs; the installer will tell you if it's missing)
+- git (recommended — checkpoints and vibe-safe don't work without it)
 
 ---
 

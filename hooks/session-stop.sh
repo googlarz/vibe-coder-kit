@@ -50,7 +50,7 @@ UNSAVED=""
 [ -n "$UNSTAGED" ] && UNSAVED="$UNSTAGED"
 [ -n "$UNTRACKED" ] && UNSAVED="$UNSAVED $UNTRACKED"
 if [ -n "$UNSAVED" ]; then
-    OUTPUT="${OUTPUT}${NL}${NL}[Unsaved changes detected in: $(echo "$UNSAVED" | tr '\n' ' ')]"
+    OUTPUT="${OUTPUT}${NL}${NL}[Unsaved changes detected in: $(echo "$UNSAVED" | tr '\n' ' ') — before we wrap up, offer to save these with /vibe-git or a checkpoint commit.]"
 fi
 
 # Remind Claude to write vibe-brain before final response

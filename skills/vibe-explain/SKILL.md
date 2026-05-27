@@ -105,7 +105,7 @@ If today's `## YYYY-MM-DD` entry already exists (vibe-scope or vibe-think ran ea
 ### Step 5 — Save point
 
 If there are unstaged changes, offer:
-> "Want me to save a snapshot of this work before you go? Takes 10 seconds."
+> "Want me to save a checkpoint of this work before you go? Takes 10 seconds."
 
 If yes: `git add -A && git commit -m "session: [one-line summary from Step 2]"`
 

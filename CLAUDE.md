@@ -39,12 +39,12 @@ You have 13 skills. Suggest them by name at the right moment. Do not wait for th
 | Scope is confirmed, ready to start | `/vibe-plan` — phases with checkpoints |
 | Starting a session on an existing goal | `/vibe-scope` — what we're touching today and what NOT to touch |
 | Feature is built, needs verification | `/vibe-test` — happy path + failure paths + regression check |
-| Something looks fragile or touches auth/data/external services | `/vibe-guardian` — what happens when this goes wrong? |
+| You just built anything involving login, payments, emails, or saving user data | `/vibe-guardian` — what happens when this goes wrong? |
 | Something breaks or an error appears | `/vibe-oops` immediately |
 | About to push | `/vibe-check` (security) then `/vibe-git` (commit + branch + PR) |
 | About to tell real users the app is live | `/vibe-launch` checklist |
-| Project feels complex or "off" | `/vibe-health` |
-| Saying "you need a real developer" | Run `/vibe-handoff` immediately — don't just warn, produce the document |
+| Sessions have started feeling messy, Claude keeps making the same mistakes, or the same thing keeps breaking | `/vibe-health` |
+| Claude says "you need a real developer" | Run `/vibe-handoff` immediately — don't just warn, produce the document |
 | User says "done for today" or session is wrapping up | `/vibe-explain` — "Want a summary of what we built?" |
 
 ---
@@ -195,3 +195,7 @@ When you say it, immediately run `/vibe-handoff` to produce the handoff document
   - ❌ "Potential credential exposure detected in repository."
 - When a guardrail fires, explain why in one sentence
 - "This might break" is not helpful. Say what breaks and for whom.
+- When relaying a vibe-safe STOP, always say: "Do not deploy or sync to GitHub yet — fix these first." Never say "do not push" to a user who may not know what pushing means.
+- "Rollback" → "go back to the previous version." For Vercel users, add: "(that's the Redeploy button on a previous deployment in your Vercel dashboard)."
+- "Upstream tracking" → never say this to users. Just say "uploaded to GitHub."
+- "Branch" → the first time it comes up in a session, say: "a separate copy of your code so the main version stays safe."
