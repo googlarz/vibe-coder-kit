@@ -9,6 +9,8 @@ description: When you've been fighting the same problem for 2+ hours and tried 3
 
 **If something is actively broken in production (users can't use the app right now):** go to `/vibe-rollback` first — restoring the last working version takes priority over debugging. Come back here once the app is stable.
 
+**Note:** You can also land here from `/vibe-debug` when 3 hypotheses haven't converged — time isn't always a prerequisite when the loop is clearly unproductive.
+
 Two hours in. Three approaches down. Still broken. The temptation right now is to try one more thing.
 
 Don't.

@@ -170,6 +170,8 @@ Don't try to fix the breakage now. Before reverting: confirm with the user — "
 git reset --hard HEAD~1
 ```
 
+> Alternative if you prefer not to rewrite history: `git revert HEAD` creates a new commit that undoes the upgrade without removing anything from git history. Either approach works — reset is cleaner on a fresh upgrade branch, revert is safer if you've already pushed.
+
 Tell the user:
 
 > "That upgrade breaks something, so I've put it back the way it was. I'll make a note of it and we'll skip it for now."

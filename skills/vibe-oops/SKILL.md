@@ -222,7 +222,6 @@ Show the user what changed. The most recent commit touching the broken area is a
 - [ ] Problem was identified before attempting a fix
 - [ ] User was presented exactly three options
 - [ ] Fix attempt was explained before executing
-- [ ] If same fix failed twice, reassessment happened before trying a third approach
 - [ ] After fix: user tested the specific broken thing AND one adjacent feature (per Step 3 — to check for side effects)
 - [ ] Checkpoint created after fix: `git add -A && git commit -m "fix: [what was fixed]"`
 - [ ] Bug written to `.vibe/bugs.md` if the fix required more than one attempt

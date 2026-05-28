@@ -101,7 +101,7 @@ Grep for patterns that look like real credentials embedded directly in code:
 - `AIza` (Google API keys)
 - `xox[bp]-` (Slack tokens)
 - `ghp_` or `github_pat_` (GitHub tokens)
-- `postgres://[^localhost]` (non-local database URLs with credentials)
+- `postgres://` followed by a host that isn't `localhost` or `127.0.0.1` (non-local database URLs with credentials — grep for `DATABASE_URL` and flag if the value contains a domain name other than `localhost` or `127.0.0.1`)
 - `Bearer [A-Za-z0-9+/]{20,}` (long Bearer tokens)
 - `api_key\s*=\s*["'][^"']{10,}` (variable assignments that look like real keys)
 - `AKIA[0-9A-Z]{16}` (AWS access keys)

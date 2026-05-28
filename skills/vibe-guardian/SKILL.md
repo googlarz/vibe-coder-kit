@@ -59,11 +59,11 @@ Based on what you read, check which of these apply. **Skip the ones that genuine
 
 | Built/changed... | Check these categories |
 |---|---|
-| Authentication (login, sessions) | Auth or permission checks, Unsanitized user input |
+| Authentication (login, sessions) | Auth or permission checks that exist only on the front end, Unsanitized user input |
 | Payments or pricing | External calls without error handling, Data that could cause crashes |
 | Database queries or forms | Unsanitized user input, Data that could cause crashes |
 | File uploads | Unsanitized user input, Data that could cause crashes |
-| User-visible content | Auth or permission checks, User behavior the code doesn't handle |
+| User-visible content | Auth or permission checks that exist only on the front end, User behavior the code doesn't handle |
 | Background jobs/APIs | External calls without error handling, Concurrent access |
 
 For each gap you find, name the specific file and function. Not "the API call" — "the `createOrder()` call in `api/orders.js` has no error handler."

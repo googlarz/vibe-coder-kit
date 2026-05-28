@@ -61,10 +61,8 @@ Write exactly three sentences. No more. No headers, no bullet points, no "Here's
 **Sentence 2 — Try:** One specific action to verify right now, with the expected result.
 > "Try [exact action] — you should see [expected result]."
 
-**Sentence 3 — Watch:** One thing to keep an eye on. If nothing is fragile or untested, say so.
+**Sentence 3 — Watch:** One thing to keep an eye on. If nothing is fragile or untested, say so. If the recurring area you noticed in Step 1 is relevant, surface it here.
 > "Keep an eye on [specific concern]." — or — "Nothing fragile — this session was clean."
-
-If the Watch sentence surfaces a recurring pattern (same area has been fragile multiple sessions in a row), suggest: "This has come up before — might be worth a `/vibe-health` check before the next big session."
 
 **Note on spoken vs. written format:** What you say in Step 3 (three plain sentences) and what you write to sessions.md in Step 4 (structured `- Changed:`, `- Added:`, `- Fragile:`, `- Test manually:` blocks) are intentionally different. The spoken version is conversational — it's for the person in the session. The written version is structured — it's for future sessions to load as context. Don't conflate them.
 

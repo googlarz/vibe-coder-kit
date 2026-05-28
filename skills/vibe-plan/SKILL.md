@@ -78,7 +78,7 @@ Then present each phase using this template:
 **Checkpoint:** When you're ready, say "save checkpoint" and I'll commit this phase.
 ```
 
-**Note:** When the user says "save checkpoint", run the same command from Step 2: `git add -A && git restore --staged .env 2>/dev/null && git commit -m 'checkpoint: [phase name] complete'`
+**Note:** When the user says "save checkpoint", run the same checkpoint command as Step 2 (with the phase name as the commit message).
 
 Note: `.vibe/` will appear in `git status` as new files — this is expected and fine to include in the checkpoint commit. If you'd prefer to keep vibe-brain out of git, add `.vibe/` to `.gitignore` first.
 

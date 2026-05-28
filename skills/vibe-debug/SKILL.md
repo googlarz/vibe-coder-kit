@@ -147,6 +147,8 @@ This takes two minutes and prevents the same class of bug from showing up again 
 
 Stop. Don't keep guessing.
 
+If you've tried 3 hypotheses without convergence, OR if you've been debugging the same issue for over 2 hours without progress, switch to `/vibe-stuck`.
+
 Say what you've ruled out:
 > "We've confirmed the data is correct when it enters this function. The bug happens somewhere between here and the database. I'm not sure what's causing it."
 

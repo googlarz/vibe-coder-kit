@@ -146,6 +146,8 @@ Match by keyword in the finding description. For anything not listed, apply the 
 
 Run these grep patterns on the project files. Skip `node_modules`, `.git`, and binary files. The scan runs automatically — here's what each finding means in plain English:
 
+> For a full targeted secret audit, run `/vibe-env` (environment health) or `/vibe-secret` (after an exposure). vibe-check's scan is a broad pre-push sweep — it catches obvious issues but isn't a substitute for those skills.
+
 ```bash
 # Hardcoded secrets
 grep -rn \

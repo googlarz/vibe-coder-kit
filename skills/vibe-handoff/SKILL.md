@@ -16,7 +16,7 @@ vibe-handoff produces two kinds of documents:
 - **EMERGENCY** — something broke, you need help now. Gives a developer everything they need to diagnose the problem without a back-and-forth.
 - **PLANNED** — a developer is joining the project or doing a professional review. Gives them the full picture: what it is, how it works, what the risks are.
 
-Ask the user which mode they need if it isn't obvious. If they say anything like "something broke," "it stopped working," "I'm getting an error," or "I need help fast" — that's EMERGENCY. If they say "someone is joining," "I want a developer to review this," or "we're going professional" — that's PLANNED.
+Ask the user which mode they need if it isn't obvious. If they say anything like "something broke," "it stopped working," "I'm getting an error," or "I need help fast" — that's EMERGENCY. If they say "I want a developer to review this" or "we're going professional" — that's PLANNED.
 
 ---
 
@@ -27,9 +27,8 @@ Ask the user which mode they need if it isn't obvious. If they say anything like
 > "Something broke, help me explain it to a developer"
 > "I need to hand this off, it's broken"
 
-**Planned (developer joining or reviewing):**
+**Planned (developer reviewing or taking over):**
 > "Run vibe-handoff planned"
-> "I'm bringing in a developer, help me onboard them"
 > "Generate a project overview for a developer"
 
 ---
@@ -70,9 +69,7 @@ After the document, tell the user where to get help:
 
 ## Planned Mode Process
 
-When a developer is joining the project or doing a professional review.
-
-> **Note:** vibe-onboard produces a first-day setup document for a collaborator joining the team. This PLANNED handoff is for a developer inheriting the project to maintain or extend it — deeper technical context, more architectural detail.
+> **vibe-onboard creates a first-day setup doc for a new team member. This PLANNED handoff goes deeper — it's for a developer inheriting the full project.**
 
 ### Step 1 — Read all vibe-brain files
 

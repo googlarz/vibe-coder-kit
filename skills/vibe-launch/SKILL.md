@@ -114,10 +114,7 @@ Explain the options in plain English:
 - **Sentry** (free tier) catches runtime errors and sends you an email when something breaks — for full setup steps, run `/vibe-monitor`
 - **UptimeRobot** (free) pings your URL every 5 minutes and emails you if it goes down
 
-If they have none of these, this isn't a blocker — but UptimeRobot takes 2 minutes to set up and is free. Offer to walk them through it:
-> "Want to set this up right now? It takes 2 minutes and you'll never find out your app is down from an angry user again."
-
-If yes: **uptimerobot.com** → create free account → "Add New Monitor" → choose "HTTP(s)" → paste the live URL → leave everything else as defaults → "Create Monitor". Done. They'll get an email the moment the URL stops responding.
+If they have none of these, this isn't a blocker — but basic uptime monitoring takes 2 minutes to set up and is free. For full setup steps, run `/vibe-monitor`. For now, verify you have at least one uptime check configured — check your UptimeRobot (or equivalent) dashboard and confirm it's monitoring your production URL. If you need to set it up from scratch, run `/vibe-monitor` after launch.
 
 **Result:**
 - ✅ **Has alerting** — some form of error tracking or uptime monitoring is in place
