@@ -67,7 +67,7 @@ If yes: create `.env.example` by copying `.env` and replacing every value with a
 
 ## Check 3: Variables in code but missing from .env.example
 
-Grep the codebase for environment variable access patterns based on the detected stack:
+I'll grep the codebase for environment variable access patterns based on the detected stack:
 
 - Node.js: `process.env.`
 - Python: `os.environ[`, `os.getenv(`, `env[`
@@ -93,7 +93,7 @@ Compare `.env.example` against the local `.env`.
 
 ## Check 5: Hardcoded secrets in source files
 
-Grep for patterns that look like real credentials embedded directly in code:
+I'll grep for patterns that look like real credentials embedded directly in code:
 
 - `sk_live_` (Stripe live key)
 - `sk_test_` (Stripe test key — still worth flagging)

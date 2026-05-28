@@ -111,11 +111,13 @@ How did the secret end up somewhere it shouldn't be? Fix that now so it can't ha
 
 **Check if `.env` is in `.gitignore`:**
 
+I'll run:
+
 ```bash
 grep .env .gitignore 2>/dev/null
 ```
 
-If `.env` doesn't appear in the output (or `.gitignore` doesn't exist), add it now:
+If `.env` doesn't appear in the output (or `.gitignore` doesn't exist), I'll add it:
 
 ```bash
 echo ".env" >> .gitignore
@@ -160,14 +162,14 @@ Now that the key is dead and the root cause is fixed, take an honest look at the
 
 **How long was it exposed?**
 
-If the secret was in `.env`, check when it first appeared in git history:
+I'll check when the secret first appeared in git history:
 ```bash
 git log --all --follow -p .env | grep -A2 "FIRST8CHARS" | head -20
 ```
 
 The date on the commit is when it was first exposed.
 
-If the secret was hardcoded in a source file (not `.env`), run:
+If the secret was hardcoded in a source file (not `.env`), I'll run:
 ```bash
 git log --all -p -- [filename with secret] | grep -c '^+'
 ```

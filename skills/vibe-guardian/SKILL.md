@@ -30,7 +30,7 @@ This isn't a checklist to read through. It's a code review grounded in the actua
 
 Don't go off memory or session notes. Read the actual code first.
 
-Use both commands — `git status --short` shows uncommitted work; `git diff --name-only HEAD~1 HEAD` shows the last committed change. If work is uncommitted, only the first command returns results.
+I'll check both silently — `git status --short` shows uncommitted work; `git diff --name-only HEAD~1 HEAD` shows the last committed change. If work is uncommitted, only the first command returns results.
 
 ```bash
 git status --short 2>/dev/null

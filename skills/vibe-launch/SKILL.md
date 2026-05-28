@@ -157,9 +157,9 @@ If the first deploy after launch breaks something, can you get back to a working
 
 And cover the three common scenarios:
 
-1. **Git checkpoint:** Run `git log --oneline -5` — do the last few commits look like clean checkpoints? If not, make one now: `git add -A && git commit -m "checkpoint before launch"`
+1. **Git checkpoint:** I'll run `git log --oneline -5` and show you the last few commits — we'll confirm a clean checkpoint exists. If not, I'll create one: `git add -A && git commit -m "checkpoint before launch"`
 
-2. **Database:** If the app has a database, ask: "Do you have a backup?" For Supabase: Dashboard → Settings → Database → Backups. For Railway/Render: check the dashboard for backup options. For local Postgres: `pg_dump $DATABASE_URL > backup-$(date +%Y%m%d).sql`.
+2. **Database:** If the app has a database, ask: "Do you have a backup?" For Supabase: Dashboard → Settings → Database → Backups. For Railway/Render: check the dashboard for backup options. For local Postgres: I'll run the backup command for you.
 
 3. **Vercel rollback:** If they're on Vercel, they can roll back instantly — go to the Vercel dashboard, find the previous deployment, click "Redeploy." Takes 60 seconds. Make sure they know this exists.
 

@@ -35,7 +35,7 @@ Read these silently — don't ask the user:
 - `.env.example` — every environment variable that needs to be documented
 - Any existing `README.md` — preserve anything accurate, replace what's stale. If an existing README has content you can't verify (a feature you haven't confirmed exists, a setup step you can't trace to current code): keep it but add `<!-- unverified — check this is still accurate -->` as a comment. Don't delete content you're unsure about — a developer would rather see an unverified note than find a missing section.
 - `CLAUDE.md` if it has project context
-- Check for existing screenshots: `find . -name '*.png' -o -name '*.gif' -o -name '*.jpg' | grep -v node_modules | grep -iE '(screenshot|demo|preview|screen)' | head -10`. If any are found, include them in the README. If none, don't invent placeholder screenshot instructions.
+- I'll check for existing screenshots silently: `find . -name '*.png' -o -name '*.gif' -o -name '*.jpg' | grep -v node_modules | grep -iE '(screenshot|demo|preview|screen)' | head -10`. If any are found, include them in the README. If none, don't invent placeholder screenshot instructions.
 
 If the project has no `.vibe/` folder, infer stack from the codebase and note what you inferred.
 

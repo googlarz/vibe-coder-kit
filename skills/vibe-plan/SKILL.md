@@ -36,6 +36,8 @@ If `.vibe/sessions.md` has no scope for today, ask:
 
 ### Step 2 — Check git
 
+I'll check silently:
+
 ```bash
 git status 2>/dev/null
 git branch --show-current 2>/dev/null
@@ -114,7 +116,7 @@ Once confirmed:
 2. Offer to start:
 > "Plan saved. Want me to start with Phase 1?"
 
-If yes: begin. Create a **per-phase checkpoint** before the first change — this is distinct from the initial checkpoint in Step 2, which captures uncommitted work. This one marks the clean start of Phase 1 so each phase has its own recovery point. Confirm `.env` is in `.gitignore` before staging.
+If yes: begin. Create a **per-phase checkpoint** before the first change — this is distinct from the initial checkpoint in Step 2, which captures uncommitted work. This one marks the clean start of Phase 1 so each phase has its own recovery point. Confirm `.env` is in `.gitignore` before staging. I'll run:
 ```bash
 git add -A
 git restore --staged .env 2>/dev/null  # safety: never commit .env

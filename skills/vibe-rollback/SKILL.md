@@ -75,7 +75,7 @@ Two options — give both:
 
 ### No platform / self-hosted
 
-Run:
+I'll run:
 ```
 git log --oneline -5
 ```
@@ -111,6 +111,7 @@ Slow down. Two things before doing anything else:
 
 > "Before we touch anything — let me create a branch with the broken code so it's not lost. That way we can look at what went wrong without it being in your main code."
 
+I'll run:
 ```
 git checkout -b broken-$(date +%Y-%m-%d)
 git push origin broken-$(date +%Y-%m-%d)

@@ -19,7 +19,7 @@ Structured verification before you push. Most vibe-coded bugs aren't in the happ
 
 ### Step 1 — Identify what changed
 
-Run:
+I'll run:
 ```bash
 # First command shows uncommitted changes; second shows what the last commit changed.
 git status --short 2>/dev/null
@@ -32,7 +32,7 @@ List the files changed this session. For each file, identify what user-facing be
 
 ### Step 2 — Happy path test
 
-**For backend-only changes (no UI to click):** ask the user to trigger the changed endpoint from their app or a test tool (curl, Postman, their test suite) instead of clicking through a UI flow.
+**For backend-only changes (no UI to click):** ask the user to trigger the changed endpoint from their app or Postman, or I'll run the test suite for you.
 
 Tell the user what to try — conversationally, not as a numbered list. Say something like:
 

@@ -19,6 +19,8 @@ Clean git workflow after a session. "update", "fix", and "changes" in git histor
 
 ### Step 1 — Branch check
 
+I'll run:
+
 ```bash
 git branch --show-current
 ```
@@ -39,6 +41,8 @@ Name the branch after what you built: `feature/email-settings-page`, `fix/login-
 If on a feature branch: confirm it's the right one. If it's been open for more than a week with no commits, ask whether this should be a new branch instead.
 
 ### Step 2 — Review what's changing
+
+I'll run:
 
 ```bash
 git diff --stat
@@ -93,7 +97,7 @@ If `git status` shows changes across unrelated concerns (e.g., a bug fix AND a d
 
 This is the real commit with a proper message. If a checkpoint commit was already made earlier in the session, this supersedes it — create a new commit with the message drafted in Step 3.
 
-Run these three commands in order. The middle line does nothing if `.env` is already in `.gitignore` — it's an extra safety step that makes sure secrets can't slip through:
+I'll run these three commands in order. The middle line does nothing if `.env` is already in `.gitignore` — it's an extra safety step that makes sure secrets can't slip through:
 
 ```bash
 git add -A
@@ -101,13 +105,15 @@ git restore --staged .env 2>/dev/null  # drop .env from staging, even if .gitign
 git status  # verify .env is not staged before committing
 ```
 
-Once `git status` confirms `.env` is clean, commit:
+Once `git status` confirms `.env` is clean, I'll commit:
 
 ```bash
 git commit -m "[drafted message]"
 ```
 
 ### Step 5 — Push
+
+I'll run:
 
 ```bash
 git push -u origin [branch-name]

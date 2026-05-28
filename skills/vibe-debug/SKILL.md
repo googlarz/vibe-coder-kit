@@ -116,7 +116,7 @@ One change. Check the result. Then decide whether your hypothesis holds.
 
 Now you know what's wrong. Fix the specific root cause — not the symptom.
 
-First, create a checkpoint so you can get back here if the fix makes things worse:
+First, I'll create a checkpoint so you can get back here if the fix makes things worse:
 ```
 git add -A && git commit -m "checkpoint before debug fix"
 ```

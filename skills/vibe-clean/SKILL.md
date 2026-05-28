@@ -85,7 +85,7 @@ If the debt turns out to be worse than the log suggested, say so:
 
 ## Step 4 — Create a checkpoint
 
-Before writing a single line of code:
+Before writing a single line of code, I'll run:
 
 ```bash
 git add -A && git commit -m "checkpoint before cleaning [what you're fixing]"
@@ -131,7 +131,7 @@ If the project has no testing framework set up: don't install one just for this.
 
 ## Step 7 — Verify it works
 
-Ask the user to run the feature that was affected and report back. You can't run the browser — they need to. Example: "Can you test [the specific thing] and tell me what you see?" For a web app: open the browser and click through the feature you changed. For an API: trigger the endpoint from the app or Postman. For a script: run it from the terminal.
+Ask the user to run the feature that was affected and report back. You can't run the browser — they need to. Example: "Can you test [the specific thing] and tell me what you see?" For a web app: open the browser and click through the feature you changed. For an API: trigger the endpoint from the app or Postman. For a script: I'll run it and tell you the result.
 
 Check three things:
 

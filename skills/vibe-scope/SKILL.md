@@ -73,7 +73,7 @@ If they say no, note "No git — no save point available" in the contract and ad
 - If no commits yet, or if the last commit was more than a few days ago: offer to create a checkpoint now
   > "Before we change anything, let's create a checkpoint so we can go back if something breaks. Takes 10 seconds."
   
-  If yes, run: `git add -A && git commit -m "checkpoint $(date +'%Y-%m-%d')"` and confirm it worked.
+  If yes, I'll run: `git add -A && git commit -m "checkpoint $(date +'%Y-%m-%d')"` and confirm it worked.
   
   If they decline but the project is live (has real users): don't just note it and move on. Offer a safer middle ground:
   > "At least let me save just the files we're already tracking — takes 5 seconds and won't touch anything sensitive."

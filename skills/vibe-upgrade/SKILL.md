@@ -66,7 +66,7 @@ Say:
 
 ## Step 4: Checkpoint first
 
-Before touching anything:
+Before touching anything, I'll run:
 
 ```
 git add -A && git commit -m "checkpoint before upgrading [package]"
@@ -131,6 +131,8 @@ Wait for them to confirm. If the package is a utility (lodash, date-fns, a logge
 ## Step 7: Commit or revert
 
 **If it works:**
+
+I'll commit the upgrade:
 
 **Node.js:**
 ```

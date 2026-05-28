@@ -89,7 +89,7 @@ If you're not sure whether the fix will work — say so. "I think this will work
 
 ### Option 2: Undo It
 
-Run this first:
+I'll run this first:
 ```
 git log --oneline -5
 ```
@@ -208,7 +208,7 @@ If no backup exists: be honest about what's recoverable. Some data loss may be p
 
 ### "It was working yesterday"
 
-Check git for recent changes:
+I'll check git for recent changes:
 ```
 git log --oneline --since="2 days ago"
 ```

@@ -11,11 +11,17 @@ Two tools, in order of importance:
 1. **Error tracking** — alerts you when your app throws an error
 2. **Uptime monitoring** — alerts you when your app is completely unreachable
 
+## When to use
+
+- Before or just after launching to real users
+- After running `/vibe-launch` and realizing you have no alerts set up
+- When you found out your app was down because a user told you
+
 ---
 
 ## Step 1 — Check what's already there
 
-Before recommending anything, look silently:
+I'll check silently before recommending anything:
 
 ```bash
 grep -r "sentry\|logrocket\|datadog\|posthog\|bugsnag\|rollbar" package.json package-lock.json requirements.txt 2>/dev/null

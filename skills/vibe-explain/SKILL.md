@@ -18,7 +18,7 @@ Explains what just happened in plain English. Most vibecoders don't read diffs â
 
 ### Step 1 â€” Gather what changed
 
-Run both commands:
+I'll run both commands:
 
 ```bash
 # All commits from the last 24 hours with file-level details

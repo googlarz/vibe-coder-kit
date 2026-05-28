@@ -195,7 +195,7 @@ Pick **one bottleneck** to fix. If there are several, pick the biggest. You can 
 
 ## Step 5 — Fix it
 
-First, create a checkpoint so you can get back here if the fix makes things worse:
+First, I'll create a checkpoint so you can get back here if the fix makes things worse:
 ```bash
 git add -A && git commit -m "checkpoint before performance fix"
 ```

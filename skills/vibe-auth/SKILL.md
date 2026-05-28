@@ -46,7 +46,7 @@ Test this:
 
 **I'll scan the code for this — you don't need to read it.** Your role here is just to do the browser test above and tell me what you see.
 
-Then check the code for the session duration setting:
+I'll also check the code for the session duration setting:
 
 ```bash
 grep -r "maxAge\|expires\|session.*duration\|ttl\|TOKEN_EXPIRY" . --include="*.js" --include="*.ts" --include="*.py" --include="*.rb" --include="*.env*" --exclude-dir=node_modules --exclude-dir=.git 2>/dev/null
@@ -160,7 +160,7 @@ Test it:
 3. Press the browser back button — does the previous page load and work?
 4. Try visiting a protected route directly — it should redirect to login
 
-In the code, find the logout handler:
+**I'll scan the code for this — you don't need to read it.** I'll look for the logout handler and check whether it destroys the session on the server:
 
 ```bash
 grep -rn "logout\|signOut\|session\.destroy\|token.*invalidat\|blacklist" . --include="*.js" --include="*.ts" --include="*.py" --include="*.rb" --exclude-dir=node_modules --exclude-dir=.git

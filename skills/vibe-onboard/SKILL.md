@@ -52,7 +52,7 @@ Read these files silently before writing anything:
 - `.vibe/decisions.md` — architectural choices and why they were made
 - `.vibe/.scope` — if it exists, it defines what the current owner treats as off-limits
 
-If these files don't exist, infer what you can from the codebase:
+If these files don't exist, I'll infer what I can from the codebase:
 
 ```bash
 # Package manager and stack

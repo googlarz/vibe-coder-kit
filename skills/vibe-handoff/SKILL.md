@@ -84,7 +84,7 @@ Read these files if they exist:
 
 ### Step 2 — Infer what's missing
 
-If any of these files are missing or sparse, fill in what you can from the codebase:
+If any of these files are missing or sparse, I'll fill in what I can from the codebase:
 
 ```bash
 # Stack

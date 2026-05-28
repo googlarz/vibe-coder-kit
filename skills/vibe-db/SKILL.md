@@ -9,6 +9,13 @@ The database is the one part of your app where a mistake is permanent and silent
 
 Core principle: **read before write, verify the environment, never assume local.**
 
+## When to use
+
+- Before running a database migration
+- When you need to inspect or change data in your database
+- Before any schema change (adding columns, renaming tables, dropping fields)
+- When creating a backup before a risky operation
+
 ---
 
 **If your project uses Prisma:** run `npx prisma studio` to open a visual database browser — no SQL needed. You can browse tables, view rows, and verify data visually. Use the command-line steps below when Prisma Studio isn't available or for migrations and backups.
@@ -114,6 +121,8 @@ If `pg_dump` or `mysqldump` isn't installed, or if the database is on a hosted p
 
 ### Step 5 — Run the migration
 
+I'll run the migration command for your stack — you don't need to touch the terminal:
+
 ```bash
 # Prisma
 npx prisma migrate deploy
@@ -131,15 +140,7 @@ php artisan migrate
 psql $DATABASE_URL < migrations/your-migration.sql
 ```
 
-If you have a `.sql` migration file and are not using an ORM: read the file first and assess the risk the same way, then run:
-```bash
-# PostgreSQL
-psql $DATABASE_URL < path/to/migration.sql
-
-# MySQL
-mysql -h host -u user -p database < migration.sql
-```
-Verify by checking the table structure afterwards (see Step 6 below).
+If you have a `.sql` migration file and are not using an ORM: I'll read the file first, assess the risk, then run it. Verify by checking the table structure afterwards (see Step 6 below).
 
 ### Step 6 — Verify it worked
 
@@ -212,7 +213,7 @@ If the vibe-coder-kit hooks are installed, the safety hook will intercept this c
 
 ## Schema inspection (safe anytime)
 
-These never change data. Run freely to understand the current state:
+These never change data. I'll run these silently to understand the current state:
 
 ```bash
 # Regenerate your Prisma schema from whatever is actually in the database
