@@ -70,12 +70,18 @@ Then give the verdict (see below).
 
 ### Step 5 — Record history
 
-After a clean run, create or update `.vibe/.check-history` with today's date. This marks the project as previously scanned.
+After every scan (clean or not), create or update `.vibe/.check-history` with today's result. This marks the project as previously scanned and tracks trends over time.
 
 ```bash
 mkdir -p .vibe
 ```
 Create the directory if it doesn't exist — writing to `.vibe/` will fail silently if the directory isn't there.
+
+Append one line in this format:
+```
+[YYYY-MM-DD] — [verdict: ✅ Clean / ⚠️ Issues / 🚨 Critical] — [one-line summary]
+```
+Example: `[2026-05-28] — ⚠️ Issues — missing .gitignore entry for .env, unpinned GitHub Action`
 
 ---
 
@@ -208,6 +214,10 @@ Fix each one above, then run /vibe-check again before uploading.
 ```
 
 Critical issues are anything that could expose passwords, API keys, user data, or allow remote code execution. Everything else is medium.
+
+**Verdict clarifications for common ambiguous findings:**
+- TODOs in source files → ⚠️ Medium (use this when the finding appears in the table above)
+- Commented-out code → note it in the report but don't assign a verdict. It's noise, not a security issue — the developer should decide whether to delete or restore it.
 
 ---
 

@@ -174,39 +174,7 @@ And cover the three common scenarios:
 
 ## Final Verdict
 
-After all 6 checks, summarize with one of three verdicts:
-
-### ✅ Ready to launch
-
-All critical checks pass (no 🚨 on secrets, no ⚠️ on deployment or core flow, rollback plan exists).
-
-> "You're clear. Here's what you confirmed:
-> - No exposed secrets
-> - App is live and responding
-> - Core flow works end to end
-> - [Note any ℹ️ items as 'things to add later']
->
-> Go ship it. You built something real."
-
----
-
-### ⚠️ Launch with awareness
-
-Minor issues found — nothing critical, but things the user should know about before sharing widely.
-
-List each ⚠️ or ℹ️ item and what the risk is in plain English. Then:
-
-> "You can launch, but go in with eyes open. [List the specific things to watch for.] If any of these bite you in the first 24 hours, come back and we'll fix them."
-
----
-
-### 🚨 Fix before launching
-
-One or more critical issues found — most likely an exposed secret or the app not actually being live.
-
-> "Not yet. Here's what needs fixing first: [list the blockers]. Once these are resolved, run vibe-launch again — it'll go fast."
-
-Do not soften this. A leaked API key that gets scraped from a public repo within an hour of launch is a real outcome.
+After all 6 checks: if any check is 🚨, don't launch. If all checks are ⚠️ or better, you can launch with awareness. If all checks are ✅, you're clear.
 
 ---
 

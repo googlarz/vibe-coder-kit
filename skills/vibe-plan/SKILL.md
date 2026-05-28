@@ -48,7 +48,7 @@ If on `main` or `master`: name it. Recommend creating a feature branch before st
 git checkout -b feature/[3-word-description]
 ```
 
-If there are uncommitted changes: note them. Offer a checkpoint before we start. Before running `git add -A`, confirm `.env` is in `.gitignore` — `git add -A` stages everything including files git has never tracked. Run `git status` first and scan for anything sensitive in the 'Untracked files' list.
+If there are uncommitted changes: note them. Offer a checkpoint before we start — do this once, here, before any code changes. Before running `git add -A`, confirm `.env` is in `.gitignore` — `git add -A` stages everything including files git has never tracked. Run `git status` first and scan for anything sensitive in the 'Untracked files' list.
 ```bash
 git add -A && git restore --staged .env 2>/dev/null && git commit -m "checkpoint before [scope summary]"
 ```
@@ -78,7 +78,7 @@ Then present each phase using this template:
 **Checkpoint:** When you're ready, say "save checkpoint" and I'll commit this phase.
 ```
 
-**Note:** When the user says "save checkpoint", run: `git add -A && git restore --staged .env 2>/dev/null && git commit -m 'checkpoint: [phase name] complete'`
+**Note:** When the user says "save checkpoint", run the same command from Step 2: `git add -A && git restore --staged .env 2>/dev/null && git commit -m 'checkpoint: [phase name] complete'`
 
 Note: `.vibe/` will appear in `git status` as new files — this is expected and fine to include in the checkpoint commit. If you'd prefer to keep vibe-brain out of git, add `.vibe/` to `.gitignore` first.
 
@@ -113,11 +113,11 @@ Once confirmed:
 2. Offer to start:
 > "Plan saved. Want me to start with Phase 1?"
 
-If yes: begin. Create the checkpoint before the first change. Confirm `.env` is in `.gitignore` before staging.
+If yes: begin. Create a **per-phase checkpoint** before the first change — this is distinct from the initial checkpoint in Step 2, which captures uncommitted work. This one marks the clean start of Phase 1 so each phase has its own recovery point. Confirm `.env` is in `.gitignore` before staging.
 ```bash
 git add -A
 git restore --staged .env 2>/dev/null  # safety: never commit .env
-git commit -m "checkpoint before [scope]"
+git commit -m "checkpoint: start of phase 1 — [scope]"
 ```
 
 Then announce: "Saved your starting point. If anything goes wrong, I can get you back to here."

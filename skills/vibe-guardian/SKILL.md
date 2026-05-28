@@ -5,7 +5,7 @@ description: Reads the code you just built and walks through what breaks for rea
 
 # vibe-guardian
 
-**Scope:** vibe-guardian is for checking the feature you just built — what happens when it's misused, breaks, or has no users? For a full codebase security scan, use `/vibe-check`. For a dedicated auth audit, use `/vibe-auth`.
+**Scope:** vibe-guardian asks: what could go wrong when users actually use what we just built? It's different from vibe-check (which scans for known bad patterns in code) and vibe-auth (which audits an existing auth system). Run guardian right after building — run check and auth separately.
 
 **You don't have to check all 6 categories every time.** Focus on the categories that match what was just built: added auth? Check authentication. Added a payment? Check payments and validation. Built CRUD? Check authorization and database. Skip categories that don't apply to what changed today.
 

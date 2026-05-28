@@ -89,18 +89,20 @@ If `git status` shows changes across unrelated concerns (e.g., a bug fix AND a d
 
 ### Step 4 — Commit
 
-This is the real commit with a proper message. If a checkpoint commit was already made earlier in the session, this supersedes it — create a new commit with the message drafted in Step 3:
+This is the real commit with a proper message. If a checkpoint commit was already made earlier in the session, this supersedes it — create a new commit with the message drafted in Step 3.
+
+Run these three commands in order. The middle line is a safe no-op if `.env` is already in `.gitignore` — it's there as a belt-and-suspenders guard against accidentally staging secrets:
 
 ```bash
 git add -A
-git commit -m "[drafted message]"
+git restore --staged .env 2>/dev/null  # drop .env from staging, even if .gitignore should have caught it
+git status  # verify .env is not staged before committing
 ```
 
-Always unstage `.env` after `git add -A` — even if you think it's in `.gitignore`, this is a safe no-op when it's not staged:
+Once `git status` confirms `.env` is clean, commit:
+
 ```bash
-git add -A
-git restore --staged .env 2>/dev/null
-git status  # verify .env is not staged
+git commit -m "[drafted message]"
 ```
 
 ### Step 5 — Push

@@ -64,6 +64,8 @@ Present exactly three options — normally in this order: Fix, Undo, Get Help. *
 
 Always with honest confidence.
 
+**Important:** if you try the same type of fix twice and it doesn't work, stop. Don't attempt a third variation — go to Step 4 instead, explain what the failed attempts ruled out, and reassess from there.
+
 ---
 
 ### Option 1: Fix It
@@ -170,8 +172,7 @@ These make things worse. Do not do them:
 - **Do not suggest more than 3 fixes without pausing.** If two fixes have failed, stop. Reassess. Say what you've learned from the failures before trying anything else.
 - **Do not delete files as a fix** unless the user explicitly asks you to delete a specific file and understands what it does.
 - **Do not say "this should work"** without a reason. If you can't explain why a fix should work, say that.
-- **Do not keep trying the same fix** with small variations. If it failed once, it will likely fail again unless you understand why it failed.
-- **If the same fix fails twice:** stop, say "This approach isn't working, and here's what I think that means:", and explain what you've ruled out. Then reassess.
+- **Do not keep trying the same fix** with small variations. If it failed once, it will likely fail again unless you understand why it failed. (The stop rule is in Step 2 — if the same type of fix fails twice, go here: say "This approach isn't working, and here's what I think that means:", explain what you've ruled out, then reassess.)
 
 ---
 

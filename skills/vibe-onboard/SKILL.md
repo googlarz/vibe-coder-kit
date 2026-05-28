@@ -85,6 +85,8 @@ Generate the appropriate version based on Step 1. Use the templates below.
 
 ### Developer Version
 
+> **Note:** If you already ran `/vibe-handoff` in PLANNED mode for this project, the "About This Project's Setup" section is already done — skip it and focus on the first-day-specific sections (What to Do First, What Not to Touch, Suggested First Tasks).
+
 ~~~
 # Onboarding — [Project Name]
 Welcome. This doc covers everything you need to get productive on day one.

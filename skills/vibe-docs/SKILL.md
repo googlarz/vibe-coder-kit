@@ -45,65 +45,61 @@ If the project has no `.vibe/` folder, infer stack from the codebase and note wh
 
 Note: The template below assumes a web app with npm. For CLI tools, Python projects, or libraries: adjust the "Quick Start" section to use the appropriate install/run commands (`pip install`, `cargo run`, `go run`, etc.) and omit the browser URL step.
 
-Use this structure for a mixed audience (most common case). Trim sections that don't apply.
+Use this structure for a mixed audience (most common case). Trim sections that don't apply. The `<!-- -->` comments in the template explain how to fill in each section — remove them from the final output.
 
-Instructions for each section are below, followed by the full README template block to write to the file.
+~~~markdown
+# [Project Name]
 
-- Open with the project name as H1 and a one-sentence description. Not a mission statement. Not "powerful" or "seamless." Just what it does. Example: "A personal reading tracker that syncs with Kindle and sends weekly summaries by email."
-- Follow with a 2–3 sentence description: what problem it solves, who it's for, current state (live / in development / personal project).
-- Include a screenshot or demo link only if there's an actual image in the repo or a real URL. Don't add a placeholder.
-- Getting Started section: include only for user-facing projects.
-- Running Locally section: include only for projects with a developer audience. Generate the environment variables table from `.env.example` — every variable should appear. If there's no `.env.example`, say so and list any variables you can infer from the codebase.
-- Be specific about the stack — from `.vibe/project.md` or inferred from `package.json` / `requirements.txt`.
-- License: include only if a LICENSE file exists in the repo.
+<!-- One sentence. What it does. Not a mission statement — not "powerful" or "seamless." Example: "A personal reading tracker that syncs with Kindle and sends weekly summaries by email." -->
 
-**README structure to write:**
+<!-- 2–3 sentences: what problem it solves, who it's for, current state (live / in development / personal project). -->
 
-    # [Project Name]
+<!-- Screenshot or demo link — omit this line entirely if no image exists in the repo or no real URL. -->
 
-    [One sentence. What it does.]
+## Getting Started
 
-    [2–3 sentence description: what problem it solves, who it's for, current state.]
+<!-- Include only for user-facing projects. -->
+- [Where to access it — production URL if live]
+- [How to sign up or get started]
+- [One "first thing to try"]
 
-    [Screenshot or demo link — omit this line if no image exists in the repo]
+## Running Locally
 
-    ## Getting Started
+<!-- Include only for projects with a developer audience. -->
 
-    - [Where to access it — production URL if live]
-    - [How to sign up or get started]
-    - [One "first thing to try"]
+```bash
+git clone [url]
+cd [project-name]
+cp .env.example .env
+# Fill in required variables — see Environment Variables below
+npm install
+npm run dev
+```
 
-    ## Running Locally
+Open http://localhost:3000
 
-        git clone [url]
-        cd [project-name]
-        cp .env.example .env
-        # Fill in required variables — see Environment Variables below
-        npm install
-        npm run dev
+## Environment Variables
 
-    Open http://localhost:3000
+<!-- Generate this table from `.env.example` — every variable must appear. If there's no `.env.example`, list any variables inferred from the codebase and note "verify this." -->
 
-    ## Environment Variables
+| Variable | What it's for | Where to get it |
+|---|---|---|
+| `DATABASE_URL` | PostgreSQL connection string | Your database host |
+| `STRIPE_SECRET_KEY` | Stripe payments | stripe.com → Developers → API keys |
 
-    Replace these rows with the actual variables from your `.env.example` — don't ship the example rows.
+## Built With
 
-    | Variable | What it's for | Where to get it |
-    |---|---|---|
-    | `DATABASE_URL` | PostgreSQL connection string | Your database host |
-    | `STRIPE_SECRET_KEY` | Stripe payments | stripe.com → Developers → API keys |
+<!-- List actual stack from `.vibe/project.md` or `package.json`/`requirements.txt` — e.g. "Next.js 14 with PostgreSQL on Railway", not "modern web stack" -->
 
-    ## Built With
+## Project Status
 
-    [List actual stack — e.g. "Next.js 14 with PostgreSQL on Railway", not "modern web stack"]
+<!-- One of: "Live at [url] — actively developed" / "Personal project — used by the author only" / "Early access — expect rough edges" / "Archived — no longer maintained" -->
 
-    ## Project Status
+## License
 
-    [One of: "Live at [url] — actively developed" / "Personal project — used by the author only" / "Early access — expect rough edges" / "Archived — no longer maintained"]
-
-    ## License
-
-    [License name] — see LICENSE file.
+<!-- Include only if a LICENSE file exists in the repo. -->
+[License name] — see LICENSE file.
+~~~
 
 ---
 

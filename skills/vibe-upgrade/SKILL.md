@@ -164,7 +164,7 @@ Wait for their answer. Don't auto-continue.
 
 **If it breaks:**
 
-Don't try to fix the breakage now. Revert immediately:
+Don't try to fix the breakage now. Before reverting: confirm with the user — "This will remove the upgrade commit and go back to before the upgrade. Are you sure?" Run only if they confirm.
 
 ```
 git reset --hard HEAD~1

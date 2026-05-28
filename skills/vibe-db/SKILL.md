@@ -63,7 +63,7 @@ Show this translation to the user before moving on.
 
 ### Step 3 — Assess the risk
 
-**HIGH RISK** — these cannot be undone:
+**HIGH RISK** — these cannot be undone (see the Destructive Operations section below for the full confirmation protocol):
 - Anything with `DROP` (column, table, index, database)
 - Anything with `DELETE`
 - Renaming a column or table that existing code references
@@ -200,7 +200,7 @@ For each one, before running:
 
 If operating on production data, create a backup first (see Step 4 above).
 
-If you see a warning that a destructive SQL command was blocked — that's the vibe-coder-kit safety hook doing its job. It's not an error. Confirm you want to proceed with the operation and it will let you through.
+If the vibe-coder-kit hooks are installed, the safety hook will intercept this command and ask for confirmation before proceeding. If not, you'll need to confirm manually before proceeding.
 
 ---
 

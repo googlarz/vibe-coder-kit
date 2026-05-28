@@ -44,7 +44,7 @@ Wait for them to try it and report back before moving on. If they can't test rig
 
 If they genuinely can't test (it's broken, they're on mobile, etc.), note it as untested and flag it in the verdict.
 
-If the happy path failed: don't continue to failure scenarios yet. Treat this as a bug — run `/vibe-oops` to diagnose and fix it first, then come back to finish testing.
+If the happy path failed: don't continue to failure scenarios yet. Treat this as a bug — run `/vibe-debug` to find what's broken before continuing testing. (`/vibe-oops` is for production incidents, not local failures.)
 
 ### Step 3 — Failure path tests
 

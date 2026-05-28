@@ -130,10 +130,10 @@ The same bug often lives in more than one place.
 Search the codebase for the same pattern you just fixed:
 
 ```bash
-grep -r "[the function name or variable you just fixed]" . --include="*.js" --include="*.ts" --include="*.py" --exclude-dir=node_modules -n | head -30
+grep -r "[the function name or variable you just fixed]" . --include="*.js" --include="*.ts" --include="*.py" --exclude-dir=node_modules --exclude-dir=.git -n | head -30
 ```
 
-Use the function name or variable you just fixed as the search term. For example, if you fixed a bug where `calculateTotal()` wasn't handling negative numbers, search for other places that do similar math: `grep -rn 'subtotal\|amount' . --include='*.js' | grep -v node_modules | head -30`.
+Use the function name or variable you just fixed as the search term. For example, if you fixed a bug where `calculateTotal()` wasn't handling negative numbers, search for other places that do similar math: `grep -rn 'subtotal\|amount' . --include='*.js' --exclude-dir=node_modules --exclude-dir=.git | head -30`.
 
 If this returns a lot of results, skim for the same pattern in critical files (auth, payments, data saving) — those are the ones worth flagging.
 

@@ -33,11 +33,11 @@ If `.vibe/decisions.md` exists, skim it for any prior decisions that might affec
 
 ### Step 2 — Ask clarifying questions
 
-**If the user ran `/vibe-scope` this session, the scope is already captured. Skip the 'what are we building?' and 'what are we not touching?' questions — go straight to the questions about scope boundaries and risks that vibe-scope doesn't cover.**
+If `/vibe-scope` ran this session, skip areas 1 and 4 below — the scope is already captured. Cover the remaining areas.
 
 If the invocation message already answers most questions (user, feature, problem, scope), compress or skip this step — briefly confirm what you understood and move to Step 3 rather than asking redundant questions.
 
-Ask questions to cover **up to 5 areas** — fewer if vibe-scope already answered some. If vibe-scope already ran, skip areas 1 and 4 (what we're building and what's out of scope) and cover only the remaining areas that haven't been answered. Focus on what you don't know from reading the existing files. Cover these in any order that fits the idea:
+Ask questions to cover **up to 5 areas**. Focus on what you don't know from reading the existing files. Cover these in any order that fits the idea:
 
 1. **Who is this for?** — "Who uses this, and what are they trying to do?" (If obvious from project.md, skip.)
 2. **What does success look like?** — "How will you know it worked?" (A specific action or outcome, not "it's done.")
