@@ -82,6 +82,8 @@ Tell the user:
 
 ## Step 5: Upgrade the one package
 
+I'll run the upgrade command — you don't need to type anything. Just use the app after and confirm it still works.
+
 **Node.js — minor/patch upgrade (same major version):**
 ```
 npm install [package]@latest

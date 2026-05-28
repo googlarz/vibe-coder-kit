@@ -86,7 +86,7 @@ Note the count. Scaffolded frameworks (Next.js, Rails, Django) start with 50–1
 ```bash
 find . -maxdepth 4 \( -name "*.js" -o -name "*.ts" -o -name "*.py" \) | grep -v node_modules | grep -v .git | xargs -I{} basename {} | grep -iE "(_old|_new|_copy|_bak|_backup|[0-9]\.js$|[0-9]\.ts$|[0-9]\.py$)" | sort 2>/dev/null || true
 ```
-On Linux or if `gtimeout` is installed (`brew install coreutils` on macOS), you can add `timeout 15` as a prefix to stop the command after 15 seconds: `timeout 15 find . -maxdepth 4 ...`. Without it, the command still works — press Ctrl+C if it runs too long on a very large project.
+On Linux or if `gtimeout` is installed (`brew install coreutils` on macOS), you can add `timeout 15` as a prefix: `timeout 15 find . -maxdepth 4 ...`. Without it, the command still works fine on most projects.
 Look for files with suffixes like `_old`, `_new`, `_copy`, `_backup`, or names ending in a number (e.g., `checkout2.js`, `auth_new.ts`). These often mean the same logic is duplicated in multiple places — a source of bugs. Do NOT flag `.js` and `.ts` variants of the same name (e.g., `checkout.js` and `checkout.ts`) — these are expected in TypeScript projects.
 
 **TODO/FIXME count:**
@@ -261,3 +261,15 @@ Anything built since then isn't saved. Run: git add -A && git commit -m "checkpo
 - "Healthy with caveats" is better than "WARNING: ISSUES DETECTED."
 - Always end with a specific, actionable "need a real developer?" answer. Don't hedge. Don't say "it depends." Give a real answer based on what you found.
 - If `.vibe/debt.md` and `.vibe/sessions.md` don't exist, say so and note that the health check is limited to what can be scanned automatically. Recommend running a few sessions with the vibe-skills baseline so the logs are available next time. If momentum is stalled, start with `/vibe-scope` to reset focus. If debt is high, run `/vibe-clean`. If the project feels structurally confused, consider `/vibe-think` to re-examine scope.
+
+---
+
+## Verification checklist
+
+- [ ] `.vibe/project.md` read (or noted as absent)
+- [ ] All four dimensions assessed: Debt, Momentum, Code Signals, Safety
+- [ ] Overall score calculated from dimension scores — not guessed
+- [ ] "Need a real developer?" answered directly and specifically
+- [ ] Dashboard output produced in the exact format shown above
+- [ ] Details section included for any Yellow or Red dimension
+- [ ] Next recommended skill named if applicable (`/vibe-clean`, `/vibe-scope`, `/vibe-handoff`)

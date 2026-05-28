@@ -100,19 +100,17 @@ find . -name "*.sql" -newer package.json 2>/dev/null
 
 If no recent backup exists, offer to create one before proceeding:
 
-> I'll run this command — you don't need to understand SQL to use this skill. I'll translate every output and tell you what it means.
+> I'll run this backup command — you don't need to understand SQL or touch the terminal. I'll use the credentials from your `.env` file and tell you when the backup is done.
 
 ```bash
-# PostgreSQL
+# PostgreSQL — I'll substitute your DATABASE_URL automatically
 pg_dump $DATABASE_URL > backup-$(date +%Y%m%d-%H%M).sql
 
-# MySQL / PlanetScale
-mysqldump -u root -p your_database > backup-$(date +%Y%m%d-%H%M).sql
+# MySQL
+mysqldump $DATABASE_URL > backup-$(date +%Y%m%d-%H%M).sql
 ```
 
-The `-p` flag will prompt you for a password — type it and press Enter. If you don't know the password, check your `.env` file for `DB_PASSWORD` or `DATABASE_URL` — the password is in the URL after the last `:` and before `@`.
-
-If `pg_dump` isn't installed: use your database provider's dashboard to create a backup (Supabase: Project Settings → Backups; Railway: your DB service → Backups tab; PlanetScale: Branches → export).
+If `pg_dump` or `mysqldump` isn't installed, or if the database is on a hosted platform: use your provider's dashboard instead (Supabase: Project Settings → Backups; Railway: your DB service → Backups tab; PlanetScale: Branches → export). Dashboard backups are always the easiest option.
 
 ### Step 5 — Run the migration
 

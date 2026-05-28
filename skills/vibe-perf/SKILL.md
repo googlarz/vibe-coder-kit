@@ -57,7 +57,8 @@ Alternatively, use the **Lighthouse** tab in DevTools for an automated performan
 
 ### For API response times — add a timer in code
 
-Wrap the slow operation in a timer:
+I'll add this timing code temporarily — you don't need to touch it. I'll add it, tell you what I found, then remove it. You just use the app normally while it measures.
+
 ```javascript
 console.time('fetch-posts')
 // the slow operation here
@@ -72,8 +73,6 @@ start = time.time()
 print(f"took {time.time() - start:.2f}s")
 ```
 
-Run in terminal — timing prints to stdout.
-
 ```ruby
 # Ruby
 start = Time.now
@@ -81,9 +80,7 @@ start = Time.now
 puts "took #{Time.now - start}s"
 ```
 
-Output appears in the Rails/server log or terminal.
-
-Open the browser console (F12 → Console tab) to see the JavaScript result. Write down the number.
+Once I've added the timer: use the app, trigger the slow action, then tell me what you saw. I'll read the output and tell you the number.
 
 ### For database queries — turn on query logging
 
@@ -251,16 +248,14 @@ model Post {
 
 ### Fix: large JavaScript bundle
 
-First check if the project uses Vite — look for `vite.config.js` or `vite` in `package.json` devDependencies. If it uses webpack instead, use `npx webpack-bundle-analyzer` or the Create React App built-in: `npm run build -- --stats`.
+I'll check your build config and run the right analyzer — you don't need to pick or run anything. I'll look for large libraries that are only used in one place, since those are candidates for lazy loading.
 
 ```bash
 npx vite-bundle-visualizer   # Vite projects
 npx webpack-bundle-analyzer  # Webpack projects
 ```
 
-For Rollup or esbuild projects: check the build output file sizes directly with `ls -lh dist/` — if any file is over 500KB, it likely needs code splitting or lazy loading.
-
-Look for large libraries used in only one place — they might load on demand instead.
+For Rollup or esbuild projects I'll check the build output directly. If any file is over 500KB, it likely needs code splitting or lazy loading. I'll tell you what I find.
 
 ---
 

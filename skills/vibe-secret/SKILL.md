@@ -70,15 +70,17 @@ Tell the user: "The old key is dead. No one can use it anymore. The new one is i
 
 Important: deleting the file or removing the key in a new commit does **not** erase it from history. Anyone who can access the repo can still see the old commits where the key appeared. "Deleting" it just means it's gone from the current version — the history remembers everything.
 
-**First, check if it's actually in the history:**
+**I'll run the git history commands for you — you don't need to understand the git internals.** Just tell me the first 8 characters of the old (rotated) key when I ask.
+
+**First, I'll check if it's actually in the history:**
 
 ```bash
 git log --all --pickaxe-regex -S 'FIRST8CHARS'
 ```
 
-Replace `FIRST8CHARS` with the first 8 characters of the old key (don't use the full key here — just enough to search for it). If nothing comes back, the key was never committed and you can skip this step.
+I'll replace `FIRST8CHARS` with the first 8 characters of the old key. If nothing comes back, the key was never committed and we can skip this step.
 
-If the fast command doesn't find anything and you want to be thorough, you can run the slower full-history search: `git log --all -p | grep -i "FIRST8CHARS"` — this reads every commit's diff and may take a minute or more on large repositories.
+If the fast check finds nothing and I want to be thorough, I'll run the slower full-history search: `git log --all -p | grep -i "FIRST8CHARS"` — this reads every commit's diff and may take a minute on large repositories.
 
 **If it shows up in the history:**
 

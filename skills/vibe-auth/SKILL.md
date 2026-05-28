@@ -60,15 +60,9 @@ This is the most common silent failure. A page that should need login loads fine
 
 **I'll scan the code for this — you don't need to read it.** Your role in this check is to test the routes I flag by trying to open them in an incognito window.
 
-Find all the routes in the codebase. First, get a count to know what you're dealing with — run this on each file that likely contains routes (e.g. `app.js`, `routes.ts`, `server.py`):
+I'll find all the routes in the codebase. If a file has more than 50 route definitions, I'll say so and focus only on routes that handle user data or sensitive actions.
 
-```bash
-grep -c "app\.\|router\." <file>
-```
-
-If the count is over 50 lines, tell the user: "There are many routes in this file — I'll focus on ones that handle user data or sensitive actions rather than listing all of them."
-
-Then run the full grep:
+The grep I'll run:
 
 ```bash
 grep -rn "router\.\|app\.get\|app\.post\|getServerSideProps\|loader\|createBrowserRouter\|Route path" . --include="*.js" --include="*.ts" --include="*.tsx" --include="*.py" --include="*.rb" --exclude-dir=node_modules --exclude-dir=.git | grep -v "//.*router"

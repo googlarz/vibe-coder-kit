@@ -37,6 +37,8 @@ If nothing is there: move to Step 2.
 
 **Recommended: Sentry** — free tier handles most small projects, and it has SDKs for every major stack. "SDK" just means the code that connects your app to Sentry.
 
+**I'll handle the entire technical setup.** You don't need to read or understand the code sections below — they show what I'll add to your project so you know what's happening, but you don't need to type or run any of it. Your only job is to create a free Sentry account if you don't have one, and click to the URL I'll give you to verify it's working.
+
 Ask one question first: "What's your app built with?" Then use the right setup below.
 
 ---

@@ -57,6 +57,8 @@ If any of those are present, stop and address them before proceeding. If `.env` 
 
 ### Step 3 — Write the commit message
 
+I'll write the commit message for you — just tell me what you changed in plain terms and I'll format it correctly. Show it to you before committing; you can adjust it.
+
 Commit messages follow the Conventional Commits format — a short convention used by developers to make history scannable. The format is:
 
 ```
@@ -138,12 +140,13 @@ If this branch should become a PR, draft the description:
 
 Ask: "Want me to open the PR now, or just prepare the description?"
 
-If yes and `gh` is available:
+If yes, I'll check whether `gh` (the GitHub CLI) is installed and create the PR — you don't need to run anything. If `gh` isn't installed yet, I'll let you know:
+- Mac: `brew install gh`, then run `gh auth login` once to connect to GitHub
+- Other: visit cli.github.com
+
 ```bash
 gh pr create --title "[commit message]" --body "[description]"
 ```
-
-To check if `gh` is installed: run `gh --version`. If not installed: `brew install gh` (Mac) or visit cli.github.com. Then run `gh auth login` once to connect to GitHub.
 
 ---
 

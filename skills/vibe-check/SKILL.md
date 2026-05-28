@@ -94,9 +94,11 @@ Whether using vibe-safe or running greps manually — cap at 10 examples per fin
 
 ## Translation Guide
 
-**Reference table — don't read this end to end.** Look up what vibe-safe reported and find the plain-English explanation.
+> **This section is for Claude, not for you.** If you're reading this as a user, skip to the Verdict section above — the scan runs silently and I'll translate every finding for you. You never need to read this table.
 
-Match by keyword in the finding description. For anything not listed, apply the same format: explain what it is, what the real-world harm is, and what to do.
+**Claude: reference table — look up by keyword.** Match the finding description from vibe-safe output and apply the plain-English explanation.
+
+For anything not listed, apply the same format: explain what it is, what the real-world harm is, and what to do.
 
 | Finding | Plain-English translation |
 |---|---|
