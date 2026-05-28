@@ -11,6 +11,10 @@ Core principle: **read before write, verify the environment, never assume local.
 
 ---
 
+**If your project uses Prisma:** run `npx prisma studio` to open a visual database browser — no SQL needed. You can browse tables, view rows, and verify data visually. Use the command-line steps below when Prisma Studio isn't available or for migrations and backups.
+
+---
+
 ## Step 1 — Environment check (ALWAYS first, NEVER skipped)
 
 Before doing anything else, check where the database actually is.
@@ -95,6 +99,9 @@ find . -name "*.sql" -newer package.json 2>/dev/null
 ```
 
 If no recent backup exists, offer to create one before proceeding:
+
+> I'll run this command — you don't need to understand SQL to use this skill. I'll translate every output and tell you what it means.
+
 ```bash
 # PostgreSQL
 pg_dump $DATABASE_URL > backup-$(date +%Y%m%d-%H%M).sql

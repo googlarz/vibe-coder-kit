@@ -23,6 +23,8 @@ Most debugging goes wrong because the fix comes before the understanding. The pa
 
 ## Step 1: Reproduce it consistently
 
+**Your role:** describe exactly what you clicked, what you typed, and what happened. I'll do the code investigation — you don't need to read code or understand error messages.
+
 Before touching any code, figure out if you can make the bug happen on demand.
 
 Ask the user:
@@ -56,6 +58,8 @@ If the error message is confusing, use `/vibe-log` to get a plain-English transl
 ---
 
 ## Step 3: Find where the bug lives
+
+I'll read the code to narrow this down — you test by clicking the app when I ask you to.
 
 Don't read everything. Use binary search — start at one end and cut the problem in half each time.
 
@@ -94,7 +98,9 @@ State the guess clearly before writing any code.
 
 ## Step 5: Test the hypothesis
 
-Make one targeted change that proves or disproves your hypothesis. This is not the fix yet — it's a test.
+I'll tell you exactly what to click and what to expect — you just do it in the browser and tell me the result. This is not the fix yet — it's a test to confirm or rule out the hypothesis.
+
+Make one targeted change that proves or disproves your hypothesis.
 
 Examples:
 - Hardcode a value that you suspect is coming in wrong. If the bug goes away, you know the value was the problem.

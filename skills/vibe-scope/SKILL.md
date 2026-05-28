@@ -13,7 +13,7 @@ description: Define session scope before coding — what we're doing, what we're
 
 Run this at the start of every work session. It takes two minutes and saves hours.
 
-**Emergency exception:** If the user invoked `/vibe-scope` but their message also describes something broken or urgent — an error, a crash, something not working for real users — acknowledge it and go to `/vibe-oops` instead. Scope-setting is for fresh starts, not for someone whose production is down.
+**Emergency exception:** If the user invoked `/vibe-scope` but their message also describes something broken or not working — an error, a crash, a feature that's stopped working — ask one clarifying question first: **"Is this affecting real users right now, or is it broken just for you locally?"** If it's affecting real users in production → go to `/vibe-oops`. If it's broken locally (just for you, not live users) → go to `/vibe-debug`. Scope-setting is for fresh starts, not for someone whose app is broken.
 
 ---
 

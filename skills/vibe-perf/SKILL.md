@@ -36,9 +36,13 @@ That's your target. Everything from here is about fixing that specific thing.
 
 ## Step 2 — Measure it
 
+**Your job:** use the app normally while I measure. I'll tell you which part is slow. You don't need to read any developer output — just tell me which action feels slow and I'll investigate.
+
 Before touching a single line of code, get a real number. This is your **baseline** — the number you'll compare against after any fix.
 
 ### For web apps — use your browser's built-in tools
+
+This is the one step you'll do — open DevTools, I'll tell you exactly where to look.
 
 1. Open Chrome DevTools: press **F12** (or right-click anywhere on the page → Inspect)
 2. Click the **Network** tab at the top
@@ -107,7 +111,7 @@ LOGGING = {
 }
 ```
 
-Remove this block from settings.py after you've identified the bottleneck — leaving DEBUG-level logging on in production slows the app down.
+I'll add this temporary logging block to settings.py — tell me when you've seen a slow request, then I'll remove it and tell you what I found. Don't leave this in place permanently — it slows the app down in production.
 
 Look for queries taking more than 100ms — those are worth investigating.
 

@@ -64,7 +64,7 @@ Present exactly three options — normally in this order: Fix, Undo, Get Help. *
 
 Always with honest confidence.
 
-**Important:** if you try the same type of fix twice and it doesn't work, stop. Don't attempt a third variation — go to Step 4 instead, explain what the failed attempts ruled out, and reassess from there.
+**Important:** if you try the same type of fix twice and it doesn't work, stop. Don't attempt a third variation — go to Step 4 instead, explain what the failed attempts ruled out, and reassess from there. (This threshold is 2, not 3 like in non-urgent debugging — production is down, and a third guess wastes time you don't have. Two failed attempts means the problem is bigger than expected; escalate now.)
 
 ---
 

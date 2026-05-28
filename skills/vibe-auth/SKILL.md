@@ -25,7 +25,7 @@ Test these manually in the login form:
 
 - Empty email + empty password → should show an error, not crash or log you in
 - Real email + wrong password → should reject with a message like "Invalid email or password" — not "wrong password" (that tells attackers which emails are registered)
-- Type this in the email field: `' OR '1'='1` — this is a SQL injection attempt (a trick to bypass login by confusing the database). The app should reject it, not break or log you in
+- Type this in the email field: `' OR '1'='1` — you'll type this exactly as shown. This is a SQL injection attempt (a trick to bypass login by confusing the database). Just tell me whether you got an error or got logged in — I'll tell you what the result means.
 - Paste 500 characters into the email field → should handle it without freezing or erroring out
 
 **Note on ORMs:** If the project uses an ORM (Prisma, Sequelize, Mongoose, Django ORM, ActiveRecord) rather than raw SQL queries — SQL injection is handled automatically. Skip the manual SQL injection test and note "ORM provides protection" in the summary.
@@ -42,6 +42,8 @@ Test this:
 3. Reopen the browser and go directly to a protected page (like /dashboard)
 4. Note whether you're still logged in — and how long before it expires
 
+**I'll scan the code for this — you don't need to read it.** Your role here is just to do the browser test above and tell me what you see.
+
 Then check the code for the session duration setting:
 
 ```bash
@@ -55,6 +57,8 @@ A reasonable duration depends on what the app does. A banking tool: 1 hour. A pe
 ## Check 3 — Protected pages actually require login
 
 This is the most common silent failure. A page that should need login loads fine without it.
+
+**I'll scan the code for this — you don't need to read it.** Your role in this check is to test the routes I flag by trying to open them in an incognito window.
 
 Find all the routes in the codebase. First, get a count to know what you're dealing with — run this on each file that likely contains routes (e.g. `app.js`, `routes.ts`, `server.py`):
 
@@ -88,6 +92,8 @@ If the app has URLs like `/profile/123` or `/orders/456`, try changing the numbe
 
 If the app uses UUIDs instead of numbers (e.g., `/profile/a3f8e21b-...`), try replacing the UUID with a UUID from a different user. To find a UUID to test with: open the app, go to a page that shows user-specific content (profile, dashboard, settings). Look at the URL in your browser — if it has a long ID like `/profile/a8f3b2c1-d4e5-...`, that's a UUID. Copy it, then change one character. Paste the modified URL and press Enter.
 
+**I'll scan the code for this — you don't need to read it.** Your role is to do the URL test above: log in, find a URL with an ID in it, change the ID, and tell me what you see.
+
 In the code, look for database queries that fetch by ID:
 
 ```bash
@@ -108,6 +114,8 @@ If the app has a "forgot password" flow, test it end to end:
 4. Try the reset link a second time — it should fail (expired or already used)
 5. Try logging in with the old password — it should no longer work
 
+**I'll scan the code for this — you don't need to read it.** Your role is to do the browser tests above: request a reset, click the link, complete the reset, then try the link again and try the old password.
+
 If there's a "remember me" checkbox: check that the persistent token is stored in an HttpOnly cookie (a type of cookie the browser protects from JavaScript — harder for attackers to steal). If it's stored in `localStorage` instead, flag it.
 
 ```bash
@@ -117,6 +125,8 @@ grep -rn "localStorage.*token\|localStorage.*auth\|localStorage.*session" . --in
 ---
 
 ## Check 6 — Passwords are stored safely
+
+**I'll scan the code for this — you don't need to read it.** There's no browser test for this check — it's entirely a code inspection I'll do for you.
 
 Passwords must never be stored as plain text. They should be scrambled using a one-way algorithm (called hashing) so that even if your database is stolen, the attacker can't reverse it to get the real password. The safe algorithms are: `bcrypt`, `argon2`, `scrypt`, or `pbkdf2`.
 
