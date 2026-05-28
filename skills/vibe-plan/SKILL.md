@@ -48,10 +48,11 @@ If on `main` or `master`: name it. Recommend creating a feature branch before st
 git checkout -b feature/[3-word-description]
 ```
 
-If there are uncommitted changes: note them. Offer a checkpoint before we start — do this once, here, before any code changes. Before running `git add -A`, confirm `.env` is in `.gitignore` — `git add -A` stages everything including files git has never tracked. Run `git status` first and scan for anything sensitive in the 'Untracked files' list.
+If there are uncommitted changes: note them. Offer a checkpoint before we start — do this once, here, before any code changes. Before staging, confirm `.env` is in `.gitignore` — `git add -A` stages everything including files git has never tracked. I'll scan for anything sensitive first, then save:
 ```bash
 git add -A && git restore --staged .env 2>/dev/null && git commit -m "checkpoint before [scope summary]"
 ```
+(The `git restore --staged .env` line drops the secrets file from staging even if `.gitignore` should have caught it — just an extra safety step.)
 
 ### Step 3 — Build and present the plan
 

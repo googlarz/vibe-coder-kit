@@ -21,7 +21,9 @@ They fail in different, often invisible ways. Let's check both.
 
 ## Check 1 — Login rejects bad inputs correctly
 
-Test these manually in the login form:
+**Your role in this check:** test the login form in your browser — I'll tell you what each result means. No code reading needed.
+
+Test these in the login form:
 
 - Empty email + empty password → should show an error, not crash or log you in
 - Real email + wrong password → should reject with a message like "Invalid email or password" — not "wrong password" (that tells attackers which emails are registered)
@@ -84,7 +86,7 @@ This is an authorization bug (not authentication — you're logged in, just as t
 
 If the app has URLs like `/profile/123` or `/orders/456`, try changing the number to another user's ID while logged in as someone else. Can you see their data?
 
-If the app uses UUIDs instead of numbers (e.g., `/profile/a3f8e21b-...`), try replacing the UUID with a UUID from a different user. To find a UUID to test with: open the app, go to a page that shows user-specific content (profile, dashboard, settings). Look at the URL in your browser — if it has a long ID like `/profile/a8f3b2c1-d4e5-...`, that's a UUID. Copy it, then change one character. Paste the modified URL and press Enter.
+If the app uses long IDs (like `/profile/a3f8e21b-d4e5-...`) instead of numbers: look at the URL when you're on your profile or dashboard. Copy that ID, change the last character, paste it back into the URL bar and press Enter.
 
 **I'll scan the code for this — you don't need to read it.** Your role is to do the URL test above: log in, find a URL with an ID in it, change the ID, and tell me what you see.
 

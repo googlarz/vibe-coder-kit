@@ -30,7 +30,7 @@ This tells me which environment variable patterns to grep for. If I can't detect
 
 ## Check 1: Is .env committed to git?
 
-Run:
+I'll check this silently:
 ```
 git ls-files .env
 ```

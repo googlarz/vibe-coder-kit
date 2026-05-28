@@ -17,7 +17,7 @@ Core principle: **read before write, verify the environment, never assume local.
 
 ## Step 1 — Environment check (ALWAYS first, NEVER skipped)
 
-Before doing anything else, check where the database actually is.
+Before doing anything else, check where the database actually is. **I'll run this silently and tell you what I find — you don't need to read the output.**
 
 ```bash
 grep -E "DATABASE|POSTGRES|MONGO|REDIS|MYSQL|DB_HOST|DB_URL" .env 2>/dev/null | head -5
@@ -28,7 +28,7 @@ Then check:
 grep -E "NODE_ENV|APP_ENV|VERCEL_ENV" .env 2>/dev/null
 ```
 
-**What to look for:**
+**What I'm looking for:**
 
 If `DATABASE_URL` contains any of these, you are looking at a live production database:
 - `supabase.co`
@@ -143,7 +143,9 @@ Verify by checking the table structure afterwards (see Step 6 below).
 
 ### Step 6 — Verify it worked
 
-Check that the schema now matches what you expected:
+**I'll check the schema and tell you what I find — you don't need to read SQL output.**
+
+For Prisma projects: `npx prisma studio` opens a visual browser you can look at directly. For everything else, I'll query the schema:
 
 ```bash
 # Prisma — visual browser
@@ -153,7 +155,6 @@ npx prisma studio
 psql $DATABASE_URL -c "\d table_name"
 ```
 
-Or query the schema directly:
 ```sql
 SELECT column_name, data_type, is_nullable
 FROM information_schema.columns
@@ -161,7 +162,7 @@ WHERE table_name = 'your_table'
 ORDER BY ordinal_position;
 ```
 
-Show the result. Confirm the column or change is there (or gone, if it was a drop).
+I'll confirm the column or change is there (or gone, if it was a drop) and tell you in plain English.
 
 ---
 

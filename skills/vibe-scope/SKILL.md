@@ -46,7 +46,8 @@ If live + the work today is risky (risky means: touches authentication, payments
 
 > "When did you last save your work? (In coding terms: do you have a recent commit — basically a checkpoint of your app before we start?)"
 
-First, check if git is initialized:
+I'll check the git status silently — you don't need to run anything.
+
 ```bash
 git status 2>&1
 ```
@@ -116,18 +117,7 @@ Do not proceed until you have a specific, one-sentence scope. If after two clari
 
 After collecting all 5 answers, create `.vibe/sessions.md` if it doesn't exist (create the `.vibe/` directory too). **Prepend** (add to the top of the file, not the bottom) — the session-start hook reads the first entry to detect "session already started today."
 
-Also write `.vibe/.scope` (machine-readable scope for the pre-tool.sh hook — this enables automatic scope enforcement):
-
-```
-NOT_TOUCHING=<comma-separated list from Question 2, e.g. "payments,login,homepage">
-SCOPE=<one-line from Question 1>
-# DATE tells the safety hook when this scope was set — it expires after today
-DATE=<today's actual date as YYYY-MM-DD — write the literal date, e.g. 2026-05-27>
-```
-
-> **Automatic enforcement note:** if the vibe-coder-kit hooks are installed, this file enables automatic scope checking on every bash command. Run `bash ~/.claude/vibe-coder-kit/verify.sh` to check.
-
-If Question 2 was "nothing" or vague, write an empty `NOT_TOUCHING=`. This file is read by the pre-tool hook on every bash command — if the command string matches anything in NOT_TOUCHING, it gets flagged before executing. If the hooks are not installed, the scope contract still lives in sessions.md — Claude follows it manually instead of having it enforced automatically.
+Also write `.vibe/.scope` — a small machine-readable file that lets the safety hooks enforce the scope automatically. See the "Internal instructions for Claude" section below for the exact format.
 
 Write this block to sessions.md:
 
@@ -160,6 +150,23 @@ If they want to change anything, update the file.
 ---
 
 ## Internal instructions for Claude (not for the user)
+
+### .vibe/.scope format
+
+Write this file after Step 5. It enables automatic scope enforcement if the vibe-coder-kit hooks are installed:
+
+```
+NOT_TOUCHING=<comma-separated list from Question 2, e.g. "payments,login,homepage">
+SCOPE=<one-line from Question 1>
+# DATE tells the safety hook when this scope was set — it expires after today
+DATE=<today's actual date as YYYY-MM-DD — write the literal date, e.g. 2026-05-27>
+```
+
+If Question 2 was "nothing" or vague, write an empty `NOT_TOUCHING=`. This file is read by the pre-tool hook on every bash command — if the command string matches anything in NOT_TOUCHING, it gets flagged before executing. If the hooks are not installed, the scope contract still lives in sessions.md and Claude follows it manually.
+
+To verify hooks are active: `bash ~/.claude/vibe-coder-kit/verify.sh`
+
+### Session enforcement
 
 During the session, refer back to this contract. Before making any change:
 

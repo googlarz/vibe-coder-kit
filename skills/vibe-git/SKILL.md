@@ -34,7 +34,7 @@ If on `main` or `master`: **stop**. Do not commit directly to main.
 git checkout -b feature/[short-description]
 ```
 
-Name the branch after what you built: `feature/email-settings-page`, `fix/login-redirect-loop`, `chore/update-dependencies`. Short, descriptive, kebab-case — typically 2-4 words. The goal is recognizability, not a word count. No "update" or "changes."
+Name the branch after what you built: `feature/email-settings-page`, `fix/login-redirect-loop`, `chore/update-dependencies`. Short, descriptive, words-separated-by-dashes — typically 2-4 words. The goal is recognizability, not a word count. No "update" or "changes."
 
 If on a feature branch: confirm it's the right one. If it's been open for more than a week with no commits, ask whether this should be a new branch instead.
 
@@ -93,7 +93,7 @@ If `git status` shows changes across unrelated concerns (e.g., a bug fix AND a d
 
 This is the real commit with a proper message. If a checkpoint commit was already made earlier in the session, this supersedes it — create a new commit with the message drafted in Step 3.
 
-Run these three commands in order. The middle line is a safe no-op if `.env` is already in `.gitignore` — it's there as a belt-and-suspenders guard against accidentally staging secrets:
+Run these three commands in order. The middle line does nothing if `.env` is already in `.gitignore` — it's an extra safety step that makes sure secrets can't slip through:
 
 ```bash
 git add -A

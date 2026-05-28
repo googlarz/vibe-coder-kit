@@ -70,14 +70,15 @@ Start at the entry point for the broken feature:
 
 Then trace one level at a time. What does this function call? What does that function call? You're following the path of execution until you find where it goes wrong.
 
-Add temporary logs to mark your progress:
+I'll add temporary logs to mark where execution stops — you don't need to touch the code. Just use the app and tell me what you see in the browser console (F12 → Console tab). I'll add:
+
 ```
 console.log("reached point A")
 console.log("reached point B", someValue)
 console.log("reached point C", anotherValue)
 ```
 
-Run the code and look at your logs. The last one that prints tells you where execution stopped. That's your target zone.
+The last log that prints tells me where execution stopped. That's the target zone.
 
 ---
 
@@ -133,13 +134,11 @@ After the fix:
 
 The same bug often lives in more than one place.
 
-Search the codebase for the same pattern you just fixed:
+I'll search the codebase for the same pattern — you don't need to run anything. I'll use the function name or variable I just fixed as the search term:
 
 ```bash
 grep -r "[the function name or variable you just fixed]" . --include="*.js" --include="*.ts" --include="*.py" --exclude-dir=node_modules --exclude-dir=.git -n | head -30
-```
-
-Use the function name or variable you just fixed as the search term. For example, if you fixed a bug where `calculateTotal()` wasn't handling negative numbers, search for other places that do similar math: `grep -rn 'subtotal\|amount' . --include='*.js' --exclude-dir=node_modules --exclude-dir=.git | head -30`.
+``` For example, if you fixed a bug where `calculateTotal()` wasn't handling negative numbers, search for other places that do similar math: `grep -rn 'subtotal\|amount' . --include='*.js' --exclude-dir=node_modules --exclude-dir=.git | head -30`.
 
 If this returns a lot of results, skim for the same pattern in critical files (auth, payments, data saving) — those are the ones worth flagging.
 

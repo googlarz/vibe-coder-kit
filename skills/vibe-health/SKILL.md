@@ -74,6 +74,8 @@ If `.vibe/sessions.md` doesn't exist or has no entries, score as Yellow (not Gre
 
 ### Step 4 — Assess Dimension 3: Codebase Signals
 
+**I'll run these checks silently — you only read the dashboard below.** The commands in this section are Claude's scanning reference; you don't need to run or understand them.
+
 Run the following checks from the project root:
 
 **File count check:**
@@ -86,7 +88,7 @@ Note the count. Scaffolded frameworks (Next.js, Rails, Django) start with 50–1
 ```bash
 find . -maxdepth 4 \( -name "*.js" -o -name "*.ts" -o -name "*.py" \) | grep -v node_modules | grep -v .git | xargs -I{} basename {} | grep -iE "(_old|_new|_copy|_bak|_backup|[0-9]\.js$|[0-9]\.ts$|[0-9]\.py$)" | sort 2>/dev/null || true
 ```
-On Linux or if `gtimeout` is installed (`brew install coreutils` on macOS), you can add `timeout 15` as a prefix: `timeout 15 find . -maxdepth 4 ...`. Without it, the command still works fine on most projects.
+I'll add a 15-second timeout prefix if needed (`timeout 15 find . -maxdepth 4 ...`). The command works fine on most projects without it.
 Look for files with suffixes like `_old`, `_new`, `_copy`, `_backup`, or names ending in a number (e.g., `checkout2.js`, `auth_new.ts`). These often mean the same logic is duplicated in multiple places — a source of bugs. Do NOT flag `.js` and `.ts` variants of the same name (e.g., `checkout.js` and `checkout.ts`) — these are expected in TypeScript projects.
 
 **TODO/FIXME count:**
@@ -116,6 +118,8 @@ If any `.env` files are found, check whether they appear in `.gitignore`. If `.g
 ---
 
 ### Step 5 — Assess Dimension 4: Safety Signals
+
+**I'll run these checks silently.** The commands below are Claude's scanning reference.
 
 Check the following:
 

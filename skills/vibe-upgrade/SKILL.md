@@ -74,9 +74,9 @@ git add -A && git commit -m "checkpoint before upgrading [package]"
 
 Tell the user:
 
-> "Saved. If this breaks anything, one command gets us back: `git reset --hard HEAD~1`."
+> "Saved. If this breaks anything, I'll put it back — just tell me to undo the upgrade."
 
-(Explain: "That command moves your code back one step, undoing the upgrade.")
+(I'll run `git reset --hard HEAD~1` to move the code back one step, undoing the upgrade.)
 
 ---
 

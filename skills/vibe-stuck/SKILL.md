@@ -55,7 +55,8 @@ This matters. "It didn't work" hides information. "The error changed from X to Y
 
 ## Step 4: Look at the history
 
-Run:
+I'll check the recent commit history — you don't need to run anything.
+
 ```
 git log --oneline -20
 ```
@@ -70,7 +71,7 @@ If there are 5+ debug commits, name the pattern: "We've been iterating on the sa
 
 ## Step 5: Look fresh — not through the lens of what's been tried
 
-Run `git diff HEAD~1 HEAD --stat 2>/dev/null` to see the last commit's changes, or ask the user to paste the exact error they're seeing. If neither is available, ask: "Can you paste the exact error message or describe what happens when you try?"
+I'll check the last commit's changes (`git diff HEAD~1 HEAD --stat`) — or ask the user to paste the exact error they're seeing. If neither is available, ask: "Can you paste the exact error message or describe what happens when you try?"
 
 Read the error output without assuming anything, as if you haven't seen this project before.
 
