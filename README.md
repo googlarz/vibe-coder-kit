@@ -1,6 +1,6 @@
 # vibe-coder-kit
 
-Persistent memory, automatic guardrails, and 27 skills for every moment where solo AI development goes sideways.
+Persistent memory, automatic guardrails, and 27 skills — from first idea to shipped, and everything that breaks in between.
 
 ---
 
@@ -10,7 +10,7 @@ It works in three ways:
 
 - **Remembers** — `.vibe/` persists project context between sessions. Claude starts every conversation knowing what's fragile, what was decided, what not to touch.
 - **Protects** — Hooks fire silently on every session: dangerous commands blocked before they run, packages explained before install, scope enforced so Claude doesn't wander into code you said to leave alone. [vibe-safe](https://github.com/googlarz/vibe-safe) runs 66 security checks on every commit without Claude.
-- **Guides** — 27 skills covering every lifecycle moment where solo development goes wrong: from validating an idea before writing a line of code, to recovering a broken production deploy.
+- **Guides** — 27 skills covering the full lifecycle: validating an idea before writing a line of code, keeping a session focused while building, and recovering a broken production deploy when things go wrong.
 
 ---
 
@@ -26,7 +26,7 @@ This connects the kit to Claude Code. It doesn't touch your app — it only chan
 To set up a project:
 
 ```bash
-cd ~/your-project
+cd path/to/your-project
 bash ~/.vibe-coder-kit/install.sh --project
 ```
 
@@ -64,7 +64,6 @@ No invocation needed. These run on every session.
 | **Session start** | Every new conversation | Reads `.vibe/project.md` and `.vibe/sessions.md`. Surfaces recent history. Asks what you're working on today and what NOT to touch. Warns if a production environment is detected. |
 | **Before bash commands** | Any shell command | Blocks database wipes, file deletions, and git history rewrites — explains why before stopping. Enforces scope (areas you said not to touch today). Explains every package before installing it. Requires confirmation before anything that can't be undone. |
 | **Session stop** | When Claude finishes | Runs vibe-safe scan if installed. Surfaces findings before the final response. Reminds Claude to write to `.vibe/sessions.md`. |
-| **CLAUDE.md baseline** | Always active | Environment checks before database ops. Checkpoints before significant changes. Plain-English risk explanations. Clear signal when to escalate to a real developer. |
 
 ---
 
@@ -107,7 +106,6 @@ Something broke, something was exposed, or something's about to go dangerously w
 | `/vibe-rollback` | Something broke in production and needs fixing now | Detects your deployment platform and gives the exact rollback steps. |
 | `/vibe-secret` | An API key, password, or token may have been exposed | Rotate first, then scrub git history, then audit what was at risk. In that order. |
 | `/vibe-db` | Database migration, data inspection, or schema change | Verifies which environment you're in. Reads before writing. Backs up before anything destructive. |
-| `/vibe-clean` | Project is stable and you want to reduce known risk | Picks one documented debt item, fixes it properly, writes a test to keep it fixed. |
 
 ### Shipping and upkeep
 
@@ -115,7 +113,7 @@ Getting to production, keeping it healthy, managing the project over time.
 
 | Skill | When to run | What you get |
 |---|---|---|
-| `/vibe-check` | Before pushing | vibe-safe (66 checks) or inline scan. Every finding in plain English with a concrete fix. Clear verdict: safe to push or not. |
+| `/vibe-check` | Before pushing | Runs vibe-safe (66 checks) if installed, or a built-in scan otherwise. Every finding in plain English with a concrete fix. Clear verdict: safe to push or not. |
 | `/vibe-git` | After /vibe-check passes | Branch check, meaningful commit message, uploaded to GitHub, optional PR description. |
 | `/vibe-launch` | Before going live | Six checks: secrets, deployment, core flow, monitoring, contact info, rollback plan. |
 | `/vibe-monitor` | App is live but there's no way to know when it breaks | Sets up Sentry (errors) and UptimeRobot (uptime). You find out before your users do. |
@@ -126,6 +124,7 @@ Getting to production, keeping it healthy, managing the project over time.
 | `/vibe-explain` | Session is wrapping up | What was built, what to test before closing the tab, one thing to watch. Three sentences. |
 | `/vibe-perf` | Something feels slow | Measures the actual bottleneck. Fixes the biggest one. Verifies improvement with numbers. |
 | `/vibe-upgrade` | Upgrading a dependency | One package at a time. Checkpoint before each. Failed upgrades written to `debt.md`. |
+| `/vibe-clean` | Project is stable and you want to reduce known risk | Picks one documented debt item, fixes it properly, writes a test to keep it fixed. |
 
 ---
 
