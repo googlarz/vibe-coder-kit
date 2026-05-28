@@ -88,8 +88,8 @@ Your app is trying to reach a server (database, Redis, an external API) and it's
 **`ENOTFOUND [hostname]`**
 The hostname in your URL doesn't exist. Either there's a typo in the URL, or you're pointing at the wrong environment variable. Double-check the URL character by character.
 
-**`Cannot find module '[path]'`**
-A package isn't installed, or the import path has a typo. If it's a package name (like `cannot find module 'express'`): run `npm install`. If it's a relative path (like `cannot find module './utils/helpers'`): the file doesn't exist at that location.
+**`Cannot find module / Module not found`** (runtime or build)
+A package isn't installed, or the import path has a typo. If it's a package name (like `cannot find module 'express'` or `Module not found: Error: Can't resolve 'lodash'`): run `npm install [package] --save` locally, then push. If it's a relative path (like `cannot find module './utils/helpers'`): the file doesn't exist at that location.
 
 **`relation "[table]" does not exist`**
 A database table your app expects isn't there. Your database migration hasn't run — or ran in the wrong environment. Check whether the migration was applied to the production database, not just your local one.
@@ -100,17 +100,11 @@ Something is passing an ID in the wrong format. Usually a string like `"123"` wh
 **`JWT expired` / `invalid signature`**
 A user's login token has expired or doesn't match your secret key. Usually means `JWT_SECRET` in your production environment is different from the one that signed the token, or is missing entirely. Check that `JWT_SECRET` is set correctly in your deployment platform's environment variables.
 
-**`Cannot find module` in build output**
-A dependency is missing from `package.json`. Run `npm install [package-name] --save` locally, then push again.
-
 **`Function Timeout`**
 A serverless function (on Vercel, Netlify, etc.) took longer than the platform allows — usually 10 seconds. Something is slow: a database query, an external API call, or an infinite loop. Look at what that function does and what might be taking a long time.
 
 **`502 Bad Gateway`**
 The platform got a response of nothing from your app — your app crashed before it could respond. The 502 is the symptom, not the cause. Look at the lines in the log *before* the 502 for the real error.
-
-**`Module not found: Error: Can't resolve '[package]'`** (build error)
-Package isn't in `package.json`. Run `npm install [package] --save` locally and push.
 
 **`Heap out of memory`** / `JavaScript heap out of memory`
 Your app is running out of RAM. Usually caused by a large file being loaded entirely into memory, a loop creating too many objects, or a memory leak. Look at what the function is doing with data — is it loading an entire database table? Processing a huge file?

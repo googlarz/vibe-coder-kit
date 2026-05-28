@@ -115,7 +115,7 @@ Honestly assess the areas a developer should review. Don't soften this. Common a
 
 ### Step 4 — Produce the document
 
-Output the planned handoff document using the template below.
+Output the planned handoff document using the template below. Include every section in "What Needs Professional Attention" — a developer would rather see a non-issue marked as clean than a gap you quietly removed. Add any concerns not on the list that are specific to this project.
 
 ---
 
@@ -234,8 +234,6 @@ If sessions file doesn't exist: "No session log available."]
 - [ ] **Payments** — [describe Stripe setup and any gaps]
 - [ ] **Performance** — [describe any known slow paths]
 - [ ] **Deployment** — [describe how deploys work; note if it's manual/fragile]
-
-[Default: include every section — a developer would rather see a non-issue than a gap you quietly removed. Add any concerns not on this list that are specific to this project.]
 
 ## How to Run Locally
 [If a README exists with setup instructions, summarize them here. If not, infer from the codebase and note "[inferred from codebase, not from README]".]

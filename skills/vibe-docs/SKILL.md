@@ -86,6 +86,8 @@ Instructions for each section are below, followed by the full README template bl
 
     ## Environment Variables
 
+    Replace these rows with the actual variables from your `.env.example` — don't ship the example rows.
+
     | Variable | What it's for | Where to get it |
     |---|---|---|
     | `DATABASE_URL` | PostgreSQL connection string | Your database host |

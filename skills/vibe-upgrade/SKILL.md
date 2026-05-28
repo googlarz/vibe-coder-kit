@@ -108,25 +108,11 @@ go mod tidy
 ```
 `go mod tidy` updates go.sum to match — always run it after `go get`.
 
-Verify: start the app and check the feature most likely to use this package. If it works, commit:
-```
-git add go.mod go.sum
-git commit -m "upgrade [package] from [old version] to [new version]"
-```
-If it breaks, revert: `git reset --hard HEAD~1`
-
 **Ruby:**
 ```
 bundle update [gemname]
 ```
 Don't run `bundle update` without a gem name — that updates everything at once, which is what we're avoiding. Bundler handles the lockfile (`Gemfile.lock`) automatically — no separate lockfile update step needed.
-
-Verify: start the app and check the feature most likely to use this gem. If it works, commit:
-```
-git add Gemfile.lock
-git commit -m "upgrade [gemname] from [old version] to [new version]"
-```
-If it breaks, revert: `git reset --hard HEAD~1`
 
 ---
 
@@ -144,6 +130,7 @@ Wait for them to confirm. If the package is a utility (lodash, date-fns, a logge
 
 **If it works:**
 
+**Node.js:**
 ```
 git add package*.json package-lock.json
 git commit -m "upgrade [package] from [old version] to [new version]"
@@ -156,6 +143,18 @@ git add requirements.txt
 git commit -m "upgrade [package] from [old version] to [new version]"
 ```
 `pip install --upgrade` does not automatically update requirements.txt — this step is required, not optional.
+
+**Go:**
+```
+git add go.mod go.sum
+git commit -m "upgrade [package] from [old version] to [new version]"
+```
+
+**Ruby:**
+```
+git add Gemfile.lock
+git commit -m "upgrade [gemname] from [old version] to [new version]"
+```
 
 Then: "That worked. Ready to do the next one?"
 

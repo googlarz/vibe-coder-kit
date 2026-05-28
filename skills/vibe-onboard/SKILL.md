@@ -286,8 +286,9 @@ Generated: [today's date]
 
 ## What's Working
 
-[Source from debt.md "Working" items and sessions.md entries. If those files don't exist,
-ask the project owner to walk you through the app before writing this section. Don't invent it.]
+[Source from sessions.md recent entries — look for things that completed without being marked Fragile.
+If sessions.md doesn't exist or gives no clear picture, ask the project owner directly.
+Don't invent it.]
 
 - [Feature that's solid — e.g. "Users can sign up and log in"]
 - [Feature that's solid — e.g. "The main dashboard loads and displays data correctly"]

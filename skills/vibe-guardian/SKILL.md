@@ -7,7 +7,7 @@ description: Reads the code you just built and walks through what breaks for rea
 
 **Scope:** vibe-guardian is for checking the feature you just built — what happens when it's misused, breaks, or has no users? For a full codebase security scan, use `/vibe-check`. For a dedicated auth audit, use `/vibe-auth`.
 
-**You don't have to check all 8 categories every time.** Focus on the categories that match what was just built: added auth? Check authentication. Added a payment? Check payments and validation. Built CRUD? Check authorization and database. Skip categories that don't apply to what changed today.
+**You don't have to check all 6 categories every time.** Focus on the categories that match what was just built: added auth? Check authentication. Added a payment? Check payments and validation. Built CRUD? Check authorization and database. Skip categories that don't apply to what changed today.
 
 Claude builds the happy path. The Guardian reads what was just built and asks what happens to a real user when things don't go as planned.
 
@@ -59,12 +59,12 @@ Based on what you read, check which of these apply. **Skip the ones that genuine
 
 | Built/changed... | Check these categories |
 |---|---|
-| Authentication (login, sessions) | Authentication, Sensitive data |
-| Payments or pricing | Validation, Error handling |
-| Database queries or forms | Validation, Authentication |
-| File uploads | Validation, Sensitive data |
-| User-visible content | Authorization, Error handling |
-| Background jobs/APIs | Error handling, Concurrent access |
+| Authentication (login, sessions) | Auth or permission checks, Unsanitized user input |
+| Payments or pricing | External calls without error handling, Data that could cause crashes |
+| Database queries or forms | Unsanitized user input, Data that could cause crashes |
+| File uploads | Unsanitized user input, Data that could cause crashes |
+| User-visible content | Auth or permission checks, User behavior the code doesn't handle |
+| Background jobs/APIs | External calls without error handling, Concurrent access |
 
 For each gap you find, name the specific file and function. Not "the API call" — "the `createOrder()` call in `api/orders.js` has no error handler."
 

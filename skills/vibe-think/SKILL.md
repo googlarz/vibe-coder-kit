@@ -37,7 +37,7 @@ If `.vibe/decisions.md` exists, skim it for any prior decisions that might affec
 
 If the invocation message already answers most questions (user, feature, problem, scope), compress or skip this step — briefly confirm what you understood and move to Step 3 rather than asking redundant questions.
 
-Ask **at most 5 questions**. Focus on what you don't know from reading the existing files. Cover these in any order that fits the idea:
+Ask questions to cover **up to 5 areas** — fewer if vibe-scope already answered some. If vibe-scope already ran, skip areas 1 and 4 (what we're building and what's out of scope) and cover only the remaining areas that haven't been answered. Focus on what you don't know from reading the existing files. Cover these in any order that fits the idea:
 
 1. **Who is this for?** — "Who uses this, and what are they trying to do?" (If obvious from project.md, skip.)
 2. **What does success look like?** — "How will you know it worked?" (A specific action or outcome, not "it's done.")
@@ -45,7 +45,7 @@ Ask **at most 5 questions**. Focus on what you don't know from reading the exist
 4. **What's definitely out?** — "Is there anything that sounds related but we're not doing?"
 5. **Deadline or constraint?** — "Is there a date this needs to be ready, or anything we can't change?"
 
-Do not ask more than 5. Do not ask questions you can answer from the existing files. Do not ask vague questions — each question should have a specific answer.
+Do not ask questions you can answer from the existing files. Do not ask vague questions — each question should have a specific answer.
 
 ### Step 3 — State the scope
 

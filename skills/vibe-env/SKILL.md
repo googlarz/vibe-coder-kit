@@ -106,8 +106,6 @@ Grep for patterns that look like real credentials embedded directly in code:
 - `api_key\s*=\s*["'][^"']{10,}` (variable assignments that look like real keys)
 - `AKIA[0-9A-Z]{16}` (AWS access keys)
 
-**Common prefixes to watch for:** `sk-` (OpenAI), `AIza` (Google), `xox[bp]-` (Slack), `ghp_` (GitHub PAT), `AKIA` (AWS). If you see any of these in code (not in `.env`), flag immediately.
-
 For each match, open the file and look at the line in context before flagging — don't cry wolf on example strings or comments. A false positive looks like: a variable name containing the word 'key' with no value, a comment mentioning API keys, or an example value like `your-api-key-here`. A real finding looks like: a string that starts with `sk-`, `AKIA`, or matches the format of a real key from a known service. When in doubt, flag it.
 
 **If anything looks like a real credential:**

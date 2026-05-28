@@ -156,17 +156,10 @@ Flag any hits that look like real values (not placeholder text like `your-api-ke
 
 **Overall score:**
 - 🟢 Green — all dimensions Green
-- 🟡 Yellow — any dimension is Yellow, OR Safety alone is Red (no git / no recent commits — serious but doesn't mean the project is broken)
+- 🟡 Yellow — any dimension is Yellow, OR Safety alone is Red (no git / no recent commits)
 - 🔴 Red — Debt or Code Signals is Red, OR two or more dimensions are Red for any reason
 
-This matters: a project with no git set up (Safety Red) but clean debt, good momentum, and no code issues is Yellow — not Red. Treating "no git" as overall Red will cause unnecessary panic. Reserve Red for signals that indicate the project itself is fragile.
-
-**Quick rule:**
-- All Green → Green
-- Any Yellow, or Safety Red alone → Yellow
-- Debt/Code Red, OR two+ dimensions Red → Red
-
-> **Important:** A project with no git (Safety 🔴) but clean debt and good code signals is still 🟡 overall — reserve 🔴 overall for signals that mean the project itself is fragile, not just unprotected.
+**Quick rule:** All Green → Green. Any Yellow, or Safety Red alone → Yellow. Debt/Code Red, or two+ dimensions Red → Red. A project with no git (Safety 🔴) but clean debt and good code signals is Yellow overall — reserve Red for signals that mean the project itself is fragile, not just unprotected.
 
 **"Need a real developer?" assessment:**
 

@@ -57,7 +57,7 @@ Examples:
 - `DROP COLUMN password_hash` → "**Permanently deleting** the password_hash column and every value stored in it, across every row. This cannot be undone."
 - `ALTER TABLE orders ALTER COLUMN total SET NOT NULL` → "Making the total column required. This will fail if any existing rows have no value there — check first."
 - `CREATE INDEX idx_users_email ON users(email)` → "Adding a search index on email addresses. Makes lookups faster. Takes disk space but won't delete anything."
-- `RENAME TABLE orders TO purchases` → "Renaming a table. Any code that says 'orders' will break until it's updated to say 'purchases'."
+- `ALTER TABLE orders RENAME TO purchases` (PostgreSQL) / `RENAME TABLE orders TO purchases` (MySQL) → "Renaming a table. Any code that says 'orders' will break until it's updated to say 'purchases'."
 
 Show this translation to the user before moving on.
 

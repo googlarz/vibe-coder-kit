@@ -158,12 +158,19 @@ Now that the key is dead and the root cause is fixed, take an honest look at the
 
 **How long was it exposed?**
 
-Check when the key first appeared in git history:
+If the secret was in `.env`, check when it first appeared in git history:
 ```bash
 git log --all --follow -p .env | grep -A2 "FIRST8CHARS" | head -20
 ```
 
 The date on the commit is when it was first exposed.
+
+If the secret was hardcoded in a source file (not `.env`), run:
+```bash
+git log --all -p -- [filename with secret] | grep -c '^+'
+```
+
+Replace `[filename with secret]` with the actual file path (e.g. `lib/stripe.js`). This counts how many commits included that file with changes — the first such commit is when it was first exposed.
 
 **What permissions did the key have?**
 

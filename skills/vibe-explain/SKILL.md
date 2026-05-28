@@ -32,7 +32,7 @@ Use both. The `--stat` flag is important — without it, `git log` lists commit 
 
 If git log returns nothing (fresh repo, no commits yet, or git not initialized): describe what was worked on based on what you can see in the current conversation. Note: "Git history wasn't available — this summary is based on the session conversation."
 
-Also check `.vibe/sessions.md` — if today's session entry exists, it has useful context.
+Also check `.vibe/sessions.md` — if today's session entry exists, it has useful context. While reading it, scan the last 3–5 entries for recurring "Fragile:" fields — if the same area appears in 2 or more prior entries, note this for the Watch sentence in Step 3 and suggest `/vibe-health`.
 
 ### Step 2 — Translate file changes into plain English
 
@@ -52,8 +52,6 @@ Before writing the summary, map what changed to what it means for the user. Do n
 If multiple files changed in the same area, write **one bullet** for the area — not one bullet per file.
 
 ### Step 3 — Produce the plain-English summary
-
-Before writing the Watch sentence, scan the last 3–5 entries in `.vibe/sessions.md`. If the same area appears in 2 or more prior "Fragile:" entries, note this in the Watch sentence and suggest `/vibe-health`.
 
 Write exactly three sentences. No more. No headers, no bullet points, no "Here's a summary of..." opener.
 

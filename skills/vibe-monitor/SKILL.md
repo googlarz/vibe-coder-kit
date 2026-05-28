@@ -51,6 +51,17 @@ npx @sentry/wizard@latest -i nextjs
 
 The wizard will ask for a Sentry project. If they don't have a Sentry account: send them to sentry.io to create one (free). Then come back and run this again.
 
+**Test that it works:** In a page component, throw inside `getServerSideProps` or an API route:
+
+```javascript
+// Temporary — remove after testing
+export async function getServerSideProps() {
+  throw new Error("Sentry test");
+}
+```
+
+Visit that page. The error should appear in the Sentry dashboard within 30 seconds. Then remove the test.
+
 ---
 
 ### Node.js / Express
@@ -83,6 +94,17 @@ If you skip this, Sentry will work locally but miss all production errors.
 
 The DSN (the URL that connects your app to Sentry) comes from: Sentry dashboard → your project → Settings → Client Keys (DSN).
 
+**Test that it works:** Add a temporary route that deliberately throws an error:
+
+```javascript
+// Temporary — remove after testing
+app.get("/test-error", (req, res) => {
+  throw new Error("Test: Sentry is working");
+});
+```
+
+Visit that URL in your browser. The error should appear in the Sentry dashboard within 30 seconds. Then remove the test route.
+
 ---
 
 ### Python / Django / Flask
@@ -106,6 +128,16 @@ SENTRY_DSN=https://...
 ```
 
 **Important:** `.env` only sets the variable locally. Set `SENTRY_DSN` in your deployment platform's environment variables (same steps as above).
+
+**Test that it works:** In any view, raise a deliberate exception:
+
+```python
+# Temporary — remove after testing
+def test_error(request):
+    raise Exception("Sentry test")
+```
+
+Wire it to a URL, visit it once, then remove it. The error should appear in the Sentry dashboard within 30 seconds.
 
 ---
 
@@ -133,29 +165,23 @@ VITE_SENTRY_DSN=https://...
 
 And add `VITE_SENTRY_DSN` to your deployment platform environment variables (same platforms as above).
 
+**Test that it works:** Add a temporary button or onClick handler in any component:
+
+```javascript
+// Temporary — remove after testing
+<button onClick={() => { throw new Error("Sentry test"); }}>
+  Test Sentry
+</button>
+```
+
+Click it once. The error should appear in the Sentry dashboard within 30 seconds. Then remove the test code.
+
 ---
 
 ### Alternatives to Sentry
 
 - **LogRocket** — better if you want to see a video replay of what the user was doing when it broke
 - **Posthog** — if they're already using it for analytics, it includes basic error tracking; no extra install needed
-
----
-
-### Test that it actually works
-
-Don't skip this. Add a temporary route or endpoint that deliberately throws an error:
-
-```javascript
-// Temporary — remove after testing
-app.get("/test-error", (req, res) => {
-  throw new Error("Test: Sentry is working");
-});
-```
-
-Visit that URL in your browser. Go to the Sentry dashboard. The error should appear within 30 seconds. If it doesn't show up, the setup isn't working — don't move on until it does.
-
-Then remove the test route.
 
 ---
 

@@ -68,12 +68,16 @@ start = time.time()
 print(f"took {time.time() - start:.2f}s")
 ```
 
+Run in terminal — timing prints to stdout.
+
 ```ruby
 # Ruby
 start = Time.now
 # ... the slow operation ...
 puts "took #{Time.now - start}s"
 ```
+
+Output appears in the Rails/server log or terminal.
 
 Open the browser console (F12 → Console tab) to see the JavaScript result. Write down the number.
 
@@ -102,6 +106,8 @@ LOGGING = {
     },
 }
 ```
+
+Remove this block from settings.py after you've identified the bottleneck — leaving DEBUG-level logging on in production slows the app down.
 
 Look for queries taking more than 100ms — those are worth investigating.
 

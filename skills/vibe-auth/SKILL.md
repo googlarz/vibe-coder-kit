@@ -74,11 +74,9 @@ If the output is long, focus only on lines that contain `/api/` or route-definin
 
 Don't try to understand every line — just look for routes that are missing the word 'auth', 'protect', 'requireAuth', or 'middleware' in the output above. Those are the ones to manually test by trying to access them without logging in first.
 
-For each route that holds anything private (dashboard, settings, profile, admin, any user data): open an incognito window (a fresh browser session with no cookies — no login), paste the URL directly, and see what loads.
+For each route that holds anything private (dashboard, settings, profile, admin, any user data): open an incognito window (a fresh browser session with no cookies — no login), paste the URL directly, and tell me what loads — whether it shows the page or redirects you to login.
 
 If the page loads without being redirected to login, the protection is missing.
-
-For each route that holds anything private, open an incognito window, paste the URL directly, and tell me what loads — whether it shows the page or redirects you to login.
 
 ---
 

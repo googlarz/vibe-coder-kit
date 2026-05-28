@@ -55,7 +55,7 @@ This matters. "It didn't work" hides information. "The error changed from X to Y
 
 Run:
 ```
-git log --oneline -10
+git log --oneline -20
 ```
 
 Count the commits that look like debug attempts. Say it plainly:
@@ -114,12 +114,7 @@ If you can't ground it in something specific, say so: "I honestly don't have hig
 
 **Path 2: Start fresh from before this started**
 
-Run:
-```
-git log --oneline -20
-```
-
-Find the last commit before the debugging started. Look for commits with messages like 'checkpoint', 'before [feature]', or the last commit before a string of messages mentioning the broken feature. Run `git log --oneline -20` and show the list to the user — they'll recognize the right one.
+Using the git log output from Step 4, find the last commit before the debugging started. Look for commits with messages like 'checkpoint', 'before [feature]', or the last commit before a string of messages mentioning the broken feature. Show the list to the user — they'll recognize the right one.
 
 Say:
 

@@ -121,6 +121,7 @@ Also write `.vibe/.scope` (machine-readable scope for the pre-tool.sh hook — t
 ```
 NOT_TOUCHING=<comma-separated list from Question 2, e.g. "payments,login,homepage">
 SCOPE=<one-line from Question 1>
+# DATE tells the safety hook when this scope was set — it expires after today
 DATE=<today's actual date as YYYY-MM-DD — write the literal date, e.g. 2026-05-27>
 ```
 

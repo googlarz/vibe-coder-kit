@@ -92,7 +92,7 @@ One verdict. One next step. Done.
 
 ### Step 6 — Automated test suggestion (optional)
 
-After the report, if any failure scenario was found or left unchecked, name the one automated test that would prevent the worst regression:
+After the verdict, if any failure scenario was found or left unchecked, name the one automated test that would prevent the worst regression:
 
 > "If you want to prevent this from breaking silently in the future, the one test worth writing is: [specific test in plain English — e.g., 'a test that submits the login form with an empty password and checks that it returns an error message, not a crash.']"
 

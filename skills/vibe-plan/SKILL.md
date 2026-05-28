@@ -50,7 +50,7 @@ git checkout -b feature/[3-word-description]
 
 If there are uncommitted changes: note them. Offer a checkpoint before we start. Before running `git add -A`, confirm `.env` is in `.gitignore` — `git add -A` stages everything including files git has never tracked. Run `git status` first and scan for anything sensitive in the 'Untracked files' list.
 ```bash
-git add -A && git commit -m "checkpoint before [scope summary]"
+git add -A && git restore --staged .env 2>/dev/null && git commit -m "checkpoint before [scope summary]"
 ```
 
 ### Step 3 — Build and present the plan
