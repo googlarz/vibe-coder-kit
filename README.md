@@ -31,21 +31,37 @@ It works in three ways:
 
 ## Install
 
+In Claude Code, run these two commands:
+
+```
+/plugin marketplace add googlarz/vibe-coder-kit
+/plugin install vibe-coder-kit@vibe-coder-kit
+```
+
+That's it. The hooks and all 27 skills are now active everywhere. It doesn't touch your app — it only changes how Claude behaves during sessions.
+
+Then, inside any project you want Claude to remember:
+
+```
+/vibe-init
+```
+
+This writes a `CLAUDE.md` behavioral baseline and creates the `.vibe/` memory directory for that project. Run it once per project.
+
+<details>
+<summary>Prefer a manual install? (no plugin)</summary>
+
+If you'd rather not use the plugin system, clone and run the installer instead:
+
 ```bash
 git clone https://github.com/googlarz/vibe-coder-kit ~/.vibe-coder-kit
-bash ~/.vibe-coder-kit/install.sh
+bash ~/.vibe-coder-kit/install.sh              # global: hooks + skills
+bash ~/.vibe-coder-kit/install.sh --project    # run inside a project: CLAUDE.md + .vibe/
 ```
 
-This connects the kit to Claude Code. It doesn't touch your app — it only changes how Claude behaves during sessions.
+**Use one method or the other — not both.** Installing the plugin *and* running `install.sh` registers the hooks twice, so they'll fire twice per session.
 
-To set up a project:
-
-```bash
-cd path/to/your-project
-bash ~/.vibe-coder-kit/install.sh --project
-```
-
-This creates a `CLAUDE.md` behavioral baseline and a `.vibe/` memory directory for the project.
+</details>
 
 ---
 
@@ -156,7 +172,7 @@ vibe-coder-kit pairs with [vibe-safe](https://github.com/googlarz/vibe-safe): a 
 
 When vibe-safe is installed, `/vibe-check` runs it and translates every finding to plain English. The session stop hook surfaces findings before Claude writes its final response. Git commit is blocked until STOP-level findings are resolved.
 
-vibe-safe installs as part of `install.sh`. To install separately:
+The manual `install.sh` offers to install vibe-safe for you. With the plugin, install it once separately:
 
 ```bash
 git clone https://github.com/googlarz/vibe-safe ~/.claude/skills/vibe-safe
@@ -166,12 +182,16 @@ git clone https://github.com/googlarz/vibe-safe ~/.claude/skills/vibe-safe
 
 ## Verify your install
 
+**Plugin install:** run `/plugin` in Claude Code — `vibe-coder-kit` should appear as installed, with its skills listed. Start a new session in a project that has a `.vibe/` directory; Claude should greet you with the project context it remembers.
+
+**Manual install:** the installer drops a checker script:
+
 ```bash
 bash ~/.claude/vibe-coder-kit/verify.sh
 bash ~/.claude/vibe-coder-kit/verify.sh --project   # also check the current project
 ```
 
-Confirms all hooks are installed and registered in Claude Code settings. With `--project`, also verifies `CLAUDE.md` and all seven `.vibe/` template files are in place.
+It confirms all hooks are registered in Claude Code settings. With `--project`, it also verifies `CLAUDE.md` and all seven `.vibe/` template files are in place.
 
 ---
 
