@@ -173,6 +173,8 @@ And cover the three common scenarios:
 
 After all 6 checks: if any check is 🚨, don't launch. If all checks are ⚠️ or better, you can launch with awareness. If all checks are ✅, you're clear.
 
+Once you've delivered the verdict, record that the checklist ran so the kit stops nudging about it: if a `.vibe/` directory exists, run `touch .vibe/.launched`.
+
 ---
 
 ## Edge cases
