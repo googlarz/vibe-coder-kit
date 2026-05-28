@@ -14,6 +14,21 @@ It works in three ways:
 
 ---
 
+## Claude alone — Claude with vibe-coder-kit
+
+| Situation | Without | With |
+|---|---|---|
+| Starting a new session | Re-explain the project every time | Claude reads `.vibe/` — already knows the stack, what's fragile, and what changed last session |
+| New feature idea | Claude starts coding | `/vibe-skeptic` asks if it's worth building. `/vibe-think` locks down scope before a line is written. |
+| Planning | Flat task list for the next hour | `/vibe-plan`: 3–5 phases, each with a checkpoint and a step you can actually click to verify |
+| Running `rm -rf` or `DROP TABLE` | Executes immediately | Blocked. Claude names exactly what gets destroyed and asks to confirm. |
+| `npm install some-package` | Installs silently | Claude explains what the package does, confirms the name, and flags if it's obscure |
+| Feature is built | Ships with the gaps Claude skipped | `/vibe-guardian` reads the actual code — finds missing auth checks, unhandled errors, edge cases |
+| Something breaks | Claude tries fix after fix until you stop it | `/vibe-oops`: three options — fix it, undo it, escalate. Stops after 3 attempts to reassess. |
+| A bug took 2 hours to find | Same bug is possible next session | Root cause written to `.vibe/bugs.md` — next time, Claude already knows why it happened |
+
+---
+
 ## Install
 
 ```bash
