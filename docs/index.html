@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>vibe-coder-kit — guardrails and memory for solo AI development</title>
+<meta name="description" content="Persistent memory, automatic guardrails, and 27 skills for solo AI development — from first idea to shipped.">
+<meta property="og:title" content="vibe-coder-kit">
+<meta property="og:description" content="Persistent memory, automatic guardrails, and 27 skills for solo AI development — from first idea to shipped.">
+<meta property="og:type" content="website">
+<style>
+  :root {
+    --bg: #0b0d12;
+    --panel: #14171f;
+    --panel-2: #1b1f2a;
+    --text: #e7e9ee;
+    --muted: #99a2b3;
+    --accent: #7c9cff;
+    --accent-2: #5fd0a8;
+    --line: #262b38;
+    --danger: #ff7b72;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 0 24px; }
+  code, .mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.92em;
+  }
+
+  /* Hero */
+  header.hero { padding: 88px 0 64px; text-align: center; }
+  .badge {
+    display: inline-block; font-size: 13px; letter-spacing: 0.04em;
+    color: var(--accent-2); border: 1px solid var(--line);
+    border-radius: 999px; padding: 5px 14px; margin-bottom: 24px;
+  }
+  h1 { font-size: 52px; line-height: 1.05; margin: 0 0 18px; letter-spacing: -0.02em; }
+  .tagline { font-size: 21px; color: var(--muted); max-width: 680px; margin: 0 auto 36px; }
+  .cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; padding: 12px 22px; border-radius: 10px;
+    font-weight: 600; border: 1px solid var(--line);
+  }
+  .btn.primary { background: var(--accent); color: #0b0d12; border-color: var(--accent); }
+  .btn.primary:hover { text-decoration: none; filter: brightness(1.08); }
+  .btn.ghost:hover { text-decoration: none; border-color: var(--accent); }
+
+  /* Install block */
+  .install {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+    padding: 24px; margin: 40px auto 0; max-width: 640px; text-align: left;
+  }
+  .install .label { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+  .install pre {
+    background: #0c0e14; border: 1px solid var(--line); border-radius: 10px;
+    padding: 16px 18px; margin: 0; overflow-x: auto; color: var(--accent-2);
+  }
+  .install .note { font-size: 14px; color: var(--muted); margin: 14px 0 0; }
+
+  /* Sections */
+  section { padding: 56px 0; border-top: 1px solid var(--line); }
+  h2 { font-size: 30px; margin: 0 0 8px; letter-spacing: -0.01em; }
+  .sub { color: var(--muted); margin: 0 0 32px; }
+
+  /* Pillars */
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .pillar { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 22px; }
+  .pillar h3 { margin: 0 0 8px; font-size: 19px; }
+  .pillar p { margin: 0; color: var(--muted); font-size: 15px; }
+
+  /* Comparison table */
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { text-align: left; padding: 13px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em; }
+  td.situation { font-weight: 600; width: 22%; }
+  td.without { color: var(--danger); width: 39%; }
+  td.with { color: var(--accent-2); width: 39%; }
+
+  /* Skills */
+  .skillgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .skillcol { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+  .skillcol h3 { margin: 0 0 12px; font-size: 16px; color: var(--accent); }
+  .skillcol .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px;
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 7px; padding: 4px 9px; color: var(--text);
+  }
+
+  footer { padding: 48px 0 64px; border-top: 1px solid var(--line); color: var(--muted); text-align: center; font-size: 14px; }
+
+  @media (max-width: 720px) {
+    h1 { font-size: 38px; }
+    .pillars, .skillgrid { grid-template-columns: 1fr; }
+    td.situation, td.without, td.with { width: auto; }
+    table, thead, tbody, th, td, tr { display: block; }
+    thead { display: none; }
+    tr { border: 1px solid var(--line); border-radius: 10px; margin-bottom: 12px; padding: 6px; }
+    td { border: none; padding: 8px 10px; }
+    td.situation { padding-bottom: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="badge">Claude Code plugin · 27 skills · MIT</span>
+    <h1>vibe-coder-kit</h1>
+    <p class="tagline">Persistent memory, automatic guardrails, and 27 skills for solo AI development — from first idea to shipped, and everything that breaks in between.</p>
+    <div class="cta">
+      <a class="btn primary" href="#install">Install</a>
+      <a class="btn ghost" href="https://github.com/googlarz/vibe-coder-kit">View on GitHub</a>
+    </div>
+
+    <div class="install" id="install">
+      <div class="label">In Claude Code, run:</div>
+      <pre>/plugin marketplace add googlarz/vibe-coder-kit
+/plugin install vibe-coder-kit@vibe-coder-kit</pre>
+      <p class="note">Then run <code>/vibe-init</code> inside any project you want Claude to remember. That's the whole setup — no terminal, no config files.</p>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>What it does</h2>
+    <p class="sub">Claude can build. It can't, on its own, remember what it decided last session, know which parts of your app are fragile, or stop before it overwrites something that can't be undone. This fills those gaps.</p>
+    <div class="pillars">
+      <div class="pillar">
+        <h3>Remembers</h3>
+        <p>A <code>.vibe/</code> directory persists project context between sessions. Claude starts every conversation already knowing what's fragile, what was decided, and what not to touch.</p>
+      </div>
+      <div class="pillar">
+        <h3>Protects</h3>
+        <p>Hooks fire silently every session: dangerous commands blocked before they run, packages explained before install, scope enforced. vibe-safe adds 66 security checks on every commit.</p>
+      </div>
+      <div class="pillar">
+        <h3>Guides</h3>
+        <p>27 skills across the full lifecycle: validating an idea before you write code, keeping a session focused, and recovering a broken production deploy when things go wrong.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Claude alone vs. Claude with the kit</h2>
+    <p class="sub">The difference shows up in the moments that cost you time — or your data.</p>
+    <table>
+      <thead><tr><th>Situation</th><th>Without</th><th>With</th></tr></thead>
+      <tbody>
+        <tr><td class="situation">Starting a session</td><td class="without">Re-explain the project every time</td><td class="with">Claude reads <code>.vibe/</code> — knows the stack, what's fragile, what changed last time</td></tr>
+        <tr><td class="situation">A new feature idea</td><td class="without">Claude starts coding</td><td class="with"><code>/vibe-skeptic</code> asks if it's worth building; <code>/vibe-think</code> locks scope first</td></tr>
+        <tr><td class="situation"><code>rm -rf</code> / <code>DROP TABLE</code></td><td class="without">Executes immediately</td><td class="with">Blocked — Claude names what gets destroyed and asks to confirm</td></tr>
+        <tr><td class="situation">A feature is built</td><td class="without">Ships with the gaps Claude skipped</td><td class="with"><code>/vibe-guardian</code> reads the code, finds missing auth checks and unhandled errors</td></tr>
+        <tr><td class="situation">Something breaks</td><td class="without">Claude tries fix after fix until you stop it</td><td class="with"><code>/vibe-oops</code>: fix, undo, or escalate — stops after 3 attempts to reassess</td></tr>
+        <tr><td class="situation">A bug took 2 hours</td><td class="without">Same bug is possible next session</td><td class="with">Root cause saved to <code>.vibe/bugs.md</code> — Claude already knows next time</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>The 27 skills</h2>
+    <p class="sub">Claude suggests these at the right moment — you don't need to memorize them.</p>
+    <div class="skillgrid">
+      <div class="skillcol"><h3>Before you build</h3><div class="chips"><span class="chip">/vibe-skeptic</span><span class="chip">/vibe-think</span><span class="chip">/vibe-plan</span></div></div>
+      <div class="skillcol"><h3>While building</h3><div class="chips"><span class="chip">/vibe-scope</span><span class="chip">/vibe-test</span><span class="chip">/vibe-guardian</span><span class="chip">/vibe-auth</span></div></div>
+      <div class="skillcol"><h3>When things go wrong</h3><div class="chips"><span class="chip">/vibe-oops</span><span class="chip">/vibe-debug</span><span class="chip">/vibe-stuck</span><span class="chip">/vibe-env</span><span class="chip">/vibe-log</span><span class="chip">/vibe-rollback</span><span class="chip">/vibe-secret</span><span class="chip">/vibe-db</span></div></div>
+      <div class="skillcol"><h3>Shipping &amp; upkeep</h3><div class="chips"><span class="chip">/vibe-check</span><span class="chip">/vibe-git</span><span class="chip">/vibe-launch</span><span class="chip">/vibe-monitor</span><span class="chip">/vibe-health</span><span class="chip">/vibe-handoff</span><span class="chip">/vibe-onboard</span><span class="chip">/vibe-docs</span><span class="chip">/vibe-explain</span><span class="chip">/vibe-perf</span><span class="chip">/vibe-upgrade</span><span class="chip">/vibe-clean</span></div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><a href="https://github.com/googlarz/vibe-coder-kit">github.com/googlarz/vibe-coder-kit</a> · MIT License · pairs with <a href="https://github.com/googlarz/vibe-safe">vibe-safe</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
