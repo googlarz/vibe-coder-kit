@@ -103,7 +103,7 @@ If yes: `git add -A && git commit -m "session: [one-line summary from Step 3]"`
 - "The button now does X" not "Implemented onClick handler"
 - Be honest in "Watch" — don't sanitize real risks
 
-## Verification
+## Verification checklist
 
 After running vibe-explain:
 - [ ] Summary is exactly three sentences — no more, no headers, no bullets

@@ -113,7 +113,7 @@ BIGGEST RISK:
   - ✅ "Users could get locked out of their account"
   - ❌ "Email mutation requires transaction rollback handling"
 
-## Verification
+## Verification checklist
 
 After running vibe-think:
 

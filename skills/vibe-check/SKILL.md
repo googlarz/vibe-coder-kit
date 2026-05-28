@@ -31,7 +31,6 @@ If none found, proceed to inline checks. To install vibe-safe:
 ```bash
 git clone https://github.com/googlarz/vibe-safe ~/.claude/skills/vibe-safe
 ```
-(If this URL doesn't work, search GitHub for "vibe-safe" or check the vibe-skills README for the current install command.)
 
 ### Step 2 — Run the scan
 
@@ -238,7 +237,7 @@ For projects with real users and real money: this scan is a starting point. Mini
 
 ---
 
-## Verification Checklist
+## Verification checklist
 
 After running vibe-check, confirm:
 

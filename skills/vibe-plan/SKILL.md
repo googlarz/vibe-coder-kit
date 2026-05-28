@@ -132,7 +132,7 @@ Then announce: "Saved your starting point. If anything goes wrong, I can get you
 - Verification steps must be user actions or visible outcomes, not code inspection.
 - "Highest risk" must name a user impact, not a technical challenge.
 
-## Verification
+## Verification checklist
 
 After running vibe-plan:
 

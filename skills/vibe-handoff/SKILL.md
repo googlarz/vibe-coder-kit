@@ -257,7 +257,7 @@ When working with AI tools on this project, the behavioral baseline is active by
 
 ---
 
-## Verification
+## Verification checklist
 
 Before handing either document to anyone, show it to the user first:
 

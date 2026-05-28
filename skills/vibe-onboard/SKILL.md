@@ -327,7 +327,7 @@ The project owner is the final check. You may have inferred things that are slig
 
 ---
 
-## Verification Checklist
+## Verification checklist
 
 - [ ] New person's role identified before generating (developer / designer / non-technical)
 - [ ] For non-technical path: if .vibe/ files were missing, project owner was asked to walk through the app before writing

@@ -224,7 +224,7 @@ If everything looks solid, say so explicitly:
 - Help, don't just report. For critical gaps: write the fix and offer to apply it. For complex ones: /vibe-handoff — don't patch it badly.
 - End with energy. A clean review should feel like "we're ready." A review with fixes should feel like "we made it better."
 
-## Verification
+## Verification checklist
 
 - [ ] Changed files were actually read before any findings were stated
 - [ ] `.vibe/bugs.md` and `.vibe/debt.md` were checked for prior patterns in this area

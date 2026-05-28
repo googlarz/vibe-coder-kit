@@ -156,7 +156,7 @@ Never end without a specific next step. One of:
 - Scope creep naming is a gift, not a criticism. "I notice this keeps growing" is helping them ship, not blocking them.
 - Always leave with energy, not doubt. Even "don't build this" should end with "here's what to do instead."
 
-## Verification
+## Verification checklist
 
 - [ ] Project context was read silently before the conversation started
 - [ ] The user described the idea fully before any questions were asked
