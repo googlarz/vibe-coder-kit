@@ -128,6 +128,14 @@ elif [ -n "$DEPLOY_PLATFORM" ]; then
     OUTPUT="${OUTPUT}${NL}=== DEPLOYMENT DETECTED ===${NL}This project is configured for $DEPLOY_PLATFORM. Confirm which environment (local vs live) before any database operations.${NL}"
 fi
 
+# Depth nudge — deploys to real users but the pre-launch checklist was never run.
+# Fires only on the first session of the day, and stops permanently once /vibe-launch has run.
+if [ -n "$DEPLOY_PLATFORM$PROD_SIGNAL" ] && [ -z "$SESSION_TODAY" ] && [ -f "$VIBE_DIR/sessions.md" ]; then
+    if ! grep -qi "vibe-launch" "$VIBE_DIR/sessions.md" 2>/dev/null; then
+        OUTPUT="${OUTPUT}${NL}=== LAUNCH READINESS ===${NL}This project is set up to deploy to real users, but the pre-launch checklist has never been run. Before the next deploy, suggest /vibe-launch — it checks secrets, monitoring, the core flow, and a rollback plan.${NL}"
+    fi
+fi
+
 RULES="${NL}=== SESSION RULES ===${NL}1. One thing at a time — don't front-load multiple findings or options${NL}2. Ask one question, wait for the answer, then ask the next${NL}3. Write to .vibe/ after every completed piece of work — not at end of session${NL}4. Before touching more than 3 files: create a git checkpoint first${NL}"
 
 OUTPUT="${OUTPUT}${RULES}"

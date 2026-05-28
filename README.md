@@ -27,6 +27,10 @@ It works in three ways:
 | Something breaks | Claude tries fix after fix until you stop it | `/vibe-oops`: three options — fix it, undo it, escalate. Stops after 3 attempts to reassess. |
 | A bug took 2 hours to find | Same bug is possible next session | Root cause written to `.vibe/bugs.md` — next time, Claude already knows why it happened |
 
+<!-- DEMO SLOT: once docs/demo.gif exists (see docs/demo-script.md), uncomment the line below.
+![vibe-coder-kit stopping a destructive command](docs/demo.gif)
+-->
+
 ---
 
 ## Install
