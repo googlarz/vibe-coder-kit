@@ -86,7 +86,7 @@ Every project gets a `.vibe/` directory. Claude writes to it during sessions and
 
 No re-explaining the project at the start of every session. No rebuilding context. The history, the debt, the bugs — already there.
 
-**Should you commit `.vibe/`?** The installer asks. Commit it to travel with the code (useful for teams or backup). Add it to `.gitignore` to keep it private. Either works.
+**Should you commit `.vibe/`?** `/vibe-init` asks when you set up the project. Commit it to travel with the code (useful for teams or backup). Add it to `.gitignore` to keep it private. Either works.
 
 ---
 
@@ -203,5 +203,5 @@ It confirms all hooks are registered in Claude Code settings. With `--project`, 
 
 - [Claude Code](https://claude.ai/code)
 - bash
-- Python 3 (the installer will tell you if it's missing)
 - git (checkpoints and vibe-safe don't work without it)
+- Python 3 — only for the manual `install.sh`. The plugin doesn't need it.
