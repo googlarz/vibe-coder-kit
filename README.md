@@ -70,7 +70,7 @@ No invocation needed. These run on every session.
 
 ## Skills
 
-Invoke by name when the moment calls for it. CLAUDE.md will suggest them proactively at the right time.
+Claude suggests these at the right moment — you don't need to memorize the list. CLAUDE.md watches the conversation and will say "this looks like a `/vibe-guardian` situation" before you'd think to ask. You can also invoke any skill directly by name whenever you want.
 
 ### Before you build
 
