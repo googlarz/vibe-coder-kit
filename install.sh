@@ -83,6 +83,26 @@ done
 echo -e "  ${GREEN}✓${NC} Skills linked in $CLAUDE_SKILLS_DIR"
 
 # ── 5. Register hooks in settings.json ────────────────────────────────────────
+# Guard: skip hook registration if the plugin is already installed.
+# Plugin hooks are registered by Claude Code via hooks/hooks.json — registering
+# them a second time via settings.json would fire every hook twice per session.
+PLUGIN_INSTALLED=false
+if find "$CLAUDE_DIR/plugins/cache" -maxdepth 4 -name "plugin.json" 2>/dev/null \
+    | xargs grep -l '"name"[[:space:]]*:[[:space:]]*"vibe-coder-kit"' 2>/dev/null \
+    | grep -q .; then
+    PLUGIN_INSTALLED=true
+fi
+
+if [ "$PLUGIN_INSTALLED" = "true" ]; then
+    echo -e "  ${YELLOW}!${NC} vibe-coder-kit plugin is already installed."
+    echo ""
+    echo "  Skipping hook registration — the plugin handles that automatically."
+    echo "  Using both methods would fire each hook twice per session."
+    echo ""
+    echo "  If you want to switch to manual install, run /plugin uninstall vibe-coder-kit"
+    echo "  in Claude Code first, then re-run this installer."
+    echo ""
+else
 echo "Configuring hooks in Claude Code settings..."
 
 if [ ! -f "$SETTINGS_FILE" ]; then
@@ -175,6 +195,7 @@ print("  hooks merged into settings.json")
 PYTHON
 
 echo -e "  ${GREEN}✓${NC} Hooks registered in $SETTINGS_FILE"
+fi  # end plugin guard
 
 # ── 6. Install vibe-safe (security foundation) ────────────────────────────────
 echo ""
