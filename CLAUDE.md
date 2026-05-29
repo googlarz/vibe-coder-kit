@@ -35,32 +35,32 @@ You have 27 skills. Suggest them by name at the right moment. Do not wait for th
 
 | Moment | Suggest |
 |---|---|
-| User describes a new idea or feature | `/vibe-skeptic` first — should we build this at all? |
-| Idea passes the skeptic test | `/vibe-think` — define the scope before writing code |
-| Scope is confirmed, ready to start | `/vibe-plan` — phases with checkpoints |
-| Starting a session on an existing goal | `/vibe-scope` — what we're touching today and what NOT to touch |
-| Feature is built, needs verification | `/vibe-test` — happy path + failure paths + regression check |
-| You just built anything involving login, payments, emails, or saving user data | `/vibe-guardian` — what happens when this goes wrong? |
-| Auth system exists and needs a security audit | `/vibe-auth` — 7 checks: login, sessions, protected routes, authorization, password reset, password storage, logout |
-| Something breaks or an error appears | `/vibe-oops` immediately |
-| Bug exists but cause isn't obvious — need systematic investigation | `/vibe-debug` — reproduce, narrow, fix |
-| Something works locally but not in production | `/vibe-env` — six-point environment audit |
-| Got an error message that's hard to understand | `/vibe-log` — translate to plain English, find the cause, one fix |
-| Stuck on the same problem after 2+ attempts | `/vibe-stuck` — stop the loop, reassess what's actually known |
-| Something broke in production and needs rollback now | `/vibe-rollback` — exact steps for your deployment platform |
-| An API key, database password, or secret may have been exposed | `/vibe-secret` — rotate immediately, then audit |
-| Need to run a database migration, inspect data, or make a schema change | `/vibe-db` — read before write, verify environment first |
-| Project is stable and you want to fix known fragile things | `/vibe-clean` — pick one debt item, fix it properly, prove it works |
-| Something feels slow — page load, button, data fetch | `/vibe-perf` — measure first, find the bottleneck, fix one thing |
-| Upgrading a dependency | `/vibe-upgrade` — one package at a time, checkpoint before each |
-| About to push | `/vibe-check` (security) then `/vibe-git` (commit + branch + PR) |
-| About to tell real users the app is live | `/vibe-launch` checklist |
-| App is live but there's no way to know when it breaks | `/vibe-monitor` — error tracking (Sentry) + uptime monitoring |
-| Sessions have started feeling messy, Claude keeps making the same mistakes, or the same thing keeps breaking | `/vibe-health` |
-| Claude says "you need a real developer" | Run `/vibe-handoff` immediately — don't just warn, produce the document |
-| Someone new is joining the project | `/vibe-onboard` — first-hour doc: setup, what's fragile, what not to touch |
-| README is missing or embarrassingly out of date | `/vibe-docs` — write the public-facing README from actual project files |
-| User says "done for today" or session is wrapping up | `/vibe-explain` — "Want a summary of what we built?" |
+| User describes a new idea or feature | `vibe-coder-kit:vibe-skeptic` first — should we build this at all? |
+| Idea passes the skeptic test | `vibe-coder-kit:vibe-think` — define the scope before writing code |
+| Scope is confirmed, ready to start | `vibe-coder-kit:vibe-plan` — phases with checkpoints |
+| Starting a session on an existing goal | `vibe-coder-kit:vibe-scope` — what we're touching today and what NOT to touch |
+| Feature is built, needs verification | `vibe-coder-kit:vibe-test` — happy path + failure paths + regression check |
+| You just built anything involving login, payments, emails, or saving user data | `vibe-coder-kit:vibe-guardian` — what happens when this goes wrong? |
+| Auth system exists and needs a security audit | `vibe-coder-kit:vibe-auth` — 7 checks: login, sessions, protected routes, authorization, password reset, password storage, logout |
+| Something breaks or an error appears | `vibe-coder-kit:vibe-oops` immediately |
+| Bug exists but cause isn't obvious — need systematic investigation | `vibe-coder-kit:vibe-debug` — reproduce, narrow, fix |
+| Something works locally but not in production | `vibe-coder-kit:vibe-env` — six-point environment audit |
+| Got an error message that's hard to understand | `vibe-coder-kit:vibe-log` — translate to plain English, find the cause, one fix |
+| Stuck on the same problem after 2+ attempts | `vibe-coder-kit:vibe-stuck` — stop the loop, reassess what's actually known |
+| Something broke in production and needs rollback now | `vibe-coder-kit:vibe-rollback` — exact steps for your deployment platform |
+| An API key, database password, or secret may have been exposed | `vibe-coder-kit:vibe-secret` — rotate immediately, then audit |
+| Need to run a database migration, inspect data, or make a schema change | `vibe-coder-kit:vibe-db` — read before write, verify environment first |
+| Project is stable and you want to fix known fragile things | `vibe-coder-kit:vibe-clean` — pick one debt item, fix it properly, prove it works |
+| Something feels slow — page load, button, data fetch | `vibe-coder-kit:vibe-perf` — measure first, find the bottleneck, fix one thing |
+| Upgrading a dependency | `vibe-coder-kit:vibe-upgrade` — one package at a time, checkpoint before each |
+| About to push | `vibe-coder-kit:vibe-check` (security) then `vibe-coder-kit:vibe-git` (commit + branch + PR) |
+| About to tell real users the app is live | `vibe-coder-kit:vibe-launch` checklist |
+| App is live but there's no way to know when it breaks | `vibe-coder-kit:vibe-monitor` — error tracking (Sentry) + uptime monitoring |
+| Sessions have started feeling messy, Claude keeps making the same mistakes, or the same thing keeps breaking | `vibe-coder-kit:vibe-health` |
+| Claude says "you need a real developer" | Run `vibe-coder-kit:vibe-handoff` immediately — don't just warn, produce the document |
+| Someone new is joining the project | `vibe-coder-kit:vibe-onboard` — first-hour doc: setup, what's fragile, what not to touch |
+| README is missing or embarrassingly out of date | `vibe-coder-kit:vibe-docs` — write the public-facing README from actual project files |
+| User says "done for today" or session is wrapping up | `vibe-coder-kit:vibe-explain` — "Want a summary of what we built?" |
 
 ---
 
@@ -121,7 +121,7 @@ Never install without explaining what you're adding and why.
 Offer exactly three options — no more, no less:
 1. **Fix it** — what you'll try and why you think it'll work
 2. **Undo it** — go back to the last checkpoint
-3. **Get help** — if this is beyond vibe-coding territory, say so clearly and run `/vibe-handoff`
+3. **Get help** — if this is beyond vibe-coding territory, say so clearly and run `vibe-coder-kit:vibe-handoff`
 
 Do not say "this should work" unless you have reasoned through why.
 Do not attempt more than 3 different fixes without pausing to reassess.
@@ -198,7 +198,7 @@ Say it clearly — not as a hedge, as a real recommendation — when:
 - You've tried 3 approaches and none worked
 - GDPR, HIPAA, or compliance requirements are in scope
 
-When you say it, immediately run `/vibe-handoff` to produce the handoff document — don't just warn them and leave them stranded.
+When you say it, immediately run `vibe-coder-kit:vibe-handoff` to produce the handoff document — don't just warn them and leave them stranded.
 
 ---
 

@@ -47,7 +47,7 @@ That's it. The hooks and all 27 skills are now active everywhere. It doesn't tou
 Then, inside any project you want Claude to remember:
 
 ```
-/vibe-init
+/vibe-coder-kit:vibe-init
 ```
 
 This writes a `CLAUDE.md` behavioral baseline and creates the `.vibe/` memory directory for that project. Run it once per project.
@@ -104,7 +104,9 @@ No invocation needed. These run on every session.
 
 ## Skills
 
-Claude suggests these at the right moment — you don't need to memorize the list. CLAUDE.md watches the conversation and will say "this looks like a `/vibe-guardian` situation" before you'd think to ask. You can also invoke any skill directly by name whenever you want.
+Claude suggests these at the right moment — you don't need to memorize the list. CLAUDE.md watches the conversation and will say "this looks like a `/vibe-coder-kit:vibe-guardian` situation" before you'd think to ask. You can also invoke any skill directly by name whenever you want.
+
+**Skill names after plugin install** are prefixed with the plugin name: `/vibe-coder-kit:vibe-skeptic`, `/vibe-coder-kit:vibe-plan`, etc. With the manual install they're shorter: `/vibe-skeptic`, `/vibe-plan`. The tables below show the base name — add the prefix if you installed via plugin.
 
 ### Before you build
 
@@ -186,7 +188,7 @@ git clone https://github.com/googlarz/vibe-safe ~/.claude/skills/vibe-safe
 
 ## Verify your install
 
-**Plugin install:** run `/plugin` in Claude Code — `vibe-coder-kit` should appear as installed, with its skills listed. Start a new session in a project that has a `.vibe/` directory; Claude should greet you with the project context it remembers.
+**Plugin install:** run `/plugin` in Claude Code — `vibe-coder-kit` should appear as installed. Skills are available as `/vibe-coder-kit:vibe-*`. Start a new session in a project that has a `.vibe/` directory; Claude should greet you with the project context it remembers.
 
 **Manual install:** the installer drops a checker script:
 
